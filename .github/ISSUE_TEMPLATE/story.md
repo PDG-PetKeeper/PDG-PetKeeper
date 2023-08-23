@@ -7,16 +7,9 @@ assignees: ''
 
 ---
 
-## Time estimation
-TBD
-
-## Effort estimation
-TBD
+- [ ] This is a task
+- [ ] this is an other task
+- [ ] 
 
 ## Validation criteria
 TBD
-
-## To Do
-- [ ] This is a task
-- [ ] this is an other task
-- [ ] TBD
