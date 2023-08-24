@@ -27,6 +27,7 @@ jobs:
       - name: Build with Gradle
         run: |
           cd PetKeeper
+          chmod +x gradlew
           ./gradlew build
 
       - name: Create Release
