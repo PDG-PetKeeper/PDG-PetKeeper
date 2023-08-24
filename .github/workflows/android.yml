@@ -25,7 +25,9 @@ jobs:
           cache: gradle
         
       - name: Build with Gradle
-        run: ./gradlew build
+        run: |
+          cd PetKeeper
+          ./gradlew build
 
       - name: Create Release
         id: create_release
