@@ -1,10 +1,8 @@
-name: Deploy to Firebase Hosting on merge
-'on':
-  push:
-    branches:
-      - main
+name: Deploy to Firebase Hosting on PR
+'on': pull_request
 jobs:
-  build_and_deploy:
+  build_and_preview:
+    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
@@ -13,5 +11,5 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PET_KEEPER_396909 }}'
-          channelId: live
           projectId: pet-keeper-396909
+          entryPoint: PetKeeper/landing_page/landing_page/firebase.json
