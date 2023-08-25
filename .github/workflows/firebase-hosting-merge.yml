@@ -9,10 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run: find . -name firebase.json
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PET_KEEPER_396909 }}'
           channelId: live
           projectId: pet-keeper-396909
-          entryPoint: ./landing_page/landing_page/firebase.json
+          entryPoint: ./landing_page/landing_page/
