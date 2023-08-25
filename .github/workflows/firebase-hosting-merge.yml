@@ -15,4 +15,4 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PET_KEEPER_396909 }}'
           channelId: live
           projectId: pet-keeper-396909
-          entryPoint: ./landing_page/landing_page/public/firebase.json
+          entryPoint: ./landing_page/landing_page/firebase.json
