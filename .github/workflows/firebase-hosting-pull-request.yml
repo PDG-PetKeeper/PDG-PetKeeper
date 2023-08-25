@@ -7,9 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run: find . -name firebase.json
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PET_KEEPER_396909 }}'
           projectId: pet-keeper-396909
-          entryPoint: ./PDG-PetKeeper/PDG-PetKeeper/landing_page/landing_page/public/firebase.json
+          entryPoint: /home/runner/work/PDG-PetKeeper/PDG-PetKeeper/landing_page/landing_page/public/firebase.json
