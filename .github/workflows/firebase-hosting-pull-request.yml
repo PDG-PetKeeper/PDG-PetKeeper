@@ -12,4 +12,4 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PET_KEEPER_396909 }}'
           projectId: pet-keeper-396909
-          entryPoint: ./landing_page/landing_page/public/firebase.json
+          entryPoint: ./PDG-PetKeeper/PDG-PetKeeper/landing_page/landing_page/public/firebase.json
