@@ -21,6 +21,5 @@ jobs:
     
     - name: Test with Gradle
       run: |
-          cd PetKeeper
           chmod +x gradlew
           ./gradlew test
