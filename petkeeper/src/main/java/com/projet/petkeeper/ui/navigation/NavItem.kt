@@ -1,11 +1,11 @@
-package com.projet.petkeeper.ui.navBar
+package com.projet.petkeeper.ui.navigation
 
 import androidx.compose.ui.graphics.vector.ImageVector
 
-data class NavBarItem(
+data class NavItem(
     val title: String,
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
-    val hasNews: Boolean,
-    val badgeCount: Int = 0
+    var hasNews: Boolean,
+    var badgeCount: Int = 0
 )

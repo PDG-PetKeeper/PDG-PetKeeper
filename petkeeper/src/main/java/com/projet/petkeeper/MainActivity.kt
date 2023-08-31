@@ -21,15 +21,14 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.unit.dp
-import com.projet.petkeeper.ui.navBar.NavBarItem
+import com.projet.petkeeper.ui.navigation.NavItem
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,26 +38,26 @@ class MainActivity : ComponentActivity() {
         setContent {
             PetkeeperTheme {
 
-                val items = listOf(
-                    NavBarItem(
+                val navItems = listOf<NavItem>(
+                    NavItem(
                         title = "Search",
                         selectedIcon = Icons.Filled.Search,
                         unselectedIcon = Icons.Outlined.Search,
                         hasNews = false
                     ),
-                    NavBarItem(
+                    NavItem(
                         title = "Chat",
                         selectedIcon = ImageVector.vectorResource(R.drawable.filled_chat_24),
                         unselectedIcon = ImageVector.vectorResource(R.drawable.outline_chat_24),
                         hasNews = false
                     ),
-                    NavBarItem(
+                    NavItem(
                         title = "Ads list",
                         selectedIcon = Icons.Filled.List,
                         unselectedIcon = Icons.Outlined.List,
                         hasNews = false
                     ),
-                    NavBarItem(
+                    NavItem(
                         title = "Account",
                         selectedIcon = Icons.Filled.AccountCircle,
                         unselectedIcon = Icons.Outlined.AccountCircle,
@@ -77,12 +76,12 @@ class MainActivity : ComponentActivity() {
                     Scaffold(
                         bottomBar = {
                             NavigationBar {
-                                items.forEachIndexed { index, navBarItem ->
+                                navItems.forEachIndexed { index, navBarItem ->
                                     NavigationBarItem(
                                         selected = selectedItemIndex == index,
                                         onClick = {
                                             selectedItemIndex = index
-                                            // navControler.navigate(item.title)
+                                            // navController.navigate(item.title)
                                         },
 //                                        label = { Text(text = navBarItem.title) },
 //                                        alwaysShowLabel = false,
