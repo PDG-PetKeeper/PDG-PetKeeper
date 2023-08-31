@@ -19,10 +19,10 @@ data class NavItem(
     var hasNews: Boolean,
     var badgeCount: Int = 0
 ){
-    companion object items{
+    companion object Items{
         @Composable
         fun getList(): List<NavItem> {
-            return listOf<NavItem>(
+            return listOf(
                 NavItem(
                     title = "Search",
                     selectedIcon = Icons.Filled.Search,
