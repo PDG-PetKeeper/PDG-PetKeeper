@@ -4,24 +4,7 @@
             "outputFile": "com.projet.petkeeper-mergeDebugResources-55:/values-en-rIN/values-en-rIN.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Helpdesk\\.gradle\\caches\\transforms-3\\771af8c2e82b22a9ece8c1b62b499373\\transformed\\ui-release\\res\\values-en-rIN\\values-en-rIN.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,197,279,373,472,559,641,730,819,903,968,1032,1110,1192,1265,1342,1408",
-                        "endColumns": "91,81,93,98,86,81,88,88,83,64,63,77,81,72,76,65,120",
-                        "endOffsets": "192,274,368,467,554,636,725,814,898,963,1027,1105,1187,1260,1337,1403,1524"
-                    },
-                    "to": {
-                        "startLines": "9,10,13,14,16,21,22,23,24,25,26,27,28,29,31,32,33",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "824,916,1174,1268,1441,1909,1991,2080,2169,2253,2318,2382,2460,2542,2716,2793,2859",
-                        "endColumns": "91,81,93,98,86,81,88,88,83,64,63,77,81,72,76,65,120",
-                        "endOffsets": "911,993,1263,1362,1523,1986,2075,2164,2248,2313,2377,2455,2537,2610,2788,2854,2975"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Helpdesk\\.gradle\\caches\\transforms-3\\4f6ed85cfa32c9e08729487d1d11493e\\transformed\\material3-1.0.0\\res\\values-en-rIN\\values-en-rIN.xml",
+                    "source": "C:\\Users\\Helpdesk\\.gradle\\caches\\transforms-3\\ab73b49718436dcefb9b5cae59a717e0\\transformed\\material3-1.0.0\\res\\values-en-rIN\\values-en-rIN.xml",
                     "from": {
                         "startLines": "2,3,4",
                         "startColumns": "4,4,4",
@@ -38,7 +21,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Helpdesk\\.gradle\\caches\\transforms-3\\2d70850397838f2addcdf67c6640c09f\\transformed\\core-1.10.1\\res\\values-en-rIN\\values-en-rIN.xml",
+                    "source": "C:\\Users\\Helpdesk\\.gradle\\caches\\transforms-3\\7b7b66e6aa21927c8f9c490a313427ae\\transformed\\ui-release\\res\\values-en-rIN\\values-en-rIN.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,197,279,373,472,559,641,730,819,903,968,1032,1110,1192,1265,1342,1408",
+                        "endColumns": "91,81,93,98,86,81,88,88,83,64,63,77,81,72,76,65,120",
+                        "endOffsets": "192,274,368,467,554,636,725,814,898,963,1027,1105,1187,1260,1337,1403,1524"
+                    },
+                    "to": {
+                        "startLines": "9,10,13,14,16,21,22,23,24,25,26,27,28,29,31,32,33",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "824,916,1174,1268,1441,1909,1991,2080,2169,2253,2318,2382,2460,2542,2716,2793,2859",
+                        "endColumns": "91,81,93,98,86,81,88,88,83,64,63,77,81,72,76,65,120",
+                        "endOffsets": "911,993,1263,1362,1523,1986,2075,2164,2248,2313,2377,2455,2537,2610,2788,2854,2975"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Helpdesk\\.gradle\\caches\\transforms-3\\2d8370ab804368c05fed14bf1c544e95\\transformed\\core-1.10.1\\res\\values-en-rIN\\values-en-rIN.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -55,7 +55,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Helpdesk\\.gradle\\caches\\transforms-3\\449f5381a3fb6184be81ff35783e16ca\\transformed\\browser-1.4.0\\res\\values-en-rIN\\values-en-rIN.xml",
+                    "source": "C:\\Users\\Helpdesk\\.gradle\\caches\\transforms-3\\8859988ea198f1104dedc0882f3d8d46\\transformed\\browser-1.4.0\\res\\values-en-rIN\\values-en-rIN.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

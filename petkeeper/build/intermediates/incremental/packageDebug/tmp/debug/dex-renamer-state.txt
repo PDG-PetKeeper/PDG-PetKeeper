@@ -1,19 +1,22 @@
-#Thu Aug 31 13:14:18 CEST 2023
-base.0=C\:\\Users\\Helpdesk\\Desktop\\PDG_bis\\PDG-PetKeeper\\petkeeper\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
-base.1=C\:\\Users\\Helpdesk\\Desktop\\PDG_bis\\PDG-PetKeeper\\petkeeper\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
-base.2=C\:\\Users\\Helpdesk\\Desktop\\PDG_bis\\PDG-PetKeeper\\petkeeper\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\10\\classes.dex
-base.3=C\:\\Users\\Helpdesk\\Desktop\\PDG_bis\\PDG-PetKeeper\\petkeeper\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\11\\classes.dex
-base.4=C\:\\Users\\Helpdesk\\Desktop\\PDG_bis\\PDG-PetKeeper\\petkeeper\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\12\\classes.dex
-base.5=C\:\\Users\\Helpdesk\\Desktop\\PDG_bis\\PDG-PetKeeper\\petkeeper\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
+#Fri Sep 01 14:26:10 CEST 2023
+base.0=C\:\\Users\\Helpdesk\\Desktop\\Projet_Groupe\\PDG-PetKeeper\\petkeeper\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
+base.1=C\:\\Users\\Helpdesk\\Desktop\\Projet_Groupe\\PDG-PetKeeper\\petkeeper\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
+base.2=C\:\\Users\\Helpdesk\\Desktop\\Projet_Groupe\\PDG-PetKeeper\\petkeeper\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\10\\classes.dex
+base.3=C\:\\Users\\Helpdesk\\Desktop\\Projet_Groupe\\PDG-PetKeeper\\petkeeper\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\11\\classes.dex
+base.4=C\:\\Users\\Helpdesk\\Desktop\\Projet_Groupe\\PDG-PetKeeper\\petkeeper\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\12\\classes.dex
+base.5=C\:\\Users\\Helpdesk\\Desktop\\Projet_Groupe\\PDG-PetKeeper\\petkeeper\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\2\\classes.dex
+base.6=C\:\\Users\\Helpdesk\\Desktop\\Projet_Groupe\\PDG-PetKeeper\\petkeeper\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
 path.0=classes.dex
 path.1=0/classes.dex
 path.2=10/classes.dex
 path.3=11/classes.dex
 path.4=12/classes.dex
-path.5=classes2.dex
+path.5=2/classes.dex
+path.6=classes2.dex
 renamed.0=classes.dex
 renamed.1=classes2.dex
 renamed.2=classes3.dex
 renamed.3=classes4.dex
 renamed.4=classes5.dex
 renamed.5=classes6.dex
+renamed.6=classes7.dex
