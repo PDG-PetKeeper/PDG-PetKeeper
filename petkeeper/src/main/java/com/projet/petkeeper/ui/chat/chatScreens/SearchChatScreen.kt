@@ -2,6 +2,7 @@ package com.projet.petkeeper.ui.chat.chatScreens
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -50,30 +52,36 @@ fun UserResultCard(userProfile: UserProfile) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
+            .shadow(
+                elevation = 4.dp,
+                shape = CircleShape
+            )
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.Gray)
+                .background(MaterialTheme.colorScheme.tertiary)
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             // User profile image
-            Icon(
+            Image(
                 painter = painterResource(id = UserProfileData.getUserProfileByName("User1")!!.profileImage),
                 contentDescription = "Profile Image",
-                tint = Color.White,
                 modifier = Modifier
                     .size(40.dp)
-                    .padding(4.dp)
+                   .padding(4.dp)
+                    .background(MaterialTheme.colorScheme.onTertiary) //  background color for the Clip
+                    .fillMaxSize(), // Expand the Clip to its maximum size
+                contentScale = ContentScale.Crop, // Center and crop the image
+                alignment = Alignment.Center // Center the image within the Clip
             )
-
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(12.dp))
 
             // User name
             Text(
                 text = userProfile.name,
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onPrimary,
                 style = TextStyle(fontWeight = FontWeight.Bold),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -81,6 +89,7 @@ fun UserResultCard(userProfile: UserProfile) {
         }
     }
 }
+
 @Composable
 fun TopBar(
     searchQuery: String,
@@ -142,6 +151,7 @@ fun TopBar(
         }
     }
 }
+
 @Composable
 fun SearchResults(userProfilesList: List<UserProfile>) {
     LazyColumn(
@@ -155,6 +165,7 @@ fun SearchResults(userProfilesList: List<UserProfile>) {
         }
     }
 }
+
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun SearchScreen() {
@@ -185,7 +196,7 @@ fun SearchScreen() {
 @Composable
 fun SearchPage() {
     val userProfileList = UserProfileData.userProfileList
-       // Call SearchResults with the userProfilesList
+    // Call SearchResults with the userProfilesList
     SearchResults(userProfilesList = userProfileList)
 }
 
@@ -193,7 +204,7 @@ fun SearchPage() {
 @Composable
 fun PreviewSearchScreen() {
     PetkeeperTheme {
-
+        UserResultCard(userProfile = UserProfileData.getUserProfileByName("User1")!!)
     }
 }
 
