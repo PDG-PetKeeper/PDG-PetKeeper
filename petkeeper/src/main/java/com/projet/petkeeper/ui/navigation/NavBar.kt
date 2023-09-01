@@ -11,10 +11,6 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
@@ -24,16 +20,12 @@ import com.projet.petkeeper.ui.theme.PetkeeperTheme
 fun NavBar() {
     val navItems = NavItem.getList()
 
-    var selectedItemIndex by rememberSaveable {
-        mutableIntStateOf(2)
-    }
-
     NavigationBar {
         navItems.forEachIndexed { index, navBarItem ->
             NavigationBarItem(
-                selected = selectedItemIndex == index,
+                selected = NavItem.currentIndex == index,
                 onClick = {
-                    selectedItemIndex = index
+                    NavItem.currentIndex = index
                     // navController.navigate(item.title)
                 },
                 icon = {
@@ -49,7 +41,7 @@ fun NavBar() {
                         }
                     ) {
                         Icon(
-                            imageVector = if (index == selectedItemIndex) {
+                            imageVector = if (index == NavItem.currentIndex) {
                                 navBarItem.selectedIcon
                             } else navBarItem.unselectedIcon,
                             contentDescription = navBarItem.title

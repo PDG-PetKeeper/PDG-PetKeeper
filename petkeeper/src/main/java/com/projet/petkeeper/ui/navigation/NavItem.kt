@@ -20,6 +20,7 @@ data class NavItem(
     var badgeCount: Int = 0
 ){
     companion object Items{
+        var currentIndex:Int = 2
         @Composable
         fun getList(): List<NavItem> {
             return listOf(
