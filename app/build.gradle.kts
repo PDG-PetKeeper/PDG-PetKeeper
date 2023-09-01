@@ -50,6 +50,9 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.7.1")
     implementation ("androidx.compose.ui:ui:1.5.0")
     implementation ("androidx.compose.material:material:1.5.0")
+     implementation ("androidx.compose.material3:material3:1.2.0-alpha06")
+    implementation("androidx.compose.material3:material3:1.2.0-alpha06")
+    implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha06")
 
 
     testImplementation("junit:junit:4.13.2")
