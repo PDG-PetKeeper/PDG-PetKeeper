@@ -70,7 +70,7 @@ fun UserResultCard(userProfile: UserProfile) {
                 contentDescription = "Profile Image",
                 modifier = Modifier
                     .size(40.dp)
-                   .padding(4.dp)
+                    .padding(4.dp)
                     .background(MaterialTheme.colorScheme.onTertiary) //  background color for the Clip
                     .fillMaxSize(), // Expand the Clip to its maximum size
                 contentScale = ContentScale.Crop, // Center and crop the image
@@ -181,10 +181,10 @@ fun SearchScreen() {
             searchQuery = searchQuery,
             onSearchQueryChange = { newQuery ->
                 searchQuery = newQuery
-                // Handle search query change
+                // TODO Handle search query change
             },
             onSearchAction = {
-                // Handle search action
+                //TODO  Handle search action
             }
         )
         // Section for displaying search results
@@ -193,18 +193,12 @@ fun SearchScreen() {
     }
 }
 
-@Composable
-fun SearchPage() {
-    val userProfileList = UserProfileData.userProfileList
-    // Call SearchResults with the userProfilesList
-    SearchResults(userProfilesList = userProfileList)
-}
-
+@RequiresApi(Build.VERSION_CODES.S)
 @Preview(name = "Light Mode", showBackground = true)
 @Composable
 fun PreviewSearchScreen() {
     PetkeeperTheme {
-        UserResultCard(userProfile = UserProfileData.getUserProfileByName("User1")!!)
+        SearchScreen()
     }
 }
 
