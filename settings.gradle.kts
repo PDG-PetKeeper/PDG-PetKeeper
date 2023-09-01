@@ -14,5 +14,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "petkeeper"
-include(":app")
 include(":petkeeper")
+include(":petkeeper_2")
