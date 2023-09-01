@@ -10,10 +10,12 @@ fun Navigation(
     navController: NavHostController = rememberNavController()
 ){
     val navItems = NavItem.getList()
-    NavHost(
+    navItems.find { navItem -> navItem.title == "Dashboard" }?.let {
+        NavHost(
         navController = navController,
-        startDestination = navItems[0].title
+        startDestination = it.title
     ){
 
+    }
     }
 }

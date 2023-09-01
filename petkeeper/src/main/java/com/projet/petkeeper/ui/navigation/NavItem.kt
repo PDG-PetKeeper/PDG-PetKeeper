@@ -36,13 +36,13 @@ data class NavItem(
                     hasNews = false
                 ),
                 NavItem(
-                    title = "Ads list",
+                    title = "Dashboard",
                     selectedIcon = Icons.Filled.List,
                     unselectedIcon = Icons.Outlined.List,
                     hasNews = false
                 ),
                 NavItem(
-                    title = "Account",
+                    title = "Profile",
                     selectedIcon = Icons.Filled.AccountCircle,
                     unselectedIcon = Icons.Outlined.AccountCircle,
                     hasNews = false
