@@ -31,8 +31,7 @@ class MainActivity : ComponentActivity() {
                             bottomBar = {
                                 NavBar()
                             }
-                            ) {
-                            paddingValues ->
+                    ) { paddingValues ->
                         Column(
                             modifier = Modifier.padding(paddingValues)
                         ) {
