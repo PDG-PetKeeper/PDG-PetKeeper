@@ -1,84 +1,76 @@
 package com.projet.petkeeper.screens
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.projet.petkeeper.screens.advert.TextInputs
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardRootScreen(name: String, onClick: () -> Unit){
+fun DashboardRootScreen(name: String, onClick: () -> Unit) {
     PetkeeperTheme {
-        Scaffold(
-            topBar = {
-                SearchBar(
-                    query = "",
-                    onQueryChange = {
 
-                    },
-                    onSearch = {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CenterAlignedTopAppBar(
+                    title = {
+                        Text("DASHBOARD")
+                        Color(0xFF000000)
+                    })
 
-                    },
-                    active = false,
-                    onActiveChange = {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
 
-                    },
-                    modifier = Modifier
-                        .padding(horizontal = 15.dp)
-                        .fillMaxWidth(),
-                    placeholder = {
-                        Text(text = "Search for my jobs")
-                    },
-                    leadingIcon = {
-                        Icon(Icons.Filled.Search, "search")
+                    Spacer(modifier = Modifier.height(250.dp))
+                    Button(
+                        modifier = Modifier,
+                        onClick = {}
+
+                    )
+                    {
+                        Text("My adverts")
                     }
-                ) {
 
+                    Spacer(modifier = Modifier.height(50.dp))
+
+                    Button(
+                        modifier = Modifier,
+                        onClick = {DashboardRootScreen(name, onClick = {})}
+                    )
+                    {
+                        Text("  My jobs ")
+                    }
                 }
-            },
-            floatingActionButton = {
+
+                Spacer(modifier = Modifier.height(50.dp))
+
                 FloatingActionButton(
-                    onClick = { /*TODO*/ }
+                    onClick = { TextInputs(name , onClick = {})},
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(Alignment.End)
+
                 ) {
                     Icon(Icons.Filled.Add, "Add a new advert")
                 }
-            },
-            floatingActionButtonPosition = FabPosition.End
-        ) { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                DashboardJobCard()
-                DashboardJobCard()
             }
+
         }
     }
-}
-
-@Composable
-fun DashboardJobCard(){
-    ListItem(
-        headlineContent = { Text(text = "A Job")},
-        leadingContent = {
-            Icon(Icons.Filled.Favorite, contentDescription = "fav" )
-        }
-    )
-    Divider()
-}
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

@@ -162,7 +162,8 @@ sealed class ChatScreen(val route: String) {
 }
 
 sealed class AdvertScreen(val route: String) {
-    object Information : AdvertScreen(route = "CREATE_ADVERT")
+    object Information : AdvertScreen(route = "DASHBOARD")
+    object MyAdvert : AdvertScreen(route = "My_ADVERT")
     object PostAd : AdvertScreen(route = "POST_ADVERT")
 }
 
