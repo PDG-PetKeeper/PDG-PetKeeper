@@ -24,7 +24,7 @@ fun ProfileRootScreen(
         topBar = {
             CenterAlignedTopAppBar(title = {
                 Text(
-                    text = "Proflie"
+                    text = "Profile",
                 )
             })
         },

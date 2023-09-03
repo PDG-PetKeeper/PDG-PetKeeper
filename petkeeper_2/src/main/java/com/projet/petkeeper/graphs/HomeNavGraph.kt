@@ -1,17 +1,22 @@
 package com.projet.petkeeper.graphs
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-
-import com.projet.petkeeper.bottomBarScreen.*
+import com.projet.petkeeper.bottomBarScreen.BottomBarScreen
+import com.projet.petkeeper.screens.DashboardRootScreen
+import com.projet.petkeeper.screens.ProfileRootScreen
 import com.projet.petkeeper.screens.ScreenContent
+import com.projet.petkeeper.screens.SearchRootScreen
+import com.projet.petkeeper.ui.chat.chatScreens.SearchScreen
 
 
 // nav graph depuis home.
+@SuppressLint("NewApi")
 @Composable
 fun HomeNavGraph(navController: NavHostController) {
     NavHost(
@@ -24,7 +29,7 @@ fun HomeNavGraph(navController: NavHostController) {
         composable(route = BottomBarScreen.Search.route) {
 
             // à chnager vers SearchContent
-            ScreenContent(
+            SearchRootScreen(
                 name = BottomBarScreen.Search.route,
                 onClick = {navController.navigate(Graph.SEARCH)
 
@@ -34,7 +39,7 @@ fun HomeNavGraph(navController: NavHostController) {
 
         // va vers le graph de chat
         composable(route = BottomBarScreen.Chat.route) {
-            ScreenContent(
+            SearchScreen(
                 name = BottomBarScreen.Chat.route,
                 onClick = {navController.navigate(Graph.CHAT)
 
@@ -45,7 +50,7 @@ fun HomeNavGraph(navController: NavHostController) {
 
         // va vers le graph de advert
         composable(route = BottomBarScreen.Advert.route) {
-            ScreenContent(
+            DashboardRootScreen(
                 name = BottomBarScreen.Advert.route,
                 onClick = { navController.navigate(Graph.ADVERT)}
             )
@@ -54,9 +59,9 @@ fun HomeNavGraph(navController: NavHostController) {
 
         // va vers le graph de profile
         composable(route = BottomBarScreen.Profile.route) {
-            ScreenContent(
+            ProfileRootScreen(
                 name = BottomBarScreen.Profile.route,
-                onClick = { navController.navigate(Graph.PROFILE)}
+                //onClick = { navController.navigate(Graph.PROFILE)}
             )
 
         }
@@ -75,7 +80,7 @@ fun NavGraphBuilder.SearchNavGraph(navController: NavHostController) {
         startDestination = SearchScreen.Information.route
     ) {
         composable(route = SearchScreen.Information.route) {
-            ScreenContent(name = SearchScreen.Information.route) {
+            SearchRootScreen(name = SearchScreen.Information.route) {
                 navController.navigate(SearchScreen.SelectedSearch.route)
             }
         }
