@@ -1,4 +1,4 @@
-package com.projet.petkeeper.ui.navigation
+package com.projet.petkeeper.navigation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -18,7 +18,7 @@ import com.projet.petkeeper.ui.theme.PetkeeperTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavBar() {
-    val navItems = NavItem.getList()
+    val navItems = NavItem.getNavBarItemList()
 
     NavigationBar {
         navItems.forEachIndexed { index, navBarItem ->

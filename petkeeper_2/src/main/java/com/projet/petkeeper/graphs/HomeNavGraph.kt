@@ -32,7 +32,9 @@ fun HomeNavGraph(navController: NavHostController) {
             // à chnager vers SearchContent
             SearchRootScreen(
                 name = BottomBarScreen.SearchB.route,
-                onClick = {navController.navigate(Graph.SEARCH)
+                onClick = {navController.navigate(Graph.SEARCH) {
+                    popUpTo(Graph.HOME)
+                }
 
                 }
             )
@@ -122,28 +124,19 @@ fun NavGraphBuilder.AdvertNavGraph(navController: NavHostController) {
         route = Graph.ADVERT,
         startDestination = AdvertScreen.Information.route
     ) {
-        // to post add and go back
         composable(route = AdvertScreen.Information.route) {
-            TextInputs(name = AdvertScreen.Information.route) {
+            ScreenContent(name = AdvertScreen.Information.route) {
                 navController.navigate(AdvertScreen.PostAd.route)
             }
         }
         composable(route = AdvertScreen.PostAd.route) {
-            DashboardRootScreen(name = AdvertScreen.PostAd.route) {
+            ScreenContent(name = AdvertScreen.PostAd.route) {
                 navController.popBackStack(
                     route = AdvertScreen.Information.route,
                     inclusive = false
                 )
             }
         }
-
-
-        composable(route = AdvertScreen.Information.route) {
-            TextInputs(name = AdvertScreen.Information.route) {
-                navController.navigate(AdvertScreen.PostAd.route)
-            }
-        }
-
     }
 }
 
