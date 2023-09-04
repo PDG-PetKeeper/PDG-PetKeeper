@@ -51,7 +51,11 @@ android {
 }
 
 dependencies {
-
+    implementation ("androidx.compose.material:material:1.2.0")
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
+    implementation ("com.google.firebase:firebase-auth-ktx:21.1.0")
+    implementation ("com.google.android.gms:play-services-auth:20.4.1")
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.activity:activity-compose:1.7.2")
