@@ -50,10 +50,11 @@ fun TextInputs(name: String, onClick: () -> Unit) {
                 },
                 navigationIcon = {
                     // go back
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { onClick()}) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Go back"
+                            contentDescription = "Go back",
+
                         )
                     }
                 })

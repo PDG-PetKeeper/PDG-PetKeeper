@@ -1,10 +1,11 @@
 package com.projet.petkeeper.screens
 
 import android.annotation.SuppressLint
-import androidx.compose.material3.Scaffold
-import androidx.compose.material.*
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavDestination
@@ -13,16 +14,17 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-
-import com.projet.petkeeper.bottomBarScreen.*
+import com.projet.petkeeper.bottomBarScreen.BottomBarScreen
 import com.projet.petkeeper.graphs.HomeNavGraph
 
 
 // home screen contient son propre nav graph
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavHostController = rememberNavController()) {
+
     Scaffold(
         bottomBar = { BottomBar(navController = navController) }
     ) {
@@ -33,10 +35,10 @@ fun HomeScreen(navController: NavHostController = rememberNavController()) {
 @Composable
 fun BottomBar(navController: NavHostController) {
     val screens = listOf(
-        BottomBarScreen.Search,
-        BottomBarScreen.Chat,
-        BottomBarScreen.Advert,
-        BottomBarScreen.Profile
+        BottomBarScreen.SearchB,
+        BottomBarScreen.ChatB,
+        BottomBarScreen.AdvertB,
+        BottomBarScreen.ProfileB
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()

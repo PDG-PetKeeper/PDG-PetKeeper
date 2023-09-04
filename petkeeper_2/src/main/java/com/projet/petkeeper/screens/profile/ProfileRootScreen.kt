@@ -17,7 +17,7 @@ import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileRootScreen(name: String, ){
+fun ProfileRootScreen(name: String, onClick: () -> Unit){
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(title = {
@@ -43,6 +43,6 @@ fun ProfileRootScreen(name: String, ){
 @Composable
 fun ProfileRootScreenPreview() {
     PetkeeperTheme {
-        ProfileRootScreen("Profile",)
+        ProfileRootScreen("Profile", onClick = {})
     }
 }
