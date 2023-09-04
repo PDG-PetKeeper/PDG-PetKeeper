@@ -12,6 +12,7 @@ import com.projet.petkeeper.screens.DashboardRootScreen
 import com.projet.petkeeper.screens.ProfileRootScreen
 import com.projet.petkeeper.screens.ScreenContent
 import com.projet.petkeeper.screens.SearchRootScreen
+import com.projet.petkeeper.screens.advert.TextInputs
 import com.projet.petkeeper.ui.chat.chatScreens.SearchScreen
 
 
@@ -22,15 +23,15 @@ fun HomeNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
         route = Graph.HOME,
-        startDestination = BottomBarScreen.Search.route
+        startDestination = BottomBarScreen.SearchB.route
     ) {
 
         // va vers le graph de search
-        composable(route = BottomBarScreen.Search.route) {
+        composable(route = BottomBarScreen.SearchB.route) {
 
             // à chnager vers SearchContent
             SearchRootScreen(
-                name = BottomBarScreen.Search.route,
+                name = BottomBarScreen.SearchB.route,
                 onClick = {navController.navigate(Graph.SEARCH) {
                     popUpTo(Graph.HOME)
                 }
@@ -40,9 +41,9 @@ fun HomeNavGraph(navController: NavHostController) {
         }
 
         // va vers le graph de chat
-        composable(route = BottomBarScreen.Chat.route) {
+        composable(route = BottomBarScreen.ChatB.route) {
             SearchScreen(
-                name = BottomBarScreen.Chat.route,
+                name = BottomBarScreen.ChatB.route,
                 onClick = {navController.navigate(Graph.CHAT)
 
                 }
@@ -51,19 +52,19 @@ fun HomeNavGraph(navController: NavHostController) {
         }
 
         // va vers le graph de advert
-        composable(route = BottomBarScreen.Advert.route) {
+        composable(route = BottomBarScreen.AdvertB.route) {
             DashboardRootScreen(
-                name = BottomBarScreen.Advert.route,
+                name = BottomBarScreen.AdvertB.route,
                 onClick = { navController.navigate(Graph.ADVERT)}
             )
 
         }
 
         // va vers le graph de profile
-        composable(route = BottomBarScreen.Profile.route) {
+        composable(route = BottomBarScreen.ProfileB.route) {
             ProfileRootScreen(
-                name = BottomBarScreen.Profile.route,
-                //onClick = { navController.navigate(Graph.PROFILE)}
+                name = BottomBarScreen.ProfileB.route,
+                onClick = { navController.navigate(Graph.PROFILE)}
             )
 
         }

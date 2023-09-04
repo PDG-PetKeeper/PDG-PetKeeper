@@ -48,7 +48,7 @@ fun DashboardRootScreen(name: String, onClick: () -> Unit) {
 
                     Button(
                         modifier = Modifier,
-                        onClick = { }
+                        onClick = {}
                     )
                     {
                         Text("  My jobs ")
@@ -58,7 +58,7 @@ fun DashboardRootScreen(name: String, onClick: () -> Unit) {
                 Spacer(modifier = Modifier.height(50.dp))
 
                 FloatingActionButton(
-                    onClick = { },
+                    onClick = {onClick()},
                     modifier = Modifier
                         .padding(16.dp)
                         .align(Alignment.End)

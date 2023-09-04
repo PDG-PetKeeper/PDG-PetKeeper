@@ -8,10 +8,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.List
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
-import com.projet.petkeeper.R
 
 
 sealed class BottomBarScreen(
@@ -22,7 +19,7 @@ sealed class BottomBarScreen(
     var hasNews: Boolean,
     var badgeCount: Int = 0
 ){
-    object Search : BottomBarScreen(
+    object SearchB : BottomBarScreen(
         route = "SEARCH",
         title = "SEARCH",
         selectedIcon = Icons.Filled.Search,
@@ -30,7 +27,7 @@ sealed class BottomBarScreen(
         hasNews = false
     )
 
-    object Chat : BottomBarScreen(
+    object ChatB : BottomBarScreen(
         route = "CHAT",
         title = "CHAT",
         selectedIcon = Icons.Filled.Email,
@@ -38,7 +35,7 @@ sealed class BottomBarScreen(
         hasNews = false
     )
 
-    object Advert : BottomBarScreen(
+    object AdvertB : BottomBarScreen(
         route = "ADVERT",
         title = "ADVERT",
         selectedIcon = Icons.Filled.List,
@@ -46,7 +43,7 @@ sealed class BottomBarScreen(
         hasNews = false
     )
 
-    object Profile : BottomBarScreen(
+    object ProfileB : BottomBarScreen(
         route = "PROFILE",
         title = "PROFILE",
         selectedIcon = Icons.Filled.AccountCircle,
