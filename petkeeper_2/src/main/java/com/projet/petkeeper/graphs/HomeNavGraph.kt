@@ -31,7 +31,9 @@ fun HomeNavGraph(navController: NavHostController) {
             // à chnager vers SearchContent
             SearchRootScreen(
                 name = BottomBarScreen.Search.route,
-                onClick = {navController.navigate(Graph.SEARCH)
+                onClick = {navController.navigate(Graph.SEARCH) {
+                    popUpTo(Graph.HOME)
+                }
 
                 }
             )

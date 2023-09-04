@@ -1,5 +1,6 @@
 package com.projet.petkeeper.ui.dashboard
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,10 +9,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Scaffold
@@ -80,14 +81,23 @@ fun DashboardRootScreen(
 }
 
 @Composable
-fun DashboardJobCard(){
+fun DashboardJobCard(
+
+){
     ListItem(
-        headlineContent = { Text(text = "A Job")},
+        modifier = Modifier.clickable {/*TODO*/},
+        headlineContent = { Text("Three line list item") },
+        overlineContent = { Text("OVERLINE") },
+        supportingContent = { Text("Secondary text") },
         leadingContent = {
-            Icon(Icons.Filled.Favorite, contentDescription = "fav" )
-        }
+            Icon(
+                Icons.Filled.Favorite,
+                contentDescription = "Localized description",
+            )
+        },
+        trailingContent = { Text("meta") }
     )
-    Divider()
+    HorizontalDivider()
 }
 
 @Preview(showBackground = true, showSystemUi = true)

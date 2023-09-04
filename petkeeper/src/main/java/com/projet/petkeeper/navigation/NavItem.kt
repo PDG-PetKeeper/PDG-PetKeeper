@@ -1,4 +1,4 @@
-package com.projet.petkeeper.ui.navigation
+package com.projet.petkeeper.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -22,7 +22,7 @@ data class NavItem(
     companion object Items{
         var currentIndex:Int = 2
         @Composable
-        fun getList(): List<NavItem> {
+        fun getNavBarItemList(): List<NavItem> {
             return listOf(
                 NavItem(
                     title = "Search",

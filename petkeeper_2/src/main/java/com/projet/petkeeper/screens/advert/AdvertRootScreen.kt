@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.projet.petkeeper.screens.advert.TextInputs
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,7 +48,7 @@ fun DashboardRootScreen(name: String, onClick: () -> Unit) {
 
                     Button(
                         modifier = Modifier,
-                        onClick = {DashboardRootScreen(name, onClick = {})}
+                        onClick = { }
                     )
                     {
                         Text("  My jobs ")
@@ -59,7 +58,7 @@ fun DashboardRootScreen(name: String, onClick: () -> Unit) {
                 Spacer(modifier = Modifier.height(50.dp))
 
                 FloatingActionButton(
-                    onClick = { TextInputs(name , onClick = {})},
+                    onClick = { },
                     modifier = Modifier
                         .padding(16.dp)
                         .align(Alignment.End)
