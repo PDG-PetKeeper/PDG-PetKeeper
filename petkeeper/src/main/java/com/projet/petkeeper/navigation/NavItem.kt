@@ -7,47 +7,56 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.List
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import com.projet.petkeeper.R
+import com.projet.petkeeper.ui.IconResource
 
-data class NavItem(
+sealed class NavItem(
+    val route: String,
     val title: String,
-    val selectedIcon: ImageVector,
-    val unselectedIcon: ImageVector,
+    val selectedIcon: IconResource,
+    val unselectedIcon: IconResource,
     var hasNews: Boolean,
     var badgeCount: Int = 0
 ){
+    object searchRoot: NavItem(
+        route = "SEARCH",
+        title = "SearchRoot",
+        selectedIcon = IconResource.fromImageVector(Icons.Filled.Search),
+        unselectedIcon = IconResource.fromImageVector(Icons.Outlined.Search),
+        hasNews = false
+    )
+
+    object chatRoot : NavItem(
+        route = "CHAT",
+        title = "ChatRoot",
+        selectedIcon = IconResource.fromDrawableResource(R.drawable.filled_chat_24),
+        unselectedIcon = IconResource.fromDrawableResource(R.drawable.outline_chat_24),
+        hasNews = false
+    )
+
+    object dashboardRoot : NavItem(
+        route = "DASHBOARD",
+        title = "DashboardRoot",
+        selectedIcon = IconResource.fromImageVector(Icons.Filled.List),
+        unselectedIcon = IconResource.fromImageVector(Icons.Outlined.List),
+        hasNews = false
+    )
+
+    object profileRoot : NavItem(
+        route = "PROFILE",
+        title = "ProfileRoot",
+        selectedIcon = IconResource.fromImageVector(Icons.Filled.AccountCircle),
+        unselectedIcon = IconResource.fromImageVector(Icons.Outlined.AccountCircle),
+        hasNews = false
+    )
     companion object Items{
         var currentIndex:Int = 2
-        @Composable
         fun getNavBarItemList(): List<NavItem> {
             return listOf(
-                NavItem(
-                    title = "Search",
-                    selectedIcon = Icons.Filled.Search,
-                    unselectedIcon = Icons.Outlined.Search,
-                    hasNews = false
-                ),
-                NavItem(
-                    title = "Chat",
-                    selectedIcon = ImageVector.vectorResource(R.drawable.filled_chat_24),
-                    unselectedIcon = ImageVector.vectorResource(R.drawable.outline_chat_24),
-                    hasNews = false
-                ),
-                NavItem(
-                    title = "Dashboard",
-                    selectedIcon = Icons.Filled.List,
-                    unselectedIcon = Icons.Outlined.List,
-                    hasNews = false
-                ),
-                NavItem(
-                    title = "Profile",
-                    selectedIcon = Icons.Filled.AccountCircle,
-                    unselectedIcon = Icons.Outlined.AccountCircle,
-                    hasNews = false
-                ),
+                searchRoot,
+                chatRoot,
+                dashboardRoot,
+                profileRoot
             )
         }
     }

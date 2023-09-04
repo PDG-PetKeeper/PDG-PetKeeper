@@ -41,9 +41,11 @@ fun NavBar() {
                         }
                     ) {
                         Icon(
-                            imageVector = if (index == NavItem.currentIndex) {
-                                navBarItem.selectedIcon
-                            } else navBarItem.unselectedIcon,
+                            if (index == NavItem.currentIndex)
+                                navBarItem.selectedIcon.asPainterResource()
+                            else
+                                navBarItem.unselectedIcon.asPainterResource(),
+
                             contentDescription = navBarItem.title
                         )
                     }
