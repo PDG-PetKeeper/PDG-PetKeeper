@@ -1,4 +1,4 @@
-package com.projet.petkeeper.ui.chat.chatScreens
+package com.projet.petkeeper.chat.chatScreens
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -42,8 +42,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.projet.petkeeper.ui.chat.UserProfile
-import com.projet.petkeeper.ui.chat.UserProfileData
+import com.projet.petkeeper.chat.UserProfile
+import com.projet.petkeeper.chat.UserProfileData
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
 @Composable

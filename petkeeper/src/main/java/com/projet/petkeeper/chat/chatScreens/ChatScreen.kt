@@ -1,4 +1,4 @@
-package com.projet.petkeeper.ui.chat.chatScreens
+package com.projet.petkeeper.chat.chatScreens
 
 
 import android.content.res.Configuration
@@ -42,10 +42,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.projet.petkeeper.ui.chat.Message
-import com.projet.petkeeper.ui.chat.MessageData
-import com.projet.petkeeper.ui.chat.UserProfile
-import com.projet.petkeeper.ui.chat.UserProfileData
+import com.projet.petkeeper.chat.Message
+import com.projet.petkeeper.chat.MessageData
+import com.projet.petkeeper.chat.UserProfile
+import com.projet.petkeeper.chat.UserProfileData
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
 

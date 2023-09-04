@@ -1,4 +1,4 @@
-package com.projet.petkeeper.ui.chat
+package com.projet.petkeeper.chat
 
 import com.projet.petkeeper.R
 

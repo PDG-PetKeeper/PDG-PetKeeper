@@ -1,4 +1,4 @@
-package com.projet.petkeeper.ui.search
+package com.projet.petkeeper.search
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

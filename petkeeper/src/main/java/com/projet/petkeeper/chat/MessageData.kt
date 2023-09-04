@@ -1,4 +1,4 @@
-package com.projet.petkeeper.ui.chat
+package com.projet.petkeeper.chat
 
 data class Message(val sender: String, val body: String, val isSent: Boolean)
 
