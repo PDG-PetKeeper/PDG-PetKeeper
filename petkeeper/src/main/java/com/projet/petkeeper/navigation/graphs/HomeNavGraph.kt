@@ -1,6 +1,7 @@
 package com.projet.petkeeper.navigation.graphs
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavGraphBuilder
@@ -12,10 +13,11 @@ import com.projet.petkeeper.chat.ChatRootScreen
 import com.projet.petkeeper.dashboard.DashboardRootScreen
 import com.projet.petkeeper.data.JobData
 import com.projet.petkeeper.navigation.NavBarItem
-import com.projet.petkeeper.profile.ProfileRootScreen
+import com.projet.petkeeper.profile.ProfileScreen
 import com.projet.petkeeper.search.SearchRootScreen
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.PetKeeperUIViewModel
+import com.projet.petkeeper.sign_in.UserData
 
 
 // nav graph depuis home.
@@ -23,7 +25,9 @@ import com.projet.petkeeper.ui.PetKeeperUIViewModel
 @Composable
 fun HomeNavGraph(
     navController: NavHostController,
-    //viewModel: GeneralUIViewModel
+    viewModel: PetKeeperUIViewModel,
+    userData: UserData?,
+    onSignOut: () -> Unit
 ) {
     val uiState = viewModel.uiState.collectAsState().value
 
@@ -36,7 +40,7 @@ fun HomeNavGraph(
         SearchNavGraph(navController, viewModel, uiState)
         ChatNavGraph(navController, viewModel, uiState)
         DashboardNavGraph(navController, viewModel, uiState)
-        ProfileNavGraph(navController, viewModel, uiState)
+        ProfileNavGraph(navController, viewModel, uiState, userData, onSignOut)
     }
 }
 
@@ -131,7 +135,9 @@ fun NavGraphBuilder.DashboardNavGraph(
 fun NavGraphBuilder.ProfileNavGraph(
     navController: NavHostController,
     viewModel: PetKeeperUIViewModel,
-    uiState: PetKeeperUIState
+    uiState: PetKeeperUIState,
+    userData: UserData?,
+    onSignOut: () -> Unit
 ) {
     navigation(
         route = NavBarItem.ProfileRoot.route,
@@ -139,9 +145,8 @@ fun NavGraphBuilder.ProfileNavGraph(
     ) {
         composable(route = ProfileScreen.Information.route) {
             // edit page
-            ProfileRootScreen(
-//                name = ProfileScreen.Information.route
-            )
+            ProfileScreen(userData, onSignOut)
+
         }
     }
 }

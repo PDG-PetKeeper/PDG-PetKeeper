@@ -11,10 +11,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.projet.petkeeper.navigation.NavBar
 import com.projet.petkeeper.navigation.graphs.HomeNavGraph
+import com.projet.petkeeper.sign_in.UserData
 
 @Composable
 fun HomeScreen(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    userData: UserData?,
+    onSignOut: () -> Unit
 ) {
 
     val viewModel: PetKeeperUIViewModel = viewModel()
@@ -29,7 +32,7 @@ fun HomeScreen(
         Box(
             modifier = Modifier.padding(paddingValues)
         ) {
-            HomeNavGraph(navController, /*viewModel*/)
+            HomeNavGraph(navController, viewModel, userData, onSignOut)
         }
     }
 }
