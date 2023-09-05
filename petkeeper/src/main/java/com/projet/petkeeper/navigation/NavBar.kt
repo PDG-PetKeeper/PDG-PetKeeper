@@ -13,20 +13,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NavBar() {
-    val navItems = NavItem.getNavBarItemList()
-
+fun NavBar(
+    navController: NavHostController,
+    navBarItemList: List<NavBarItem> = NavBarItem.getNavBarItemList()
+) {
     NavigationBar {
-        navItems.forEachIndexed { index, navBarItem ->
+        navBarItemList.forEachIndexed { index, navBarItem ->
             NavigationBarItem(
-                selected = NavItem.currentIndex == index,
+                selected = NavBarItem.currentIndex == index,
                 onClick = {
-                    NavItem.currentIndex = index
-                    // navController.navigate(item.title)
+                    NavBarItem.currentIndex = index
+                    navController.navigate(navBarItem.route)
                 },
                 icon = {
                     BadgedBox(
@@ -41,7 +44,7 @@ fun NavBar() {
                         }
                     ) {
                         Icon(
-                            if (index == NavItem.currentIndex)
+                            if (index == NavBarItem.currentIndex)
                                 navBarItem.selectedIcon.asPainterResource()
                             else
                                 navBarItem.unselectedIcon.asPainterResource(),
@@ -51,7 +54,6 @@ fun NavBar() {
                     }
                 }
             )
-
         }
     }
 }
@@ -63,7 +65,7 @@ fun NavBarPreview() {
     PetkeeperTheme {
         Scaffold(
             bottomBar = {
-                NavBar()
+                NavBar(rememberNavController())
             }
         ) {
                 paddingValues ->

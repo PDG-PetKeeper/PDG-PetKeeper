@@ -10,7 +10,7 @@ import androidx.compose.material.icons.outlined.Search
 import com.projet.petkeeper.R
 import com.projet.petkeeper.ui.IconResource
 
-sealed class NavItem(
+sealed class NavBarItem(
     val route: String,
     val title: String,
     val selectedIcon: IconResource,
@@ -18,7 +18,7 @@ sealed class NavItem(
     var hasNews: Boolean,
     var badgeCount: Int = 0
 ){
-    object searchRoot: NavItem(
+    object searchRoot: NavBarItem(
         route = "SEARCH",
         title = "SearchRoot",
         selectedIcon = IconResource.fromImageVector(Icons.Filled.Search),
@@ -26,7 +26,7 @@ sealed class NavItem(
         hasNews = false
     )
 
-    object chatRoot : NavItem(
+    object chatRoot : NavBarItem(
         route = "CHAT",
         title = "ChatRoot",
         selectedIcon = IconResource.fromDrawableResource(R.drawable.filled_chat_24),
@@ -34,7 +34,7 @@ sealed class NavItem(
         hasNews = false
     )
 
-    object dashboardRoot : NavItem(
+    object dashboardRoot : NavBarItem(
         route = "DASHBOARD",
         title = "DashboardRoot",
         selectedIcon = IconResource.fromImageVector(Icons.Filled.List),
@@ -42,7 +42,7 @@ sealed class NavItem(
         hasNews = false
     )
 
-    object profileRoot : NavItem(
+    object profileRoot : NavBarItem(
         route = "PROFILE",
         title = "ProfileRoot",
         selectedIcon = IconResource.fromImageVector(Icons.Filled.AccountCircle),
@@ -51,7 +51,7 @@ sealed class NavItem(
     )
     companion object Items{
         var currentIndex:Int = 2
-        fun getNavBarItemList(): List<NavItem> {
+        fun getNavBarItemList(): List<NavBarItem> {
             return listOf(
                 searchRoot,
                 chatRoot,

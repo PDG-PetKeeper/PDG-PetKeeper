@@ -1,9 +1,9 @@
 package com.projet.petkeeper.ui
 
-import com.projet.petkeeper.navigation.NavItem
+import com.projet.petkeeper.navigation.NavBarItem
 
 
 data class GeneralUIState(
-    val showNavBar: Boolean = true,
-    val navBarItemList: List<NavItem> = NavItem.getNavBarItemList()
-    )
+    val mustShowNavBar: Boolean = true,
+    val navBarItemList: List<NavBarItem> = NavBarItem.getNavBarItemList()
+)

@@ -6,23 +6,27 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.projet.petkeeper.dashboard.DashboardRootScreen
-import com.projet.petkeeper.navigation.NavItem
+import com.projet.petkeeper.navigation.NavBarItem
 import com.projet.petkeeper.profile.ProfileRootScreen
 import com.projet.petkeeper.search.SearchRootScreen
+import com.projet.petkeeper.ui.GeneralUIViewModel
 
 
 // nav graph depuis home.
 @SuppressLint("NewApi")
 @Composable
-fun HomeNavGraph(navController: NavHostController) {
+fun HomeNavGraph(
+    navController: NavHostController,
+    viewModel: GeneralUIViewModel
+) {
     NavHost(
         navController = navController,
         route = Graph.HOME,
-        startDestination = NavItem.dashboardRoot.route
+        startDestination = NavBarItem.dashboardRoot.route
     ) {
 
         // va vers le graph de search
-        composable(route = NavItem.searchRoot.route) {
+        composable(route = NavBarItem.searchRoot.route) {
 
             // à chnager vers SearchContent
             SearchRootScreen(
@@ -35,7 +39,7 @@ fun HomeNavGraph(navController: NavHostController) {
         }
 
         // va vers le graph de chat
-        composable(route = NavItem.chatRoot.route) {
+        composable(route = NavBarItem.chatRoot.route) {
             SearchRootScreen(
 //                name = NavItem.chatRoot.route,
 //                onClick = {
@@ -46,7 +50,7 @@ fun HomeNavGraph(navController: NavHostController) {
         }
 
         // va vers le graph de advert
-        composable(route = NavItem.dashboardRoot.route) {
+        composable(route = NavBarItem.dashboardRoot.route) {
             DashboardRootScreen(
 //                name = NavItem.dashboardRoot.title,
 //                onClick = { navController.navigate(Graph.ADVERT)}
@@ -55,7 +59,7 @@ fun HomeNavGraph(navController: NavHostController) {
         }
 
         // va vers le graph de profile
-        composable(route = NavItem.profileRoot.route) {
+        composable(route = NavBarItem.profileRoot.route) {
             ProfileRootScreen(
 //                name = NavItem.profileRoot.route,
 //                onClick = { navController.navigate(Graph.PROFILE)}
