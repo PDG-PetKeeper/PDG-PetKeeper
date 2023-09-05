@@ -1,15 +1,12 @@
 package com.projet.petkeeper.navigation.graphs
 
-import androidx.navigation.NavController
-import androidx.navigation.compose.composable
-import androidx.navigation.navigation
-
-import com.projet.petkeeper.screens.LoginContent
-import com.projet.petkeeper.screens.ScreenContent
-
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.composable
+import androidx.navigation.navigation
+import com.projet.petkeeper.sign_in.SignInScreen
+import com.projet.petkeeper.sign_in.SignInState
 
 
 fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
@@ -18,24 +15,11 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
         startDestination = AuthScreen.Login.route
     ) {
         composable(route = AuthScreen.Login.route) {
-            LoginContent(
-                onClick = {
-                    navController.popBackStack()
-                    navController.navigate(Graph.HOME)
-                },
-                onSignUpClick = {
-                    navController.navigate(AuthScreen.SignUp.route)
-                },
-                onForgotClick = {
-                    navController.navigate(AuthScreen.Forgot.route)
-                }
-            )
-        }
-        composable(route = AuthScreen.SignUp.route) {
-            ScreenContent(name = AuthScreen.SignUp.route) {}
-        }
-        composable(route = AuthScreen.Forgot.route) {
-            ScreenContent(name = AuthScreen.Forgot.route) {}
+            SignInScreen(
+                state = SignInState()
+            ) {
+                navController.navigate(Graph.HOME)
+            }
         }
     }
 }

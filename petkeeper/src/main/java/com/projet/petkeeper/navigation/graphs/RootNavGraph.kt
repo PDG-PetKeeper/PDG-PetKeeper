@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import com.projet.petkeeper.ui.HomeScreen
 
 @Composable
-fun RootNavigationGraph(navController: NavHostController) {
+fun RootNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
         route = Graph.ROOT,
