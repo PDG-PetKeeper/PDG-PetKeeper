@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
-    private val googleAuthUiClient by lazy {
+     val googleAuthUiClient by lazy {
         GoogleAuthUiClient(
             context = applicationContext,
             oneTapClient = Identity.getSignInClient(applicationContext)
@@ -80,7 +80,6 @@ class MainActivity : ComponentActivity() {
                                         "Sign in successful",
                                         Toast.LENGTH_LONG
                                     ).show()
-
                                     navController.navigate("profile")
                                     viewModel.resetState()
                                 }
@@ -101,7 +100,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable("profile") {
-                            ProfileScreen(
+                            HomeScreen(
                                 userData = googleAuthUiClient.getSignedInUser(),
                                 onSignOut = {
                                     lifecycleScope.launch {
@@ -118,7 +117,6 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
-                    HomeScreen()
                 }
             }
         }
