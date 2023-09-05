@@ -2,14 +2,20 @@ package com.projet.petkeeper.navigation.graphs
 
 import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navigation
+import com.projet.petkeeper.chat.ChatRootScreen
 import com.projet.petkeeper.dashboard.DashboardRootScreen
+import com.projet.petkeeper.data.JobData
 import com.projet.petkeeper.navigation.NavBarItem
 import com.projet.petkeeper.profile.ProfileRootScreen
 import com.projet.petkeeper.search.SearchRootScreen
-import com.projet.petkeeper.ui.GeneralUIViewModel
+import com.projet.petkeeper.ui.PetKeeperUIState
+import com.projet.petkeeper.ui.PetKeeperUIViewModel
 
 
 // nav graph depuis home.
@@ -17,8 +23,10 @@ import com.projet.petkeeper.ui.GeneralUIViewModel
 @Composable
 fun HomeNavGraph(
     navController: NavHostController,
-    viewModel: GeneralUIViewModel
+    viewModel: PetKeeperUIViewModel
 ) {
+    val uiState = viewModel.uiState.collectAsState().value
+
     NavHost(
         navController = navController,
         route = Graph.HOME,
@@ -52,6 +60,11 @@ fun HomeNavGraph(
         // va vers le graph de advert
         composable(route = NavBarItem.dashboardRoot.route) {
             DashboardRootScreen(
+                uiState = uiState,
+                onJobClick = {
+                    jobData: JobData -> viewModel.updateSelectedJob(jobData)
+                    viewModel.hideNavBar()
+                }
 //                name = NavItem.dashboardRoot.title,
 //                onClick = { navController.navigate(Graph.ADVERT)}
             )
@@ -67,26 +80,29 @@ fun HomeNavGraph(
 
         }
         //assigne les controlleurs de nav pour chaque graph
-//        SearchNavGraph(navController = navController)
-//        ChatNavGraph(navController = navController)
-//        AdvertNavGraph(navController = navController)
-//        ProfileNavGraph(navController = navController)
+        SearchNavGraph(navController, viewModel, uiState)
+        ChatNavGraph(navController, viewModel, uiState)
+        DashboardNavGraph(navController, viewModel, uiState)
+        ProfileNavGraph(navController, viewModel, uiState)
     }
 }
 
 
-//fun NavGraphBuilder.SearchNavGraph(navController: NavHostController) {
-//    navigation(
-//        route = Graph.SEARCH,
-//        startDestination = SearchScreen.Information.route
-//    ) {
-//        composable(route = SearchScreen.Information.route) {
-//            SearchRootScreen(
-////                name = SearchScreen.Information.route
-//            ) {
-//                navController.navigate(SearchScreen.SelectedSearch.route)
-//            }
-//        }
+fun NavGraphBuilder.SearchNavGraph(
+    navController: NavHostController,
+    viewModel: PetKeeperUIViewModel,
+    uiState: PetKeeperUIState
+) {
+    navigation(
+        route = Graph.SEARCH,
+        startDestination = SearchScreen.Information.route
+    ) {
+        composable(route = SearchScreen.Information.route) {
+            SearchRootScreen(
+                //name = SearchScreen.Information.route
+                //navController.navigate(SearchScreen.SelectedSearch.route)
+            )
+        }
 //        composable(route = SearchScreen.SelectedSearch.route) {
 //            ScreenContent(name = SearchScreen.SelectedSearch.route) {
 //                navController.popBackStack(
@@ -95,19 +111,26 @@ fun HomeNavGraph(
 //                )
 //            }
 //        }
-//    }
-//}
-//
-//fun NavGraphBuilder.ChatNavGraph(navController: NavHostController) {
-//    navigation(
-//        route = Graph.CHAT,
-//        startDestination = ChatScreen.Information.route
-//    ) {
-//        composable(route = ChatScreen.Information.route) {
-//            ScreenContent(name = ChatScreen.Information.route) {
-//                navController.navigate(ChatScreen.SelectedChat.route)
-//            }
-//        }
+    }
+}
+
+fun NavGraphBuilder.ChatNavGraph(
+    navController: NavHostController,
+    viewModel: PetKeeperUIViewModel,
+    uiState: PetKeeperUIState
+) {
+    navigation(
+        route = Graph.CHAT,
+        startDestination = ChatScreen.Information.route
+    ) {
+        composable(route = ChatScreen.Information.route) {
+            ChatRootScreen(
+//                name = ChatScreen.Information.route
+//                onClick = {
+//                    navController.navigate(ChatScreen.SelectedChat.route)
+//                }
+            )
+        }
 //        composable(route = ChatScreen.SelectedChat.route) {
 //            ScreenContent(name = ChatScreen.SelectedChat.route) {
 //                navController.popBackStack(
@@ -116,19 +139,31 @@ fun HomeNavGraph(
 //                )
 //            }
 //        }
-//    }
-//}
-//
-//fun NavGraphBuilder.AdvertNavGraph(navController: NavHostController) {
-//    navigation(
-//        route = Graph.ADVERT,
-//        startDestination = AdvertScreen.Information.route
-//    ) {
-//        composable(route = AdvertScreen.Information.route) {
-//            ScreenContent(name = AdvertScreen.Information.route) {
-//                navController.navigate(AdvertScreen.PostAd.route)
-//            }
-//        }
+    }
+}
+
+fun NavGraphBuilder.DashboardNavGraph(
+    navController: NavHostController,
+    viewModel: PetKeeperUIViewModel,
+    uiState: PetKeeperUIState
+) {
+
+    navigation(
+        route = Graph.ADVERT,
+        startDestination = AdvertScreen.Information.route
+    ) {
+        composable(route = AdvertScreen.Information.route) {
+                DashboardRootScreen(
+                    uiState = uiState,
+                    onJobClick = {
+                            jobData: JobData -> viewModel.updateSelectedJob(jobData)
+                        viewModel.hideNavBar()
+                    }
+    //                name = NavItem.dashboardRoot.title,
+    //                onClick = { navController.navigate(Graph.ADVERT)}
+                )
+
+            }
 //        composable(route = AdvertScreen.PostAd.route) {
 //            ScreenContent(name = AdvertScreen.PostAd.route) {
 //                navController.popBackStack(
@@ -137,21 +172,26 @@ fun HomeNavGraph(
 //                )
 //            }
 //        }
-//    }
-//}
-//
-//fun NavGraphBuilder.ProfileNavGraph(navController: NavHostController) {
-//    navigation(
-//        route = Graph.PROFILE,
-//        startDestination = ProfileScreen.Information.route
-//    ) {
-//        composable(route = ProfileScreen.Information.route) {
-//            // edit page
-//            ScreenContent(name = ProfileScreen.Information.route) {
-//            }
-//        }
-//    }
-//}
+    }
+}
+
+fun NavGraphBuilder.ProfileNavGraph(
+    navController: NavHostController,
+    viewModel: PetKeeperUIViewModel,
+    uiState: PetKeeperUIState
+) {
+    navigation(
+        route = Graph.PROFILE,
+        startDestination = ProfileScreen.Information.route
+    ) {
+        composable(route = ProfileScreen.Information.route) {
+            // edit page
+            ProfileRootScreen(
+//                name = ProfileScreen.Information.route
+            )
+        }
+    }
+}
 
 
 sealed class SearchScreen(val route: String) {
@@ -165,8 +205,8 @@ sealed class ChatScreen(val route: String) {
 }
 
 sealed class AdvertScreen(val route: String) {
-    object Information : AdvertScreen(route = "DASHBOARD")
-    object MyAdvert : AdvertScreen(route = "My_ADVERT")
+    object Information : AdvertScreen(route = "DASHBOARD_MAIN")
+    object MyAdvert : AdvertScreen(route = "MY_ADVERT")
     object PostAd : AdvertScreen(route = "POST_ADVERT")
 }
 
