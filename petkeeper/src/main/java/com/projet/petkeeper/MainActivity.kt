@@ -25,6 +25,7 @@ import com.projet.petkeeper.profile.ProfileScreen
 import com.projet.petkeeper.sign_in.GoogleAuthUiClient
 import com.projet.petkeeper.sign_in.SignInScreen
 import com.projet.petkeeper.sign_in.SignInViewModel
+import com.projet.petkeeper.ui.HomeScreen
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 import kotlinx.coroutines.launch
 
@@ -117,6 +118,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
+                    HomeScreen()
                 }
             }
         }

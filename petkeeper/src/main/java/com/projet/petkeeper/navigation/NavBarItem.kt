@@ -18,7 +18,7 @@ sealed class NavBarItem(
     var hasNews: Boolean,
     var badgeCount: Int = 0
 ){
-    object searchRoot: NavBarItem(
+    data object SearchRoot: NavBarItem(
         route = "SEARCH",
         title = "SearchRoot",
         selectedIcon = IconResource.fromImageVector(Icons.Filled.Search),
@@ -26,7 +26,7 @@ sealed class NavBarItem(
         hasNews = false
     )
 
-    object chatRoot : NavBarItem(
+    data object ChatRoot : NavBarItem(
         route = "CHAT",
         title = "ChatRoot",
         selectedIcon = IconResource.fromDrawableResource(R.drawable.filled_chat_24),
@@ -34,7 +34,7 @@ sealed class NavBarItem(
         hasNews = false
     )
 
-    object dashboardRoot : NavBarItem(
+    data object DashboardRoot : NavBarItem(
         route = "DASHBOARD",
         title = "DashboardRoot",
         selectedIcon = IconResource.fromImageVector(Icons.Filled.List),
@@ -42,21 +42,20 @@ sealed class NavBarItem(
         hasNews = false
     )
 
-    object profileRoot : NavBarItem(
+    data object ProfileRoot : NavBarItem(
         route = "PROFILE",
         title = "ProfileRoot",
         selectedIcon = IconResource.fromImageVector(Icons.Filled.AccountCircle),
         unselectedIcon = IconResource.fromImageVector(Icons.Outlined.AccountCircle),
         hasNews = false
     )
-    companion object Items{
-        var currentIndex:Int = 2
+    companion object ItemList{
         fun getNavBarItemList(): List<NavBarItem> {
             return listOf(
-                searchRoot,
-                chatRoot,
-                dashboardRoot,
-                profileRoot
+                SearchRoot,
+                ChatRoot,
+                DashboardRoot,
+                ProfileRoot
             )
         }
     }

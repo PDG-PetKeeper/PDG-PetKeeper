@@ -24,8 +24,4 @@ object Graph {
     const val ROOT = "root_graph"
     const val AUTHENTICATION = "auth_graph"
     const val HOME = "home_graph"
-    const val SEARCH = "search_graph"
-    const val CHAT = "chat_graph"
-    const val ADVERT = "advert_graph"
-    const val PROFILE = "profile_graph"
 }

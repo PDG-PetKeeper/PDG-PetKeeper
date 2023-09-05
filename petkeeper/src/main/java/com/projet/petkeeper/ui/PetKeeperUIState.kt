@@ -7,6 +7,7 @@ import com.projet.petkeeper.navigation.NavBarItem
 data class PetKeeperUIState(
     val mustShowNavBar: Boolean = true,
     val navBarItemList: List<NavBarItem> = NavBarItem.getNavBarItemList(),
+    val currentNavBarItemIndex: Int = 2,
 
     val currentJobList: List<JobData> = emptyList(),
     val currentSelectedJob: JobData? = null,

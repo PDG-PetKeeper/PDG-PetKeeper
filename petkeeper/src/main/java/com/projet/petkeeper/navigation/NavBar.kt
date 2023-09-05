@@ -11,24 +11,29 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.projet.petkeeper.ui.PetKeeperUIViewModel
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavBar(
     navController: NavHostController,
-    navBarItemList: List<NavBarItem> = NavBarItem.getNavBarItemList()
+    viewModel: PetKeeperUIViewModel
 ) {
+    val uiState = viewModel.uiState.collectAsState().value
+    val navBarItemList = uiState.navBarItemList
+
     NavigationBar {
         navBarItemList.forEachIndexed { index, navBarItem ->
             NavigationBarItem(
-                selected = NavBarItem.currentIndex == index,
+                selected = uiState.currentNavBarItemIndex == index,
                 onClick = {
-                    NavBarItem.currentIndex = index
+                    viewModel.changeNavBarCurentIndex(index)
                     navController.navigate(navBarItem.route)
                 },
                 icon = {
@@ -44,7 +49,7 @@ fun NavBar(
                         }
                     ) {
                         Icon(
-                            if (index == NavBarItem.currentIndex)
+                            if (uiState.currentNavBarItemIndex == index)
                                 navBarItem.selectedIcon.asPainterResource()
                             else
                                 navBarItem.unselectedIcon.asPainterResource(),
@@ -65,7 +70,7 @@ fun NavBarPreview() {
     PetkeeperTheme {
         Scaffold(
             bottomBar = {
-                NavBar(rememberNavController())
+                NavBar(rememberNavController(), PetKeeperUIViewModel())
             }
         ) {
                 paddingValues ->
