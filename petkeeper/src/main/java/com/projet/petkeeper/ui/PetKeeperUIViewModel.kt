@@ -22,6 +22,14 @@ class PetKeeperUIViewModel : ViewModel() {
         )
     }
 
+    fun changeNavBarCurentIndex(index: Int){
+        _uiState.update {
+            it.copy(
+                currentNavBarItemIndex = index
+            )
+        }
+    }
+
     fun showNavBar(){
         _uiState.update {
             it.copy(

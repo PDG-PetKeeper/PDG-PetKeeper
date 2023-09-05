@@ -15,7 +15,12 @@ data class JobData (
     var startDateTime: GregorianCalendar,
     var endDateTime: GregorianCalendar,
     var hourlyPay: String,
-)
+){
+    val startTimeInMillis = startDateTime.timeInMillis
+    fun changeTime (time: Long){
+        startDateTime.timeInMillis = time
+    }
+}
 
 object JobDataExample {
     val jobDataExampleList = listOf(
@@ -23,7 +28,7 @@ object JobDataExample {
             1L,
             1,
             null,
-            listOf(R.drawable.cat),
+            listOf(R.drawable.cat_1),
             "test 1",
             PetType.cat,
             "Description 1",
@@ -36,7 +41,7 @@ object JobDataExample {
             2L,
             2,
             null,
-            listOf(R.drawable.cat),
+            listOf(R.drawable.cat_1),
             "test 2",
             PetType.cat,
             "Description 2",
@@ -49,7 +54,7 @@ object JobDataExample {
             3L,
             2,
             null,
-            listOf(R.drawable.cat),
+            listOf(R.drawable.cat_1),
             "test 3",
             PetType.cat,
             "Description 3 ojdfhowefhoewf efjhwefckb wekfbgwoeib weifugbwuebc wekfhcbwkbc",
@@ -62,13 +67,115 @@ object JobDataExample {
             4L,
             3,
             null,
-            listOf(R.drawable.cat),
+            listOf(R.drawable.cat_1),
             "test 3",
             PetType.cat,
             "Description 3",
             GregorianCalendar(2023,9,11),
             GregorianCalendar(2023,9,13),
             "6"
-        )
+        ),
+        JobData(
+            5L,
+            1,
+            null,
+            listOf(R.drawable.cat_1),
+            "test 1",
+            PetType.cat,
+            "Description 1",
+            GregorianCalendar(2023,9,12),
+            GregorianCalendar(2023,9,15),
+            "2.55"
+        ),
+
+        JobData(
+            6L,
+            2,
+            null,
+            listOf(R.drawable.cat_1),
+            "test 2",
+            PetType.cat,
+            "Description 2",
+            GregorianCalendar(2023,8,12),
+            GregorianCalendar(2023,9,15),
+            "7"
+        ),
+
+        JobData(
+            7L,
+            2,
+            null,
+            listOf(R.drawable.cat_1),
+            "test 3",
+            PetType.cat,
+            "Description 3 ojdfhowefhoewf efjhwefckb wekfbgwoeib weifugbwuebc wekfhcbwkbc",
+            GregorianCalendar(2023,9,21),
+            GregorianCalendar(2023,9,27),
+            "12"
+        ),
+
+        JobData(
+            8L,
+            3,
+            null,
+            listOf(R.drawable.cat_1),
+            "test 3",
+            PetType.cat,
+            "Description 3",
+            GregorianCalendar(2023,9,11),
+            GregorianCalendar(2023,9,13),
+            "6"
+        ),
+        JobData(
+            9L,
+            1,
+            null,
+            listOf(R.drawable.cat_1),
+            "test 1",
+            PetType.cat,
+            "Description 1",
+            GregorianCalendar(2023,9,12),
+            GregorianCalendar(2023,9,15),
+            "2.55"
+        ),
+
+        JobData(
+            10L,
+            2,
+            null,
+            listOf(R.drawable.cat_1),
+            "test 2",
+            PetType.cat,
+            "Description 2",
+            GregorianCalendar(2023,8,12),
+            GregorianCalendar(2023,9,15),
+            "7"
+        ),
+
+        JobData(
+            11L,
+            2,
+            null,
+            listOf(R.drawable.cat_1),
+            "test 3",
+            PetType.cat,
+            "Description 3 ojdfhowefhoewf efjhwefckb wekfbgwoeib weifugbwuebc wekfhcbwkbc",
+            GregorianCalendar(2023,9,21),
+            GregorianCalendar(2023,9,27),
+            "12"
+        ),
+
+        JobData(
+            12L,
+            3,
+            null,
+            listOf(R.drawable.cat_1),
+            "test 3",
+            PetType.cat,
+            "Description 3",
+            GregorianCalendar(2023,9,11),
+            GregorianCalendar(2023,9,13),
+            "6"
+        ),
     )
 }

@@ -23,7 +23,7 @@ fun HomeScreen(
     Scaffold(
         bottomBar = {
             if(uiState.mustShowNavBar)
-                NavBar(navController, uiState.navBarItemList)
+                NavBar(navController, viewModel)
         }
     ) {paddingValues ->
         Box(

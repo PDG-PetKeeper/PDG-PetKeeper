@@ -30,55 +30,8 @@ fun HomeNavGraph(
     NavHost(
         navController = navController,
         route = Graph.HOME,
-        startDestination = NavBarItem.dashboardRoot.route
+        startDestination = NavBarItem.DashboardRoot.route
     ) {
-
-        // va vers le graph de search
-        composable(route = NavBarItem.searchRoot.route) {
-
-            // à chnager vers SearchContent
-            SearchRootScreen(
-//                name = NavItem.searchRoot.route,
-//                onClick = {navController.navigate(Graph.SEARCH) {
-//                        popUpTo(Graph.HOME)
-//                    }
-//                }
-            )
-        }
-
-        // va vers le graph de chat
-        composable(route = NavBarItem.chatRoot.route) {
-            SearchRootScreen(
-//                name = NavItem.chatRoot.route,
-//                onClick = {
-//                    navController.navigate(Graph.CHAT)
-//                }
-            )
-
-        }
-
-        // va vers le graph de advert
-        composable(route = NavBarItem.dashboardRoot.route) {
-            DashboardRootScreen(
-                uiState = uiState,
-                onJobClick = {
-                    jobData: JobData -> viewModel.updateSelectedJob(jobData)
-                    viewModel.hideNavBar()
-                }
-//                name = NavItem.dashboardRoot.title,
-//                onClick = { navController.navigate(Graph.ADVERT)}
-            )
-
-        }
-
-        // va vers le graph de profile
-        composable(route = NavBarItem.profileRoot.route) {
-            ProfileRootScreen(
-//                name = NavItem.profileRoot.route,
-//                onClick = { navController.navigate(Graph.PROFILE)}
-            )
-
-        }
         //assigne les controlleurs de nav pour chaque graph
         SearchNavGraph(navController, viewModel, uiState)
         ChatNavGraph(navController, viewModel, uiState)
@@ -94,7 +47,7 @@ fun NavGraphBuilder.SearchNavGraph(
     uiState: PetKeeperUIState
 ) {
     navigation(
-        route = Graph.SEARCH,
+        route = NavBarItem.SearchRoot.route,
         startDestination = SearchScreen.Information.route
     ) {
         composable(route = SearchScreen.Information.route) {
@@ -120,7 +73,7 @@ fun NavGraphBuilder.ChatNavGraph(
     uiState: PetKeeperUIState
 ) {
     navigation(
-        route = Graph.CHAT,
+        route = NavBarItem.ChatRoot.route,
         startDestination = ChatScreen.Information.route
     ) {
         composable(route = ChatScreen.Information.route) {
@@ -149,7 +102,7 @@ fun NavGraphBuilder.DashboardNavGraph(
 ) {
 
     navigation(
-        route = Graph.ADVERT,
+        route = NavBarItem.DashboardRoot.route,
         startDestination = AdvertScreen.Information.route
     ) {
         composable(route = AdvertScreen.Information.route) {
@@ -181,7 +134,7 @@ fun NavGraphBuilder.ProfileNavGraph(
     uiState: PetKeeperUIState
 ) {
     navigation(
-        route = Graph.PROFILE,
+        route = NavBarItem.ProfileRoot.route,
         startDestination = ProfileScreen.Information.route
     ) {
         composable(route = ProfileScreen.Information.route) {
