@@ -23,7 +23,7 @@ import com.projet.petkeeper.ui.PetKeeperUIViewModel
 @Composable
 fun HomeNavGraph(
     navController: NavHostController,
-    //viewModel: GeneralUIViewModel
+    viewModel: PetKeeperUIViewModel
 ) {
     val uiState = viewModel.uiState.collectAsState().value
 
