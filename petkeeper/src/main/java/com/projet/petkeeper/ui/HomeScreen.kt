@@ -17,7 +17,7 @@ fun HomeScreen(
     navController: NavHostController = rememberNavController()
 ) {
 
-    val viewModel: GeneralUIViewModel = viewModel()
+    val viewModel: PetKeeperUIViewModel = viewModel()
     val uiState = viewModel.uiState.collectAsState().value
 
     Scaffold(

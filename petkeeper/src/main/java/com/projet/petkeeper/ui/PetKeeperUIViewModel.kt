@@ -1,21 +1,25 @@
 package com.projet.petkeeper.ui
 
 import androidx.lifecycle.ViewModel
+import com.projet.petkeeper.data.JobData
+import com.projet.petkeeper.data.JobDataExample
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
-class GeneralUIViewModel : ViewModel() {
+class PetKeeperUIViewModel : ViewModel() {
 
-    private val _uiState = MutableStateFlow(GeneralUIState())
-    val uiState: StateFlow<GeneralUIState> = _uiState
+    private val _uiState = MutableStateFlow(PetKeeperUIState())
+    val uiState: StateFlow<PetKeeperUIState> = _uiState
 
     init {
         initializeUIState()
     }
 
     private fun initializeUIState() {
-
+        _uiState.value = PetKeeperUIState(
+            currentJobList = JobDataExample.jobDataExampleList
+        )
     }
 
     fun showNavBar(){
@@ -32,7 +36,14 @@ class GeneralUIViewModel : ViewModel() {
                 mustShowNavBar = false
             )
         }
+    }
 
+    fun updateSelectedJob(jobData: JobData){
+        _uiState.update {
+            it.copy(
+                currentSelectedJob = jobData
+            )
+        }
     }
 
 }
