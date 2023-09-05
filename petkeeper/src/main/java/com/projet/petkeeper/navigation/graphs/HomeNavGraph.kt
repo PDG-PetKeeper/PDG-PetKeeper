@@ -17,7 +17,7 @@ import com.projet.petkeeper.ui.GeneralUIViewModel
 @Composable
 fun HomeNavGraph(
     navController: NavHostController,
-    viewModel: GeneralUIViewModel
+    //viewModel: GeneralUIViewModel
 ) {
     NavHost(
         navController = navController,

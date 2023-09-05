@@ -29,7 +29,7 @@ fun HomeScreen(
         Box(
             modifier = Modifier.padding(paddingValues)
         ) {
-            HomeNavGraph(navController, viewModel)
+            HomeNavGraph(navController, /*viewModel*/)
         }
     }
 }
