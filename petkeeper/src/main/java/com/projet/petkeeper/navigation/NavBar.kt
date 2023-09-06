@@ -11,22 +11,30 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.projet.petkeeper.ui.PetKeeperUIViewModel
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NavBar() {
-    val navItems = NavItem.getNavBarItemList()
+fun NavBar(
+    navController: NavHostController,
+    viewModel: PetKeeperUIViewModel
+) {
+    val uiState = viewModel.uiState.collectAsState().value
+    val navBarItemList = uiState.navBarItemList
 
     NavigationBar {
-        navItems.forEachIndexed { index, navBarItem ->
+        navBarItemList.forEachIndexed { index, navBarItem ->
             NavigationBarItem(
-                selected = NavItem.currentIndex == index,
+                selected = uiState.currentNavBarItemIndex == index,
                 onClick = {
-                    NavItem.currentIndex = index
-                    // navController.navigate(item.title)
+                    viewModel.changeNavBarCurentIndex(index)
+                    navController.navigate(navBarItem.route)
                 },
                 icon = {
                     BadgedBox(
@@ -41,7 +49,7 @@ fun NavBar() {
                         }
                     ) {
                         Icon(
-                            if (index == NavItem.currentIndex)
+                            if (uiState.currentNavBarItemIndex == index)
                                 navBarItem.selectedIcon.asPainterResource()
                             else
                                 navBarItem.unselectedIcon.asPainterResource(),
@@ -51,7 +59,6 @@ fun NavBar() {
                     }
                 }
             )
-
         }
     }
 }
@@ -63,7 +70,7 @@ fun NavBarPreview() {
     PetkeeperTheme {
         Scaffold(
             bottomBar = {
-                NavBar()
+                NavBar(rememberNavController(), PetKeeperUIViewModel())
             }
         ) {
                 paddingValues ->

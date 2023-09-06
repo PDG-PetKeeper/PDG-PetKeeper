@@ -1,47 +1,11 @@
 {
   "project_info": {
     "project_number": "928583583747",
+    "firebase_url": "https://petkeeper-9d113-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "petkeeper-9d113",
     "storage_bucket": "petkeeper-9d113.appspot.com"
   },
   "client": [
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:928583583747:android:1a35f9dd878f1fc5992636",
-        "android_client_info": {
-          "package_name": "com.example.petkeeper"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "928583583747-n8tf7rbk2ik5skatb4ju9a2d1i2bdgrq.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.petkeeper",
-            "certificate_hash": "a139be82e45ffc26d52b658eea8af18e60c2eeeb"
-          }
-        },
-        {
-          "client_id": "928583583747-m3u3rdd7prjmno915bfv4k4gothkuqff.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyA4X_LTK1U3UEJhpQbHHb8lrQt6-k1l4UI"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "928583583747-99n8157jtujfk2ds5s2dlpu7c6veltj0.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:928583583747:android:10467ca9934cb63d992636",
@@ -50,6 +14,22 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "928583583747-09m1n2aniqdqu6tm7b608nkld2bkhvb3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.projet.petkeeper",
+            "certificate_hash": "0424d8bea0537353336b2b442f9f0aa0778687c2"
+          }
+        },
+        {
+          "client_id": "928583583747-oi4mavm41v4ms89fnom5k8nvo0e30stu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.projet.petkeeper",
+            "certificate_hash": "8a21e4d7861f650e4320cdbac7e43f7707d03197"
+          }
+        },
         {
           "client_id": "928583583747-m3u3rdd7prjmno915bfv4k4gothkuqff.apps.googleusercontent.com",
           "client_type": 3

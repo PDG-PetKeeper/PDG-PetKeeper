@@ -7,15 +7,15 @@ import androidx.navigation.compose.composable
 import com.projet.petkeeper.ui.HomeScreen
 
 @Composable
-fun RootNavigationGraph(navController: NavHostController) {
+fun RootNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
         route = Graph.ROOT,
-        startDestination = Graph.AUTHENTICATION
+        startDestination = Graph.HOME
     ) {
-        authNavGraph(navController = navController)
+        //authNavGraph(navController = navController)
         composable(route = Graph.HOME) {
-            HomeScreen()
+            //HomeScreen()
         }
     }
 }
@@ -24,8 +24,4 @@ object Graph {
     const val ROOT = "root_graph"
     const val AUTHENTICATION = "auth_graph"
     const val HOME = "home_graph"
-    const val SEARCH = "search_graph"
-    const val CHAT = "chat_graph"
-    const val ADVERT = "advert_graph"
-    const val PROFILE = "profile_graph"
 }

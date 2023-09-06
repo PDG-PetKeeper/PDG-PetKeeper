@@ -9,6 +9,7 @@ import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.projet.petkeeper.R
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.tasks.await
 
@@ -81,7 +82,7 @@ class GoogleAuthUiClient(
                 GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
                     .setFilterByAuthorizedAccounts(false)
-                    .setServerClientId("928583583747-m3u3rdd7prjmno915bfv4k4gothkuqff.apps.googleusercontent.com")
+                    .setServerClientId(context.getString(R.string.web_client_id))
                     .build()
             )
             .setAutoSelectEnabled(true)

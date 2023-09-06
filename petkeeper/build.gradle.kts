@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    id("kotlin-kapt")
 }
 
 android {
@@ -51,6 +52,8 @@ android {
 }
 
 dependencies {
+    implementation("androidx.lifecycle:lifecycle-runtime-compose")
+    implementation("io.coil-kt:coil-compose:2.4.0")
     implementation ("androidx.compose.material:material:1.5.0")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
@@ -84,7 +87,6 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.2.0-alpha06")
 
 
-
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
     implementation("com.google.firebase:firebase-analytics:21.3.0")
@@ -97,7 +99,6 @@ dependencies {
 
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0-alpha01")
     implementation ("androidx.compose.runtime:runtime-livedata:1.5.0")
-    implementation ("io.coil-kt:coil-compose:1.4.0")
 
 
 
