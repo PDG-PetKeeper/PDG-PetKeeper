@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PetKeeper</string>
+    <string name="title_activity_chat">Chat Activity Title</string>
 </resources>
