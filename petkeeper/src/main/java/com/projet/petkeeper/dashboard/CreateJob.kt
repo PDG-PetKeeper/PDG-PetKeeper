@@ -4,8 +4,16 @@ package com.projet.petkeeper.dashboard
 //noinspection UsingMaterialAndMaterial3Libraries
 //noinspection UsingMaterialAndMaterial3Libraries
 //noinspection UsingMaterialAndMaterial3Libraries
+
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -23,6 +31,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.InternalTextApi
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -32,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import com.projet.petkeeper.R
 import com.projet.petkeeper.data.JobData
 import com.projet.petkeeper.data.PetType
+import coil.compose.rememberAsyncImagePainter
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 import java.util.GregorianCalendar
 
@@ -50,7 +60,8 @@ fun CreateJob(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             TopAppBar(
@@ -74,30 +85,56 @@ fun CreateJob(
             Spacer(modifier = Modifier.height(8.dp))
 
 
-            var textName by remember { mutableStateOf(TextFieldValue("")) }
+            var selectImage by remember { mutableStateOf<Uri?>(null) }
+
+            val galleryLauncher =
+                rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
+                    selectImage = it
+                }
+
+
+            Button(
+                onClick = { galleryLauncher.launch("image/*") },
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(10.dp)
+            ) {
+                Text(text = "Add a pet !")
+            }
+
+            Box() {
+                selectImage?.let { imageUri ->
+                    Image(
+                        painter = rememberAsyncImagePainter(imageUri),
+                        contentScale = ContentScale.FillWidth,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(16.dp, 8.dp)
+                            .size(100.dp)
+                            .clickable { galleryLauncher.launch("image/*") }
+                    )
+                }
+            }
+
+            var title by remember { mutableStateOf(TextFieldValue("")) }
             // for preview add same text to all the fields
-
-
-            //TODO
-            // Add a the take a picture logic
-
 
             // Normal Text Input field with floating label
             // placeholder is same as hint in xml of edit text
             OutlinedTextField(
-                value = textName,
-                onValueChange = { newValue -> textName = newValue },
+                value = title,
+                onValueChange = { newValue -> title = newValue },
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth(),
                 label = { Text("Title") },
-                placeholder = { Text("placeholder") },
+                placeholder = { Text("Advert title") },
             )
 
-            var text2 by remember { mutableStateOf(TextFieldValue("")) }
+            var animal by remember { mutableStateOf(TextFieldValue("")) }
             // Outlined Text Input Field
             OutlinedTextField(
-                value = text2,
+                value = animal,
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth(),
@@ -105,15 +142,15 @@ fun CreateJob(
                 placeholder = { Text(text = "12334444") },
                 visualTransformation = PasswordVisualTransformation(),
                 onValueChange = {
-                    text2 = it
+                    animal = it
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
             )
 
-            var text6 by remember { mutableStateOf(TextFieldValue("")) }
+            var location by remember { mutableStateOf(TextFieldValue("")) }
             // Outlined Text Input Field
             OutlinedTextField(
-                value = text6,
+                value = location,
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth(),
@@ -121,16 +158,16 @@ fun CreateJob(
                 placeholder = { Text(text = "Lausanne") },
                 visualTransformation = PasswordVisualTransformation(),
                 onValueChange = {
-                    text6 = it
+                    location = it
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
             )
 
-            var text3 by remember { mutableStateOf(TextFieldValue("")) }
+            var beginDate by remember { mutableStateOf(TextFieldValue("")) }
             // Outlined Input text with icon on the left
             // inside leadingIcon property add the icon
             OutlinedTextField(
-                value = text3,
+                value = beginDate,
                 leadingIcon = { Icon(imageVector = Icons.Default.DateRange, contentDescription = null) },
                 modifier = Modifier
                     .padding(8.dp)
@@ -139,15 +176,15 @@ fun CreateJob(
                 label = { Text(text = "Begin date") },
                 placeholder = { Text(text = "11-12-2023") },
                 onValueChange = {
-                    text3 = it
+                    beginDate = it
                 }
             )
 
-            var text4 by remember { mutableStateOf(TextFieldValue("")) }
+            var endDate by remember { mutableStateOf(TextFieldValue("")) }
             // Outlined Input text with icon on the left
             // inside leadingIcon property add the icon
             OutlinedTextField(
-                value = text4,
+                value = endDate,
                 leadingIcon = { Icon(imageVector = Icons.Default.DateRange, contentDescription = null) },
                 modifier = Modifier
                     .padding(8.dp)
@@ -156,16 +193,33 @@ fun CreateJob(
                 label = { Text(text = "End date") },
                 placeholder = { Text(text = "17-12-2023") },
                 onValueChange = {
-                    text4 = it
+                    endDate = it
+                }
+            )
+
+            var price by remember { mutableStateOf(TextFieldValue("")) }
+            // Outlined Input text with icon on the left
+            // inside leadingIcon property add the icon
+            OutlinedTextField(
+                value = price,
+                leadingIcon = { Icon(imageVector = Icons.Default.DateRange, contentDescription = null) },
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                label = { Text(text = "CHF") },
+                placeholder = { Text(text = "20./H") },
+                onValueChange = {
+                    price = it
                 }
             )
 
 
-            var textDescription by remember { mutableStateOf(TextFieldValue("")) }
+            var description by remember { mutableStateOf(TextFieldValue("")) }
             // Outlined Input text with icon on the left
             // inside leadingIcon property add the icon
             OutlinedTextField(
-                value = textDescription,
+                value = description,
                 leadingIcon = { Icon(imageVector = Icons.Default.Create, contentDescription = null) },
                 modifier = Modifier
                     .padding(8.dp)
@@ -174,7 +228,7 @@ fun CreateJob(
                 label = { Text(text = "Description") },
                 placeholder = { Text(text = "I have an ....") },
                 onValueChange = {
-                    textDescription = it
+                    description = it
                 }
             )
 
@@ -184,18 +238,19 @@ fun CreateJob(
                 // Add the logic to publish the advert
                 modifier = Modifier.padding(8.dp).align(Alignment.CenterHorizontally),
                 onClick = {
+
+                    // Upload image, retrieve url, upload advert, go back to job lis
                     val jobData = JobData(
                         id = -1L,
                         poster = 2, // need userData
                         worker = null,
                         images = listOf(R.drawable.cat_1), // need images
-                        title = textName.text,
+                        title = title.text,
                         pet = PetType.cat, // need PetType selection
-                        description = textDescription.text,
+                        description = description.text,
                         GregorianCalendar(2023,9,21), // need DatePicker
                         GregorianCalendar(2023,9,27), // need DatePicker
                         "12" // need
-
                     )
                     onPublishClick(jobData)
                 }
