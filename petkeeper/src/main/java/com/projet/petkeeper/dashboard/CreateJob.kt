@@ -1,19 +1,12 @@
 package com.projet.petkeeper.dashboard
 
-//noinspection UsingMaterialAndMaterial3Libraries
-//noinspection UsingMaterialAndMaterial3Libraries
-//noinspection UsingMaterialAndMaterial3Libraries
-//noinspection UsingMaterialAndMaterial3Libraries
-
 import android.net.Uri
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -38,16 +31,18 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.projet.petkeeper.R
 import com.projet.petkeeper.data.JobData
 import com.projet.petkeeper.data.PetType
-import coil.compose.rememberAsyncImagePainter
+import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 import java.util.GregorianCalendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateJob(
+    uiState: PetKeeperUIState,
     onBackClick: () -> Unit,
     onPublishClick: (JobData) -> Unit
 ) {
@@ -80,7 +75,8 @@ fun CreateJob(
                                 contentDescription = "Go back",
                             )
                     }
-                })
+                }
+            )
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -102,7 +98,7 @@ fun CreateJob(
                 Text(text = "Add a pet !")
             }
 
-            Box() {
+            Box {
                 selectImage?.let { imageUri ->
                     Image(
                         painter = rememberAsyncImagePainter(imageUri),
@@ -244,13 +240,14 @@ fun CreateJob(
                         id = -1L,
                         poster = 2, // need userData
                         worker = null,
-                        images = listOf(R.drawable.cat_1), // need images
+                        image = R.drawable.cat_1, // need images
                         title = title.text,
                         pet = PetType.cat, // need PetType selection
                         description = description.text,
                         GregorianCalendar(2023,9,21), // need DatePicker
                         GregorianCalendar(2023,9,27), // need DatePicker
-                        "12" // need
+                        hourlyPay = price.text // need
+
                     )
                     onPublishClick(jobData)
                 }
@@ -267,7 +264,7 @@ fun CreateJob(
 fun PreviewJobCreation() {
     PetkeeperTheme {
         Column {
-            CreateJob(onBackClick = {}, onPublishClick = {})
+            CreateJob(uiState = PetKeeperUIState(), onBackClick = {}, onPublishClick = {})
         }
     }
 }

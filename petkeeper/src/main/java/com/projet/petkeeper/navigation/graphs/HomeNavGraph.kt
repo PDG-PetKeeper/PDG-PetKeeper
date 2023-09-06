@@ -17,6 +17,7 @@ import com.projet.petkeeper.data.UserModel
 import com.projet.petkeeper.navigation.NavBarItem
 import com.projet.petkeeper.profile.ProfileScreen
 import com.projet.petkeeper.search.SearchRootScreen
+import com.projet.petkeeper.sign_in.UserData
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.PetKeeperUIViewModel
 
@@ -115,43 +116,43 @@ fun NavGraphBuilder.dashboardNavGraph(
                 uiState = uiState,
                 onJobClick = { jobData: JobData ->
                     viewModel.updateSelectedJob(jobData)
-                    viewModel.hideNavBar()
                     navController.navigate(route = DashboardScreenRoutes.JobLook.route)
+                    viewModel.hideNavBar()
                 },
                 onAddClick = {
-                    viewModel.hideNavBar()
                     navController.navigate(route = DashboardScreenRoutes.JobCreation.route)
+                    viewModel.hideNavBar()
                 }
             )
         }
 
         composable(route = DashboardScreenRoutes.JobLook.route) {
             LookupJob(
+                uiState = uiState,
                 onBackClick = {
                     viewModel.updateSelectedJob(null)
-                    viewModel.showNavBar()
                     navController.popBackStack(
                         route = DashboardScreenRoutes.Root.route,
-                        inclusive = false,
-                        saveState = true
+                        inclusive = false
                     )
+                    viewModel.showNavBar()
                 },
                 onEditClick = {
-
+                    navController.navigate(route = DashboardScreenRoutes.JobCreation.route)
                 }
             )
         }
 
         composable(route = DashboardScreenRoutes.JobCreation.route) {
             CreateJob(
+                uiState = uiState,
                 onBackClick = {
                     viewModel.updateSelectedJob(null)
-                    viewModel.showNavBar()
                     navController.popBackStack(
                         route = DashboardScreenRoutes.Root.route,
-                        inclusive = false,
-                        saveState = true
+                        inclusive = false
                     )
+                    viewModel.showNavBar()
                 },
                 onPublishClick = { jobData: JobData ->
                     viewModel.addJob(jobData)
