@@ -9,14 +9,14 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.projet.petkeeper.data.UserModel
 import com.projet.petkeeper.navigation.NavBar
 import com.projet.petkeeper.navigation.graphs.HomeNavGraph
-import com.projet.petkeeper.sign_in.UserData
 
 @Composable
 fun HomeScreen(
     navController: NavHostController = rememberNavController(),
-    userData: UserData?,
+    userModel: UserModel?,
     onSignOut: () -> Unit
 ) {
 
@@ -32,7 +32,7 @@ fun HomeScreen(
         Box(
             modifier = Modifier.padding(paddingValues)
         ) {
-            HomeNavGraph(navController, viewModel, userData, onSignOut)
+            HomeNavGraph(navController, viewModel, userModel, onSignOut)
         }
     }
 }

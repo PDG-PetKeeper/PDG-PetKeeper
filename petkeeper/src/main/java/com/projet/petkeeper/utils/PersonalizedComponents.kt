@@ -118,7 +118,7 @@ fun AppbarContent(action: () -> Unit, userModel: UserModel) {
             )
         }
         Text(
-            text = userModel.firstName + " " + userModel.lastName,
+            text = userModel.userName ?: "",
             textAlign = TextAlign.Center
         )
         UserProfileImageIcon(userModel = userModel)
