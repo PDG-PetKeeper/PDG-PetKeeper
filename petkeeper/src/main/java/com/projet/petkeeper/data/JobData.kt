@@ -1,16 +1,17 @@
 package com.projet.petkeeper.data
 
+import android.net.Uri
 import androidx.annotation.DrawableRes
 import com.projet.petkeeper.R
 import java.util.GregorianCalendar
 
 data class JobData (
     val id: Long,
-    val poster: Int,  //change to data class for user profiles
-    val worker: Int?, //change to data class for user profiles
-    @DrawableRes val image: Int,
+    val poster: String?,  //change to data class for user profiles
+    val worker: String?, //change to data class for user profiles
+    val image: Uri?,
     var title: String,
-    var pet: PetType,
+    var pet: String,
     var description: String,
     var startDateTime: GregorianCalendar,
     var endDateTime: GregorianCalendar,

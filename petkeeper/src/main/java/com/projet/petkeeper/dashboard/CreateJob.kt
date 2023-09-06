@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -27,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.InternalTextApi
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,16 +35,19 @@ import coil.compose.rememberAsyncImagePainter
 import com.projet.petkeeper.R
 import com.projet.petkeeper.data.JobData
 import com.projet.petkeeper.data.PetType
-import com.projet.petkeeper.ui.PetKeeperUIState
+import coil.compose.rememberAsyncImagePainter
+import com.google.firebase.ktx.Firebase
+import com.projet.petkeeper.data.UserModel
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
-import java.util.GregorianCalendar
+import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateJob(
     uiState: PetKeeperUIState,
     onBackClick: () -> Unit,
-    onPublishClick: (JobData) -> Unit
+    onPublishClick: (JobData) -> Unit,
+    userData: UserModel
 ) {
     BackHandler {
         onBackClick()
@@ -89,16 +92,7 @@ fun CreateJob(
                 }
 
 
-            Button(
-                onClick = { galleryLauncher.launch("image/*") },
-                modifier = Modifier
-                    .wrapContentSize()
-                    .padding(10.dp)
-            ) {
-                Text(text = "Add a pet !")
-            }
-
-            Box {
+            Box() {
                 selectImage?.let { imageUri ->
                     Image(
                         painter = rememberAsyncImagePainter(imageUri),
@@ -110,6 +104,15 @@ fun CreateJob(
                             .clickable { galleryLauncher.launch("image/*") }
                     )
                 }
+            }
+
+            Button(
+                onClick = { galleryLauncher.launch("image/*") },
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(10.dp)
+            ) {
+                Text(text = "Add a pet !")
             }
 
             var title by remember { mutableStateOf(TextFieldValue("")) }
@@ -136,7 +139,6 @@ fun CreateJob(
                     .fillMaxWidth(),
                 label = { Text(text = "Animal") },
                 placeholder = { Text(text = "12334444") },
-                visualTransformation = PasswordVisualTransformation(),
                 onValueChange = {
                     animal = it
                 },
@@ -152,7 +154,6 @@ fun CreateJob(
                     .fillMaxWidth(),
                 label = { Text(text = "Location") },
                 placeholder = { Text(text = "Lausanne") },
-                visualTransformation = PasswordVisualTransformation(),
                 onValueChange = {
                     location = it
                 },
@@ -198,7 +199,7 @@ fun CreateJob(
             // inside leadingIcon property add the icon
             OutlinedTextField(
                 value = price,
-                leadingIcon = { Icon(imageVector = Icons.Default.DateRange, contentDescription = null) },
+                leadingIcon = { Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = null) },
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth(),
@@ -230,24 +231,22 @@ fun CreateJob(
 
 
             Button(
-                //TODO
-                // Add the logic to publish the advert
                 modifier = Modifier.padding(8.dp).align(Alignment.CenterHorizontally),
                 onClick = {
 
                     // Upload image, retrieve url, upload advert, go back to job lis
                     val jobData = JobData(
-                        id = -1L,
-                        poster = 2, // need userData
+                        id = GregorianCalendar().timeInMillis,
+                        poster = userData.userId, // need userData
                         worker = null,
-                        image = R.drawable.cat_1, // need images
+                        image = selectImage, // need images
                         title = title.text,
-                        pet = PetType.cat, // need PetType selection
+                        pet = animal.text, // need PetType selection
                         description = description.text,
                         GregorianCalendar(2023,9,21), // need DatePicker
                         GregorianCalendar(2023,9,27), // need DatePicker
-                        hourlyPay = price.text // need
-
+                        hourlyPay = price.text,
+                        location = location.text
                     )
                     onPublishClick(jobData)
                 }
@@ -264,7 +263,7 @@ fun CreateJob(
 fun PreviewJobCreation() {
     PetkeeperTheme {
         Column {
-            CreateJob(uiState = PetKeeperUIState(), onBackClick = {}, onPublishClick = {})
+            CreateJob(onBackClick = {}, onPublishClick = {}, userData = UserModel())
         }
     }
 }

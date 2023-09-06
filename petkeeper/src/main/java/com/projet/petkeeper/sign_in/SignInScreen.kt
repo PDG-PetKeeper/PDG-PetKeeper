@@ -1,6 +1,5 @@
 package com.projet.petkeeper.sign_in
 
-
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -35,10 +34,10 @@ fun SignInScreen(
         state.signInError?.let { error ->
             Toast.makeText(
                 context,
-               error,
+                error,
                 Toast.LENGTH_LONG
             ).show()
-       }
+        }
     }
 
     Box(
@@ -73,7 +72,7 @@ fun SignInScreen(
             Spacer(modifier = Modifier.height(1.dp))
         }
 
-
+        Spacer(modifier = Modifier.height(200.dp))
         Button(
             onClick = {
                 onSignInClick()

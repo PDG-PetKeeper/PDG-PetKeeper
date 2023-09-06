@@ -93,12 +93,14 @@ dependencies {
     implementation("com.google.firebase:firebase-database:20.2.2")
     implementation("com.google.firebase:firebase-core:21.1.1")
 
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-auth-ktx")
-    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation ("com.google.firebase:firebase-analytics-ktx")
+    implementation ("com.google.firebase:firebase-auth-ktx")
+    implementation ("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-storage-ktx")
 
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0-alpha01")
-    implementation("androidx.compose.runtime:runtime-livedata:1.5.0")
+
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0-alpha01")
+    implementation ("androidx.compose.runtime:runtime-livedata:1.5.0")
 
     // Import the BoM for the Firebase platform
     implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
