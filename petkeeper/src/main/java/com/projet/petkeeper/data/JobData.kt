@@ -15,6 +15,7 @@ data class JobData (
     var startDateTime: GregorianCalendar,
     var endDateTime: GregorianCalendar,
     var hourlyPay: String,
+    var location: String = "unknown"
 ){
     val startTimeInMillis = startDateTime.timeInMillis
     fun changeTime (time: Long){

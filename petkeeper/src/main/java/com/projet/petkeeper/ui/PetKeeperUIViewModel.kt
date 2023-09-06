@@ -46,12 +46,16 @@ class PetKeeperUIViewModel : ViewModel() {
         }
     }
 
-    fun updateSelectedJob(jobData: JobData){
+    fun updateSelectedJob(jobData: JobData?){
         _uiState.update {
             it.copy(
                 currentSelectedJob = jobData
             )
         }
+    }
+
+    fun addJob(jobData: JobData){
+
     }
 
 }

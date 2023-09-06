@@ -1,10 +1,16 @@
 package com.projet.petkeeper.dashboard
 
+//noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
+
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -15,17 +21,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.DateRange
-//noinspection UsingMaterialAndMaterial3Libraries
-import androidx.compose.material3.Icon
-//noinspection UsingMaterialAndMaterial3Libraries
-import androidx.compose.material3.OutlinedTextField
-//noinspection UsingMaterialAndMaterial3Libraries
-import androidx.compose.material3.Text
-//noinspection UsingMaterialAndMaterial3Libraries
-import androidx.compose.material3.TextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -37,12 +38,22 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.projet.petkeeper.R
+import com.projet.petkeeper.data.JobData
+import com.projet.petkeeper.data.PetType
 import coil.compose.rememberAsyncImagePainter
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
+import java.util.GregorianCalendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TextInputs(name: String, onClick: () -> Unit) {
+fun CreateJob(
+    onBackClick: () -> Unit,
+    onPublishClick: (JobData) -> Unit
+) {
+    BackHandler {
+        onBackClick()
+    }
 
     PetkeeperTheme {
         Column(
@@ -59,11 +70,14 @@ fun TextInputs(name: String, onClick: () -> Unit) {
                 },
                 navigationIcon = {
                     // go back
-                    IconButton(onClick = { onClick() }) {
+                    IconButton(
+                        onClick = {
+                            onBackClick()
+                        }
+                    ) {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Go back",
-
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = "Go back",
                             )
                     }
                 })
@@ -102,15 +116,14 @@ fun TextInputs(name: String, onClick: () -> Unit) {
                 }
             }
 
-
-            var petName by remember { mutableStateOf(TextFieldValue("")) }
+            var title by remember { mutableStateOf(TextFieldValue("")) }
             // for preview add same text to all the fields
 
             // Normal Text Input field with floating label
             // placeholder is same as hint in xml of edit text
-            TextField(
-                value = petName,
-                onValueChange = { newValue -> petName = newValue },
+            OutlinedTextField(
+                value = title,
+                onValueChange = { newValue -> title = newValue },
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth(),
@@ -223,28 +236,38 @@ fun TextInputs(name: String, onClick: () -> Unit) {
             Button(
                 //TODO
                 // Add the logic to publish the advert
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(8.dp).align(Alignment.CenterHorizontally),
                 onClick = {
-                    // TODO
-                    // Upload image, retrieve url, upload advert, go back to job list
 
-
+                    // Upload image, retrieve url, upload advert, go back to job lis
+                    val jobData = JobData(
+                        id = -1L,
+                        poster = 2, // need userData
+                        worker = null,
+                        images = listOf(R.drawable.cat_1), // need images
+                        title = title.text,
+                        pet = PetType.cat, // need PetType selection
+                        description = description.text,
+                        GregorianCalendar(2023,9,21), // need DatePicker
+                        GregorianCalendar(2023,9,27), // need DatePicker
+                        "12" // need
+                    )
+                    onPublishClick(jobData)
                 }
-
-            )
-            {
+            ) {
                 Text(" Publish ")
             }
         }
     }
 }
 
-
 @InternalTextApi
-@Preview
+@Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun PreviewInputs() {
-    Column {
-        TextInputs("teste", onClick = {})
+fun PreviewJobCreation() {
+    PetkeeperTheme {
+        Column {
+            CreateJob(onBackClick = {}, onPublishClick = {})
+        }
     }
 }

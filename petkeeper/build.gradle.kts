@@ -54,11 +54,11 @@ android {
 dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-compose")
     implementation("io.coil-kt:coil-compose:2.4.0")
-    implementation ("androidx.compose.material:material:1.2.0")
+    implementation ("androidx.compose.material:material:1.5.0")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
-    implementation ("com.google.firebase:firebase-auth-ktx:21.1.0")
-    implementation ("com.google.android.gms:play-services-auth:20.4.1")
+    implementation ("com.google.firebase:firebase-auth-ktx:22.1.1")
+    implementation ("com.google.android.gms:play-services-auth:20.7.0")
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.activity:activity-compose:1.7.2")
@@ -78,9 +78,9 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation ("androidx.navigation:navigation-compose:2.7.1")
+    implementation ("io.coil-kt:coil-compose:2.2.2")
 
     implementation("androidx.compose.material3:material3:1.2.0-alpha06")
-
 
 
     // Firebase
