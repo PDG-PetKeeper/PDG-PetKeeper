@@ -38,20 +38,23 @@ import com.projet.petkeeper.ui.theme.PetkeeperTheme
 @Composable
 fun DashboardRootScreen(
     uiState: PetKeeperUIState,
-    onJobClick: (JobData) -> Unit
+    onJobClick: (JobData) -> Unit,
+    onAddClick: () -> Unit
 ){
     PetkeeperTheme {
         Scaffold(
             topBar = {
-                CenterAlignedTopAppBar(title = {
-                    Text(
-                        text = "Dashboard",
-                    )
-                })
+                CenterAlignedTopAppBar(
+                    title = {
+                        Text(
+                            text = "Dashboard",
+                        )
+                    }
+                )
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = { /*TODO*/ }
+                    onClick = { onAddClick() }
                 ) {
                     Icon(Icons.Filled.Add, "Add a new advert")
                 }
@@ -83,6 +86,7 @@ fun DashboardJobCard(
     jobData: JobData,
     onJobClick: () -> Unit
 ){
+    HorizontalDivider()
     ListItem(
         modifier = Modifier.clickable {onJobClick()},
         headlineContent = { Text(jobData.title) },
@@ -100,7 +104,6 @@ fun DashboardJobCard(
         },
         trailingContent = { Text("meta") }
     )
-    HorizontalDivider()
 }
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -108,7 +111,10 @@ fun DashboardJobCard(
 fun DashboardRootScreenPreview() {
     PetkeeperTheme {
         DashboardRootScreen(
-            PetKeeperUIState(currentJobList = JobDataExample.jobDataExampleList)
-        ){}
+            PetKeeperUIState(
+                currentJobList = JobDataExample.jobDataExampleList),
+            {},
+            {}
+        )
     }
 }

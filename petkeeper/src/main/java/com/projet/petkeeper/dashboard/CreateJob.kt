@@ -1,5 +1,10 @@
 package com.projet.petkeeper.dashboard
 
+//noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -8,17 +13,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.DateRange
-//noinspection UsingMaterialAndMaterial3Libraries
-import androidx.compose.material3.Icon
-//noinspection UsingMaterialAndMaterial3Libraries
-import androidx.compose.material3.OutlinedTextField
-//noinspection UsingMaterialAndMaterial3Libraries
-import androidx.compose.material3.Text
-//noinspection UsingMaterialAndMaterial3Libraries
-import androidx.compose.material3.TextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -29,11 +29,21 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.projet.petkeeper.R
+import com.projet.petkeeper.data.JobData
+import com.projet.petkeeper.data.PetType
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
+import java.util.GregorianCalendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TextInputs(name: String, onClick: () -> Unit) {
+fun CreateJob(
+    onBackClick: () -> Unit,
+    onPublishClick: (JobData) -> Unit
+) {
+    BackHandler {
+        onBackClick()
+    }
 
     PetkeeperTheme {
         Column(
@@ -49,11 +59,14 @@ fun TextInputs(name: String, onClick: () -> Unit) {
                 },
                 navigationIcon = {
                     // go back
-                    IconButton(onClick = { onClick()}) {
+                    IconButton(
+                        onClick = {
+                            onBackClick()
+                        }
+                    ) {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Go back",
-
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = "Go back",
                             )
                     }
                 })
@@ -61,7 +74,7 @@ fun TextInputs(name: String, onClick: () -> Unit) {
             Spacer(modifier = Modifier.height(8.dp))
 
 
-            var text1 by remember { mutableStateOf(TextFieldValue("")) }
+            var textName by remember { mutableStateOf(TextFieldValue("")) }
             // for preview add same text to all the fields
 
 
@@ -71,13 +84,13 @@ fun TextInputs(name: String, onClick: () -> Unit) {
 
             // Normal Text Input field with floating label
             // placeholder is same as hint in xml of edit text
-            TextField(
-                value = text1,
-                onValueChange = { newValue -> text1 = newValue },
+            OutlinedTextField(
+                value = textName,
+                onValueChange = { newValue -> textName = newValue },
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth(),
-                label = { Text("Name") },
+                label = { Text("Title") },
                 placeholder = { Text("placeholder") },
             )
 
@@ -148,11 +161,11 @@ fun TextInputs(name: String, onClick: () -> Unit) {
             )
 
 
-            var text5 by remember { mutableStateOf(TextFieldValue("")) }
+            var textDescription by remember { mutableStateOf(TextFieldValue("")) }
             // Outlined Input text with icon on the left
             // inside leadingIcon property add the icon
             OutlinedTextField(
-                value = text5,
+                value = textDescription,
                 leadingIcon = { Icon(imageVector = Icons.Default.Create, contentDescription = null) },
                 modifier = Modifier
                     .padding(8.dp)
@@ -161,7 +174,7 @@ fun TextInputs(name: String, onClick: () -> Unit) {
                 label = { Text(text = "Description") },
                 placeholder = { Text(text = "I have an ....") },
                 onValueChange = {
-                    text5 = it
+                    textDescription = it
                 }
             )
 
@@ -170,21 +183,36 @@ fun TextInputs(name: String, onClick: () -> Unit) {
                 //TODO
                 // Add the logic to publish the advert
                 modifier = Modifier.padding(8.dp).align(Alignment.CenterHorizontally),
-                onClick = {}
+                onClick = {
+                    val jobData = JobData(
+                        id = -1L,
+                        poster = 2, // need userData
+                        worker = null,
+                        images = listOf(R.drawable.cat_1), // need images
+                        title = textName.text,
+                        pet = PetType.cat, // need PetType selection
+                        description = textDescription.text,
+                        GregorianCalendar(2023,9,21), // need DatePicker
+                        GregorianCalendar(2023,9,27), // need DatePicker
+                        "12" // need
 
-            )
-            {
-                androidx.compose.material3.Text(" Publish ")
+                    )
+                    onPublishClick(jobData)
+                }
+            ) {
+                Text(" Publish ")
             }
         }
     }
 }
 
 @InternalTextApi
-@Preview
+@Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun PreviewInputs() {
-    Column {
-        TextInputs("teste", onClick = {})
+fun PreviewJobCreation() {
+    PetkeeperTheme {
+        Column {
+            CreateJob(onBackClick = {}, onPublishClick = {})
+        }
     }
 }
