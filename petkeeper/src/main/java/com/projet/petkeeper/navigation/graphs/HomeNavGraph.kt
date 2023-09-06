@@ -17,7 +17,6 @@ import com.projet.petkeeper.data.UserModel
 import com.projet.petkeeper.navigation.NavBarItem
 import com.projet.petkeeper.profile.ProfileScreen
 import com.projet.petkeeper.search.SearchRootScreen
-import com.projet.petkeeper.sign_in.UserData
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.PetKeeperUIViewModel
 
