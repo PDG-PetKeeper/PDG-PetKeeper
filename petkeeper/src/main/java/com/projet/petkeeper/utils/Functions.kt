@@ -113,7 +113,7 @@ fun fetchChatListFromFirestore(onSuccess: (List<ChatMessage>) -> Unit) {
                 val message = document.getString("message") ?: ""
                 val timestamp = document.getTimestamp("timestamp")
                 val chatMessage =
-                    timestamp?.let { ChatMessage(senderId, message,timestamp= it) }
+                    timestamp?.let { ChatMessage(senderId, senderId,message,timestamp= it) }
                 if (chatMessage != null) {
                     chatDataList.add(chatMessage)
                 }
@@ -127,7 +127,7 @@ fun fetchChatListFromFirestore(onSuccess: (List<ChatMessage>) -> Unit) {
 
 fun sendChatMessage(
     senderId: String,
-   // recipientId: String,
+    recipientId: String,
     message: String,
     onSuccess: () -> Unit,
     onFailure: (String) -> Unit
@@ -135,7 +135,7 @@ fun sendChatMessage(
     val db = FirebaseFirestore.getInstance()
     val chatCollection = db.collection("chats") // Replace with your Firestore collection name
 
-    val chatMessage = ChatMessage(senderId, message)
+    val chatMessage = ChatMessage(senderId,senderId, message)
 
     chatCollection.add(chatMessage)
         .addOnSuccessListener {
