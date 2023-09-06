@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">PetKeeper</string>
+    <string name="title_activity_chat">Chat Activity Title</string>
     <string name="web_client_id">928583583747-m3u3rdd7prjmno915bfv4k4gothkuqff.apps.googleusercontent.com</string>
 </resources>
