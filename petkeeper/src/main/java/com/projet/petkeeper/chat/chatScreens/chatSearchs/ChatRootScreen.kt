@@ -1,4 +1,4 @@
-package com.projet.petkeeper.chat
+package com.projet.petkeeper.chat.chatScreens.chatSearchs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
