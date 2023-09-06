@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
 
                             LaunchedEffect(key1 = Unit) {
                                 if(googleAuthUiClient.getSignedInUser() != null) {
-                                    navController.navigate("profile")
+                                    navController.navigate("HomeScreen")
                                 }
                             }
 
@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
                                         "Sign in successful",
                                         Toast.LENGTH_LONG
                                     ).show()
-                                    navController.navigate("profile")
+                                    navController.navigate("HomeScreen")
                                     viewModel.resetState()
                                 }
                             }
@@ -99,7 +99,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
-                        composable("profile") {
+                        composable("HomeScreen") {
                             HomeScreen(
                                 userData = googleAuthUiClient.getSignedInUser(),
                                 onSignOut = {
