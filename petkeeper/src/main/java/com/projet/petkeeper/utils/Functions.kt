@@ -1,10 +1,36 @@
 package com.projet.petkeeper.utils
 
-import android.content.ContentValues
-import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
-import com.projet.petkeeper.data.ChatMessage
 import com.projet.petkeeper.data.UserModel
+
+// Fetch user data from Firestore based on the user's id
+fun fetchUserData(userId: String, onUserModelFetched: (UserModel) -> Unit) {
+    val db = FirebaseFirestore.getInstance()
+    val usersCollection = db.collection("users")
+
+    usersCollection.document(userId)
+        .get()
+        .addOnSuccessListener { documentSnapshot ->
+            if (documentSnapshot.exists()) {
+                val userModel = documentSnapshot.toObject(UserModel::class.java)
+                if (userModel != null) {
+                    // User data retrieved successfully
+                    onUserModelFetched(userModel)
+                } else {
+                    // TODO Handle the case where userModel is null
+
+                }
+            } else {
+                // TODO Handle the case where the document does not exist for the given userId
+            }
+        }
+        .addOnFailureListener { exception ->
+            // TODO Handle the error
+        }
+}
+
+/*
+//TODO may be to remove at the end once authentication works"
 
 
 // Store user data in Firestore when the user registers or logs in
@@ -74,30 +100,7 @@ fun storeUserDataInFirestore(
         }
 
 }
-// Fetch user data from Firestore based on the user's id
-fun fetchUserData(userId: String, onUserModelFetched: (UserModel) -> Unit) {
-    val db = FirebaseFirestore.getInstance()
-    val usersCollection = db.collection("users")
 
-    usersCollection.document(userId)
-        .get()
-        .addOnSuccessListener { documentSnapshot ->
-            if (documentSnapshot.exists()) {
-                val userModel = documentSnapshot.toObject(UserModel::class.java)
-                if (userModel != null) {
-                    // User data retrieved successfully
-                    onUserModelFetched(userModel)
-                } else {
-                    // TODO Handle the case where userModel is null
-                }
-            } else {
-                // TODO Handle the case where the document does not exist for the given userId
-            }
-        }
-        .addOnFailureListener { exception ->
-            // TODO Handle the error
-        }
-}
 
 fun fetchChatListFromFirestore(onSuccess: (List<ChatMessage>) -> Unit) {
     val db = FirebaseFirestore.getInstance()
@@ -173,3 +176,4 @@ fun fetchChatMessages(
             onSuccess(messagesList)
         }
 }
+*/
