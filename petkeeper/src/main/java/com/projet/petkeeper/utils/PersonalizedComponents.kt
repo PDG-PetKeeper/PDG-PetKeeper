@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
@@ -42,6 +43,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
+import com.projet.petkeeper.data.ChatMessage
 import com.projet.petkeeper.data.UserModel
 
 /**
@@ -213,4 +215,34 @@ fun rememberUserModel(currentUserId: String): UserModel? {
     }
 
     return userModel
+}
+
+/**
+ * Used to represent users chat search result
+ */
+@Composable
+fun ChatMessageItem(chatMessage: ChatMessage, userModel: UserModel) {
+    Row(
+        modifier = Modifier.padding(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // Display the user profile image
+        UserProfileImageIcon(userModel)
+
+        // Display the sender's name
+        userModel.userName?.let {
+            Text(
+                text = it, // Replace with the actual property for the user's name
+                modifier = Modifier.padding(start = 8.dp),
+                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)
+            )
+        }
+
+        // Display the message content
+        Text(
+            text = chatMessage.message,
+            modifier = Modifier.padding(start = 8.dp),
+            style = TextStyle(fontSize = 16.sp)
+        )
+    }
 }

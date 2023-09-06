@@ -28,8 +28,18 @@ fun fetchUserData(userId: String, onUserModelFetched: (UserModel) -> Unit) {
             // TODO Handle the error
         }
 }
+/*fun fetchChatFromFirestore(){
+    lateinit var auth: FirebaseAuth
+    // Access a cloud firestore instance
+    val db = Firebase.firestore
+    auth = Firebase.auth
 
-/*
+    val query = db.collection("messages")
+    val options = FirestoreRecyclerOptions.Builder<ChatMessage>().setQuery(query, ChatMessage::class.java)
+        .setLifecycleOwner(this).build()
+    val adapter =  object:FirestoreRecyclerOptions
+}
+
 //TODO may be to remove at the end once authentication works"
 
 
