@@ -1,7 +1,6 @@
 package com.projet.petkeeper.navigation.graphs
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavGraphBuilder
@@ -14,12 +13,12 @@ import com.projet.petkeeper.dashboard.CreateJob
 import com.projet.petkeeper.dashboard.DashboardRootScreen
 import com.projet.petkeeper.dashboard.LookupJob
 import com.projet.petkeeper.data.JobData
+import com.projet.petkeeper.data.UserModel
 import com.projet.petkeeper.navigation.NavBarItem
 import com.projet.petkeeper.profile.ProfileScreen
 import com.projet.petkeeper.search.SearchRootScreen
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.PetKeeperUIViewModel
-import com.projet.petkeeper.sign_in.UserData
 
 
 // nav graph depuis home.
@@ -28,7 +27,7 @@ import com.projet.petkeeper.sign_in.UserData
 fun HomeNavGraph(
     navController: NavHostController,
     viewModel: PetKeeperUIViewModel,
-    userData: UserData?,
+    userModel: UserModel?,
     onSignOut: () -> Unit
 ) {
     val uiState = viewModel.uiState.collectAsState().value
@@ -42,7 +41,7 @@ fun HomeNavGraph(
         searchNavGraph(navController, viewModel, uiState)
         chatNavGraph(navController, viewModel, uiState)
         dashboardNavGraph(navController, viewModel, uiState)
-        profileNavGraph(navController, viewModel, uiState, userData, onSignOut)
+        profileNavGraph(navController, viewModel, uiState, userModel, onSignOut)
     }
 }
 
@@ -168,7 +167,7 @@ fun NavGraphBuilder.profileNavGraph(
     navController: NavHostController,
     viewModel: PetKeeperUIViewModel,
     uiState: PetKeeperUIState,
-    userData: UserData?,
+    userModel: UserModel?,
     onSignOut: () -> Unit
 ) {
     navigation(
@@ -177,7 +176,7 @@ fun NavGraphBuilder.profileNavGraph(
     ) {
         composable(route = ProfileScreenRoutes.Root.route) {
             // edit page
-            ProfileScreen(userData, onSignOut)
+            ProfileScreen(userModel, onSignOut)
 
         }
     }

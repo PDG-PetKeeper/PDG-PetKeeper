@@ -21,7 +21,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.auth.api.identity.Identity
-import com.projet.petkeeper.profile.ProfileScreen
 import com.projet.petkeeper.sign_in.GoogleAuthUiClient
 import com.projet.petkeeper.sign_in.SignInScreen
 import com.projet.petkeeper.sign_in.SignInViewModel
@@ -101,7 +100,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("HomeScreen") {
                             HomeScreen(
-                                userData = googleAuthUiClient.getSignedInUser(),
+                                userModel = googleAuthUiClient.getSignedInUser(),
                                 onSignOut = {
                                     lifecycleScope.launch {
                                         googleAuthUiClient.signOut()
