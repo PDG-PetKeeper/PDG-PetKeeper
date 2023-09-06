@@ -1,7 +1,15 @@
 package com.projet.petkeeper.utils
 
+import android.icu.text.SimpleDateFormat
 import com.google.firebase.firestore.FirebaseFirestore
 import com.projet.petkeeper.data.UserModel
+import java.util.Date
+
+
+fun convertMillisToDate(millis: Long): String {
+    val formatter = SimpleDateFormat("dd/MM/yyyy")
+    return formatter.format(Date(millis))
+}
 
 // Fetch user data from Firestore based on the user's id
 fun fetchUserData(userId: String, onUserModelFetched: (UserModel) -> Unit) {

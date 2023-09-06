@@ -76,6 +76,9 @@ fun DashboardRootScreen(
                         }
                     )
                 }
+                item{
+                    HorizontalDivider()
+                }
             }
         }
     }
@@ -86,20 +89,23 @@ fun DashboardJobCard(
     jobData: JobData,
     onJobClick: () -> Unit
 ){
+    val startDate: String = jobData.getDateString(true)
+    val endDate: String = jobData.getDateString(false)
+
     HorizontalDivider()
     ListItem(
         modifier = Modifier.clickable {onJobClick()},
         headlineContent = { Text(jobData.title) },
-        supportingContent = { Text("Secondary text") },
+        supportingContent = { Text(text = "$startDate to $endDate") },
         leadingContent = {
             Image(
                 painter = painterResource(jobData.image),
                 contentDescription = "First image of the job",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .size(40.dp)
+                    .size(50.dp)
                     .clip(CircleShape)
-                    .border(1.5.dp, MaterialTheme.colorScheme.secondary, CircleShape)
+                    .border(.5.dp, MaterialTheme.colorScheme.secondary, CircleShape)
             )
         },
         trailingContent = { Text("meta") }

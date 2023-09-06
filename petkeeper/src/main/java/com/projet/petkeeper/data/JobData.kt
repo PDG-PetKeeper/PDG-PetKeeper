@@ -2,6 +2,7 @@ package com.projet.petkeeper.data
 
 import androidx.annotation.DrawableRes
 import com.projet.petkeeper.R
+import java.util.Calendar
 import java.util.GregorianCalendar
 
 data class JobData (
@@ -12,11 +13,23 @@ data class JobData (
     var title: String,
     var pet: PetType,
     var description: String,
-    var startDateTime: GregorianCalendar,
-    var endDateTime: GregorianCalendar,
+    var startDate: GregorianCalendar,
+    var endDate: GregorianCalendar,
     var hourlyPay: String,
     var location: String = "unknown"
-)
+){
+    fun getDateString(start: Boolean): String{
+        if (start){
+            return startDate.get(Calendar.YEAR).toString() +
+                    "-" + startDate.get(Calendar.MONTH).toString() +
+                    "-" + startDate.get(Calendar.DATE).toString()
+        } else {
+            return endDate.get(Calendar.YEAR).toString() +
+                    "-" + endDate.get(Calendar.MONTH).toString() +
+                    "-" + endDate.get(Calendar.DATE).toString()
+        }
+    }
+}
 
 object JobDataExample {
     val jobDataExampleList = listOf(

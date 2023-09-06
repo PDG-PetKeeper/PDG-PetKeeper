@@ -15,16 +15,23 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.InternalTextApi
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -37,6 +44,7 @@ import com.projet.petkeeper.data.JobData
 import com.projet.petkeeper.data.PetType
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
+import com.projet.petkeeper.utils.convertMillisToDate
 import java.util.GregorianCalendar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -159,46 +167,93 @@ fun CreateJob(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
             )
 
-            var beginDate by remember { mutableStateOf(TextFieldValue("")) }
-            // Outlined Input text with icon on the left
-            // inside leadingIcon property add the icon
-            OutlinedTextField(
-                value = beginDate,
-                leadingIcon = { Icon(imageVector = Icons.Default.DateRange, contentDescription = null) },
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                label = { Text(text = "Begin date") },
-                placeholder = { Text(text = "11-12-2023") },
-                onValueChange = {
-                    beginDate = it
-                }
-            )
+            val today = GregorianCalendar().timeInMillis
 
-            var endDate by remember { mutableStateOf(TextFieldValue("")) }
-            // Outlined Input text with icon on the left
-            // inside leadingIcon property add the icon
-            OutlinedTextField(
-                value = endDate,
-                leadingIcon = { Icon(imageVector = Icons.Default.DateRange, contentDescription = null) },
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                label = { Text(text = "End date") },
-                placeholder = { Text(text = "17-12-2023") },
-                onValueChange = {
-                    endDate = it
+            var startDate by remember {
+                mutableStateOf(today)
+            }
+
+            var showStartDatePicker by remember {
+                mutableStateOf(false)
+            }
+
+            ExposedDropdownMenuBox(
+                expanded = showStartDatePicker,
+                onExpandedChange = {showStartDatePicker = !showStartDatePicker}
+            ) {
+                OutlinedTextField(
+                    value = convertMillisToDate(startDate),
+                    trailingIcon = {
+                        Icon(imageVector = Icons.Default.DateRange, contentDescription = null)
+                    },
+                    readOnly = true,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth()
+                        .menuAnchor(),
+                    label = { Text(text = "Begin date") },
+                    onValueChange = {},
+                    colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                )
+
+                if (showStartDatePicker) {
+                    JobDatePickerDialog(
+                        onDateSelected = { startDate = it },
+                        onDismiss = { showStartDatePicker = false },
+                        today = today,
+                        startDate = startDate
+                    )
                 }
-            )
+            }
+
+            var endDate by remember {
+                mutableStateOf(today)
+            }
+
+            var showEndDatePicker by remember {
+                mutableStateOf(false)
+            }
+
+            ExposedDropdownMenuBox(
+                expanded = showEndDatePicker,
+                onExpandedChange = {showEndDatePicker = !showEndDatePicker}
+            ) {
+                OutlinedTextField(
+                    value = convertMillisToDate(endDate),
+                    trailingIcon = {
+                        Icon(imageVector = Icons.Default.DateRange, contentDescription = null)
+                    },
+                    readOnly = true,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth()
+                        .menuAnchor(),
+                    label = { Text(text = "Begin date") },
+                    onValueChange = {},
+                    colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                )
+
+                if (showEndDatePicker) {
+                    JobDatePickerDialog(
+                        onDateSelected = { endDate = it },
+                        onDismiss = { showEndDatePicker = false },
+                        today = today,
+                        startDate = endDate
+                    )
+                }
+            }
 
             var price by remember { mutableStateOf(TextFieldValue("")) }
             // Outlined Input text with icon on the left
             // inside leadingIcon property add the icon
             OutlinedTextField(
                 value = price,
-                leadingIcon = { Icon(imageVector = Icons.Default.DateRange, contentDescription = null) },
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_attach_money_24),
+                        contentDescription = null
+                    )
+                },
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth(),
@@ -232,7 +287,9 @@ fun CreateJob(
             Button(
                 //TODO
                 // Add the logic to publish the advert
-                modifier = Modifier.padding(8.dp).align(Alignment.CenterHorizontally),
+                modifier = Modifier
+                    .padding(8.dp)
+                    .align(Alignment.CenterHorizontally),
                 onClick = {
 
                     // Upload image, retrieve url, upload advert, go back to job lis
@@ -255,6 +312,50 @@ fun CreateJob(
                 Text(" Publish ")
             }
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun JobDatePickerDialog(
+    onDateSelected: (Long) -> Unit,
+    onDismiss: () -> Unit,
+    today: Long,
+    startDate : Long
+) {
+    val datePickerState = rememberDatePickerState(
+        initialSelectedDateMillis = startDate,
+        selectableDates = object : SelectableDates {
+            override fun isSelectableDate(utcTimeMillis: Long): Boolean {
+                return utcTimeMillis >= today
+            }
+        }
+    )
+
+
+    DatePickerDialog(
+        onDismissRequest = { onDismiss() },
+        confirmButton = {
+            Button(
+                onClick = {
+                    datePickerState.selectedDateMillis?.let { onDateSelected(it) }
+                    onDismiss()
+                }
+            ) {
+                Text(text = "OK")
+            }
+        },
+        dismissButton = {
+            Button(onClick = {
+                onDismiss()
+            }) {
+                Text(text = "Cancel")
+            }
+        }
+    ) {
+        DatePicker(
+            state = datePickerState
+        )
     }
 }
 
