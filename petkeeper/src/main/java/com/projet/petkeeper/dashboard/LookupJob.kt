@@ -19,7 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.projet.petkeeper.data.JobDataExample
+//import com.projet.petkeeper.data.JobDataExample
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
@@ -76,6 +76,7 @@ fun LookupJob(
     }
 }
 
+/*
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -90,4 +91,4 @@ fun LookupJobScreenPreview() {
             {}
         )
     }
-}
+}*/

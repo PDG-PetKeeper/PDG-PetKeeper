@@ -40,7 +40,7 @@ fun HomeNavGraph(
         //assigne les controlleurs de nav pour chaque graph
         searchNavGraph(navController, viewModel, uiState)
         chatNavGraph(navController, viewModel, uiState)
-        dashboardNavGraph(navController, viewModel, uiState)
+        dashboardNavGraph(navController, viewModel, uiState, userModel)
         profileNavGraph(navController, viewModel, uiState, userModel, onSignOut)
     }
 }
@@ -105,7 +105,8 @@ fun NavGraphBuilder.chatNavGraph(
 fun NavGraphBuilder.dashboardNavGraph(
     navController: NavHostController,
     viewModel: PetKeeperUIViewModel,
-    uiState: PetKeeperUIState
+    uiState: PetKeeperUIState,
+    userData: UserModel?
 ) {
 
     navigation(
@@ -158,7 +159,8 @@ fun NavGraphBuilder.dashboardNavGraph(
                     viewModel.addJob(jobData)
                     viewModel.updateSelectedJob(jobData)
                     navController.navigate(route = DashboardScreenRoutes.JobLook.route)
-                }
+                },
+                userData
             )
         }
     }
