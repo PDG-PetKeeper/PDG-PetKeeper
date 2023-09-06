@@ -93,7 +93,7 @@ fun DashboardJobCard(
         supportingContent = { Text("Secondary text") },
         leadingContent = {
             Image(
-                painter = painterResource(jobData.images[0]),
+                painter = painterResource(jobData.image),
                 contentDescription = "First image of the job",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -112,7 +112,8 @@ fun DashboardRootScreenPreview() {
     PetkeeperTheme {
         DashboardRootScreen(
             PetKeeperUIState(
-                currentJobList = JobDataExample.jobDataExampleList),
+                currentJobList = JobDataExample.jobDataExampleList
+            ),
             {},
             {}
         )

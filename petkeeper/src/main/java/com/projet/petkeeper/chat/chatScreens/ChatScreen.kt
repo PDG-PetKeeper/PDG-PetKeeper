@@ -135,7 +135,7 @@ fun MessageBox(msg: Message, userProfile: UserProfile) {
 
         var msgExpand by remember { mutableStateOf(false) }
         val surfaceColorChange: Color by animateColorAsState(
-            if (msgExpand) MaterialTheme.colorScheme.tertiary
+            if (msgExpand) MaterialTheme.colorScheme.secondaryContainer
             else MaterialTheme.colorScheme.surface, label = ""
         )
         Column(modifier = Modifier.clickable { msgExpand = !msgExpand }) {

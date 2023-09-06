@@ -8,7 +8,7 @@ data class JobData (
     val id: Long,
     val poster: Int,  //change to data class for user profiles
     val worker: Int?, //change to data class for user profiles
-    @DrawableRes val images: List<Int>,
+    @DrawableRes val image: Int,
     var title: String,
     var pet: PetType,
     var description: String,
@@ -16,12 +16,7 @@ data class JobData (
     var endDateTime: GregorianCalendar,
     var hourlyPay: String,
     var location: String = "unknown"
-){
-    val startTimeInMillis = startDateTime.timeInMillis
-    fun changeTime (time: Long){
-        startDateTime.timeInMillis = time
-    }
-}
+)
 
 object JobDataExample {
     val jobDataExampleList = listOf(
@@ -29,7 +24,7 @@ object JobDataExample {
             1L,
             1,
             null,
-            listOf(R.drawable.cat_1),
+            R.drawable.cat_1,
             "test 1",
             PetType.cat,
             "Description 1",
@@ -42,7 +37,7 @@ object JobDataExample {
             2L,
             2,
             null,
-            listOf(R.drawable.cat_1),
+            R.drawable.cat_1,
             "test 2",
             PetType.cat,
             "Description 2",
@@ -55,7 +50,7 @@ object JobDataExample {
             3L,
             2,
             null,
-            listOf(R.drawable.cat_1),
+            R.drawable.cat_1,
             "test 3",
             PetType.cat,
             "Description 3 ojdfhowefhoewf efjhwefckb wekfbgwoeib weifugbwuebc wekfhcbwkbc",
@@ -68,7 +63,7 @@ object JobDataExample {
             4L,
             3,
             null,
-            listOf(R.drawable.cat_1),
+            R.drawable.cat_1,
             "test 3",
             PetType.cat,
             "Description 3",
@@ -80,7 +75,7 @@ object JobDataExample {
             5L,
             1,
             null,
-            listOf(R.drawable.cat_1),
+            R.drawable.cat_1,
             "test 1",
             PetType.cat,
             "Description 1",
@@ -93,7 +88,7 @@ object JobDataExample {
             6L,
             2,
             null,
-            listOf(R.drawable.cat_1),
+            R.drawable.cat_1,
             "test 2",
             PetType.cat,
             "Description 2",
@@ -106,7 +101,7 @@ object JobDataExample {
             7L,
             2,
             null,
-            listOf(R.drawable.cat_1),
+            R.drawable.cat_1,
             "test 3",
             PetType.cat,
             "Description 3 ojdfhowefhoewf efjhwefckb wekfbgwoeib weifugbwuebc wekfhcbwkbc",
@@ -119,7 +114,7 @@ object JobDataExample {
             8L,
             3,
             null,
-            listOf(R.drawable.cat_1),
+            R.drawable.cat_1,
             "test 3",
             PetType.cat,
             "Description 3",
@@ -131,7 +126,7 @@ object JobDataExample {
             9L,
             1,
             null,
-            listOf(R.drawable.cat_1),
+            R.drawable.cat_1,
             "test 1",
             PetType.cat,
             "Description 1",
@@ -144,7 +139,7 @@ object JobDataExample {
             10L,
             2,
             null,
-            listOf(R.drawable.cat_1),
+            R.drawable.cat_1,
             "test 2",
             PetType.cat,
             "Description 2",
@@ -157,7 +152,7 @@ object JobDataExample {
             11L,
             2,
             null,
-            listOf(R.drawable.cat_1),
+            R.drawable.cat_1,
             "test 3",
             PetType.cat,
             "Description 3 ojdfhowefhoewf efjhwefckb wekfbgwoeib weifugbwuebc wekfhcbwkbc",
@@ -170,7 +165,7 @@ object JobDataExample {
             12L,
             3,
             null,
-            listOf(R.drawable.cat_1),
+            R.drawable.cat_1,
             "test 3",
             PetType.cat,
             "Description 3",
