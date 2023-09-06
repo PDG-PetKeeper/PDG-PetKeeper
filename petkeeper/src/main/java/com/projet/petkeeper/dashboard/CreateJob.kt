@@ -38,6 +38,7 @@ import com.projet.petkeeper.data.PetType
 import coil.compose.rememberAsyncImagePainter
 import com.google.firebase.ktx.Firebase
 import com.projet.petkeeper.data.UserModel
+import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 import java.util.*
 
@@ -47,7 +48,7 @@ fun CreateJob(
     uiState: PetKeeperUIState,
     onBackClick: () -> Unit,
     onPublishClick: (JobData) -> Unit,
-    userData: UserModel
+    userData: UserModel?
 ) {
     BackHandler {
         onBackClick()
@@ -92,7 +93,7 @@ fun CreateJob(
                 }
 
 
-            Box() {
+            Box {
                 selectImage?.let { imageUri ->
                     Image(
                         painter = rememberAsyncImagePainter(imageUri),
@@ -237,7 +238,7 @@ fun CreateJob(
                     // Upload image, retrieve url, upload advert, go back to job lis
                     val jobData = JobData(
                         id = GregorianCalendar().timeInMillis,
-                        poster = userData.userId, // need userData
+                        poster = userData?.userId, // need userData
                         worker = null,
                         image = selectImage, // need images
                         title = title.text,
@@ -263,7 +264,7 @@ fun CreateJob(
 fun PreviewJobCreation() {
     PetkeeperTheme {
         Column {
-            CreateJob(onBackClick = {}, onPublishClick = {}, userData = UserModel())
+            CreateJob(onBackClick = {}, onPublishClick = {}, userData = UserModel(), uiState = PetKeeperUIState())
         }
     }
 }

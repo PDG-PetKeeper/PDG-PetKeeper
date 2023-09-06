@@ -27,7 +27,7 @@ import com.projet.petkeeper.ui.PetKeeperUIViewModel
 fun HomeNavGraph(
     navController: NavHostController,
     viewModel: PetKeeperUIViewModel,
-    userModel: UserModel,
+    userModel: UserModel?,
     onSignOut: () -> Unit
 ) {
     val uiState = viewModel.uiState.collectAsState().value
@@ -104,7 +104,7 @@ fun NavGraphBuilder.dashboardNavGraph(
     navController: NavHostController,
     viewModel: PetKeeperUIViewModel,
     uiState: PetKeeperUIState,
-    userData: UserModel
+    userData: UserModel?
 ) {
 
     navigation(

@@ -18,7 +18,7 @@ data class JobData (
     var hourlyPay: String,
     var location: String = "unknown"
 )
-
+/*
 object JobDataExample {
     val jobDataExampleList = listOf(
         JobData(
@@ -175,4 +175,4 @@ object JobDataExample {
             "6"
         ),
     )
-}
+}*/

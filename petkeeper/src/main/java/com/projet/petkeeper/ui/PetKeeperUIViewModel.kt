@@ -8,7 +8,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.*
 import com.google.firebase.storage.ktx.storage
 import com.projet.petkeeper.data.JobData
-import com.projet.petkeeper.data.JobDataExample
+//import com.projet.petkeeper.data.JobDataExample
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -24,7 +24,7 @@ class PetKeeperUIViewModel : ViewModel() {
 
     private fun initializeUIState() {
         _uiState.value = PetKeeperUIState(
-            currentJobList = JobDataExample.jobDataExampleList
+            //currentJobList = JobDataExample.jobDataExampleList
         )
     }
 

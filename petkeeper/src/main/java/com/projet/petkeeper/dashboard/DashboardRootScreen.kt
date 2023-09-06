@@ -29,8 +29,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.projet.petkeeper.data.JobData
-import com.projet.petkeeper.data.JobDataExample
+//import com.projet.petkeeper.data.JobDataExample
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
@@ -92,8 +93,8 @@ fun DashboardJobCard(
         headlineContent = { Text(jobData.title) },
         supportingContent = { Text("Secondary text") },
         leadingContent = {
-            Image(
-                painter = painterResource(jobData.image),
+            AsyncImage(
+                model = null,
                 contentDescription = "First image of the job",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -105,6 +106,7 @@ fun DashboardJobCard(
         trailingContent = { Text("meta") }
     )
 }
+/*
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -118,4 +120,4 @@ fun DashboardRootScreenPreview() {
             {}
         )
     }
-}
+}*/
