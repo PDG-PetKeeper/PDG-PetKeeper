@@ -10,6 +10,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.projet.petkeeper.R
+import com.projet.petkeeper.data.UserModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.tasks.await
 
@@ -40,10 +41,10 @@ class GoogleAuthUiClient(
             val user = auth.signInWithCredential(googleCredentials).await().user
             SignInResult(
                 data = user?.run {
-                    UserData(
+                    UserModel(
                         userId = uid,
-                        username = displayName,
-                        profilePictureUrl = photoUrl?.toString()
+                        userName = displayName,
+                        profileImageUrl  = photoUrl?.toString()
                     )
                 },
                 errorMessage = null
@@ -68,11 +69,11 @@ class GoogleAuthUiClient(
         }
     }
 
-    fun getSignedInUser(): UserData? = auth.currentUser?.run {
-        UserData(
+    fun getSignedInUser(): UserModel? = auth.currentUser?.run {
+        UserModel(
             userId = uid,
-            username = displayName,
-            profilePictureUrl = photoUrl?.toString()
+            userName = displayName,
+            profileImageUrl  = photoUrl?.toString()
         )
     }
 
