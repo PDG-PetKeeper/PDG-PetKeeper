@@ -41,17 +41,15 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.projet.petkeeper.R
 import com.projet.petkeeper.data.JobData
 import com.projet.petkeeper.data.UserData
-import com.google.firebase.storage.FirebaseStorage
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
+import com.projet.petkeeper.utils.Constants.TAG
 import com.projet.petkeeper.utils.convertMillisToDate
 import java.util.*
-import com.google.firebase.storage.ktx.component1
-import com.google.firebase.storage.ktx.component2
-import com.projet.petkeeper.utils.Constants.TAG
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -298,8 +296,8 @@ fun CreateJob(
                     // Upload image, retrieve url, upload advert, go back to job lis
                     val jobData = JobData(
                         id = GregorianCalendar().timeInMillis,
-                        posterId = userData?.userId, // need userData
-                        workerId = null,
+                        poster = userData?.userId, // need userData
+                        worker = null,
                         image = "", // need images
                         title = title.text,
                         pet = animal.text, // need PetType selection
@@ -341,8 +339,8 @@ fun uploadAll(image: Uri?, data: JobData){
 
                     val map = HashMap<String, Any>()
                     map["id"] = data.id.toString()
-                    map["poster"] = data.posterId.toString()
-                    map["worker"] = data.workerId.toString()
+                    map["poster"] = data.poster.toString()
+                    map["worker"] = data.worker.toString()
                     map["downloadString"] = uri.toString()
                     map["title"] = data.title.toString()
                     map["pet"] = data.pet.toString()

@@ -82,7 +82,7 @@ class PetKeeperUIViewModel(val userData: UserData, private val coroutineScope: C
 
         coroutineScope.launch {
             firestoreDB.collection("jobs")
-                .whereEqualTo("posterId", userData.userId)
+                .whereEqualTo("poster", userData.userId)
                 .get()
                 .addOnSuccessListener {documents ->
                     for (document in documents){
@@ -132,7 +132,7 @@ class PetKeeperUIViewModel(val userData: UserData, private val coroutineScope: C
     }
 
     // Get chat messages
-    fun getMessages(userPair: UserPair) {
+    fun updateCurrentMessages(userPair: UserPair) {
         val mutableMessageList: MutableList<MessageData> = mutableListOf()
         val otherUserId = if (userPair.userId1.equals(userData.userId)) {
             userPair.userId2!!

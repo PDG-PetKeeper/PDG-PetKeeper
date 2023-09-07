@@ -7,8 +7,8 @@ import java.util.GregorianCalendar
 
 data class JobData (
     val id: Long? = null,
-    val posterId: String? = null,
-    val workerId: String? = null,
+    val poster: String? = null,
+    val worker: String? = null,
     val image: String? = null,
     var title: String? = null,
     var pet: String? = null,

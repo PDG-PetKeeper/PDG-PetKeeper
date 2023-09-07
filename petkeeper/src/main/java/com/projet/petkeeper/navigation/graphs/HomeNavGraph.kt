@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.projet.petkeeper.chat.chatScreens.chatSearchs.ChatSearchScreen
+import com.projet.petkeeper.chat.ChatRootScreen
 import com.projet.petkeeper.dashboard.CreateJob
 import com.projet.petkeeper.dashboard.DashboardRootScreen
 import com.projet.petkeeper.dashboard.LookupJob
@@ -83,33 +83,28 @@ fun NavGraphBuilder.chatNavGraph(
         route = NavBarItem.ChatRoot.route,
         startDestination = ChatScreenRoutes.Root.route
     ) {
-
-        // Inside your NavGraphBuilder.chatNavGraph
         composable(route = ChatScreenRoutes.Root.route) {
-            ChatSearchScreen(
-                uiState = uiState, // Pass the required parameters here
-                userData = userData,
-                onSearch = { searchQuery ->
-                    uiState.searchQuery?.let { it1 -> viewModel.searchChats(it1) }
-                    // Handle search query
-                },
-                onChatClick = { clickedUserData ->
-                    // Handle click on a chat item
-                }
-            )
+            viewModel.showNavBar()
+           ChatRootScreen(
+               uiState = uiState,
+               userData = userData,
+               onSearch = {
+                   viewModel.searchChats(it)
+               },
+               onChatClick = {
+                   viewModel.updateCurrentMessages(it)
+                   //navController.navigate(route = ChatScreenRoutes.SelectedChat.route)
+               }
+           )
         }
 
-        }
+        composable(route = ChatScreenRoutes.SelectedChat.route) {
+            viewModel.hideNavBar()
 
-//        composable(route = ChatScreen.SelectedChat.route) {
-//            ScreenContent(name = ChatScreen.SelectedChat.route) {
-//                navController.popBackStack(
-//                    route = ChatScreen.Information.route,
-//                    inclusive = false
-//                )
-//            }
-//        }
+        }
     }
+
+}
 
 
 fun NavGraphBuilder.dashboardNavGraph(
@@ -118,7 +113,6 @@ fun NavGraphBuilder.dashboardNavGraph(
     uiState: PetKeeperUIState,
     userData: UserData
 ) {
-
     navigation(
         route = NavBarItem.DashboardRoot.route,
         startDestination = DashboardScreenRoutes.Root.route

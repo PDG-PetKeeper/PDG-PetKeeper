@@ -1,12 +1,14 @@
-package com.projet.petkeeper.chat.chatScreens.chatSearchs
+package com.projet.petkeeper.chat
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
@@ -23,23 +25,27 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.projet.petkeeper.R
-import com.projet.petkeeper.data.JobData
 import com.projet.petkeeper.data.UserData
+import com.projet.petkeeper.data.UserPair
 import com.projet.petkeeper.data.userSamples
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
+import com.projet.petkeeper.utils.UserProfileImageIcon
+import com.projet.petkeeper.utils.fetchUserData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatRootScreen(
     uiState: PetKeeperUIState,
-    userData: UserData?,
+    userData: UserData,
     onSearch: (String) -> Unit,
-    onChatClick: (JobData?) -> Unit
+    onChatClick: (UserPair) -> Unit
 ){
     var searchChatText by remember {
         mutableStateOf("")
@@ -114,16 +120,56 @@ fun ChatRootScreen(
             }
         },
     ){  paddingValues ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text(text = "This is the Chat root", fontSize = 30.sp)
+            items(uiState.userPairList) {userPair ->
+
+                ChatCard(
+                    userData = userData,
+                    userPair = userPair,
+                    onChatClick = {
+                        onChatClick(userPair)
+                    }
+                )
+
+            }
         }
     }
+}
+
+@Composable
+fun ChatCard(
+    userData: UserData,
+    userPair: UserPair,
+    onChatClick: () -> Unit
+) {
+    val otherUserId = if (userPair.userId1.equals(userData.userId)) {
+        userPair.userId2!!
+    } else {
+        userPair.userId1!!
+    }
+    val otherUserData: UserData? = fetchUserData(otherUserId){}
+
+    Row(
+        modifier = Modifier
+            .padding(8.dp)
+            .clickable { onChatClick() },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        UserProfileImageIcon(userData = otherUserData)
+
+        Text(
+            text = otherUserData?.userName?: "User name not found",
+            modifier = Modifier.padding(start = 8.dp),
+            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)
+        )
+    }
+
 }
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -134,7 +180,7 @@ fun ChatRootScreenPreview() {
             uiState = PetKeeperUIState(),
             userData = userSamples[0],
             {},
-            {}
+            {},
         )
     }
 }

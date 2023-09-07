@@ -36,7 +36,7 @@ fun fetchUserData(userId: String, onUserModelFetched: (UserData) -> Unit) : User
         .addOnFailureListener { exception ->
             // TODO Handle the error
         }
-    return userData
+    return userData!!
 }
 /*fun fetchChatFromFirestore(){
     lateinit var auth: FirebaseAuth

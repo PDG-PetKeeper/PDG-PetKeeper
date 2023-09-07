@@ -129,7 +129,7 @@ fun AppbarContent(action: () -> Unit, userData: UserData) {
 }
 
 @Composable
-fun UserProfileImageIcon(userData: UserData) {
+fun UserProfileImageIcon(userData: UserData?) {
     Surface(
         modifier = Modifier.size(40.dp),
         shape = CircleShape,
@@ -139,7 +139,7 @@ fun UserProfileImageIcon(userData: UserData) {
             MaterialTheme.colorScheme.secondary
         )
     ) {
-        val profileImageUrl = userData.profileImageUrl // Get the profile image URL
+        val profileImageUrl = userData?.profileImageUrl // Get the profile image URL
         val painter = rememberImagePainter(data = profileImageUrl)
         Image(
             painter = painter,
