@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -19,7 +20,7 @@ fun HomeScreen(
     onSignOut: () -> Unit
 ) {
 
-    val viewModel = PetKeeperUIViewModel(userData)
+    val viewModel = PetKeeperUIViewModel(userData, rememberCoroutineScope())
     val uiState = viewModel.uiState.collectAsState().value
 
     Scaffold(

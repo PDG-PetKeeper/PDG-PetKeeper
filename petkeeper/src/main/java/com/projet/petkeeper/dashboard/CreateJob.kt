@@ -1,6 +1,7 @@
 package com.projet.petkeeper.dashboard
 
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -38,13 +39,19 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.google.firebase.Timestamp
 import com.projet.petkeeper.R
 import com.projet.petkeeper.data.JobData
 import com.projet.petkeeper.data.UserData
+import com.google.firebase.storage.FirebaseStorage
+import com.projet.petkeeper.R
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 import com.projet.petkeeper.utils.convertMillisToDate
 import java.util.*
+import com.google.firebase.storage.ktx.component1
+import com.google.firebase.storage.ktx.component2
+import com.projet.petkeeper.utils.Constants.TAG
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -165,7 +172,7 @@ fun CreateJob(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
             )
 
-            val today = GregorianCalendar().timeInMillis
+            val today = Date().time
 
             var startDate by remember {
                 mutableStateOf(today)
@@ -198,14 +205,14 @@ fun CreateJob(
                     JobDatePickerDialog(
                         onDateSelected = { startDate = it },
                         onDismiss = { showStartDatePicker = false },
-                        today = today,
-                        startDate = startDate
+                        minDate = today,
+                        pickedDate = startDate
                     )
                 }
             }
 
             var endDate by remember {
-                mutableStateOf(today)
+                mutableStateOf(startDate)
             }
 
             var showEndDatePicker by remember {
@@ -235,8 +242,8 @@ fun CreateJob(
                     JobDatePickerDialog(
                         onDateSelected = { endDate = it },
                         onDismiss = { showEndDatePicker = false },
-                        today = today,
-                        startDate = endDate
+                        minDate = startDate,
+                        pickedDate = endDate
                     )
                 }
             }
@@ -288,12 +295,6 @@ fun CreateJob(
                     .align(Alignment.CenterHorizontally),
                 onClick = {
 
-                    val gregorianStartDate = GregorianCalendar()
-                    gregorianStartDate.timeInMillis = startDate
-
-                    val gregorianEndDate = GregorianCalendar()
-                    gregorianEndDate.timeInMillis = endDate
-
                     // Upload image, retrieve url, upload advert, go back to job lis
                     val jobData = JobData(
                         id = GregorianCalendar().timeInMillis,
@@ -303,12 +304,19 @@ fun CreateJob(
                         title = title.text,
                         pet = animal.text, // need PetType selection
                         description = description.text,
-                        gregorianStartDate,
-                        gregorianEndDate,
-                        hourlyPay = price.text,
+                        startDate = Timestamp(Date(startDate)),
+                        endDate = Timestamp(Date(endDate)),
+                        pay = price.text,
                         location = location.text
                     )
-                    onPublishClick(jobData)
+
+
+                    val uploadString = uploadImage(selectImage)
+                    jobData.downloadString = uploadString
+
+                    
+
+                    onBackClick()
                 }
             ) {
                 Text(" Publish ")
@@ -317,19 +325,45 @@ fun CreateJob(
     }
 }
 
+
+fun uploadImage(image: Uri?): String{
+
+    var storageRef = FirebaseStorage.getInstance().reference.child("image")
+
+    storageRef = storageRef.child(UUID.randomUUID().toString())
+
+    val uploadTask = storageRef.putFile(image!!)
+
+    uploadTask.addOnProgressListener { (bytesTransferred, totalByteCount) ->
+        val progress = (100.0 * bytesTransferred) / totalByteCount
+        Log.d(TAG, "Upload is $progress% done")
+    }.addOnPausedListener {
+        Log.d(TAG, "Upload is paused")
+    }.addOnFailureListener {
+        // Handle unsuccessful uploads
+    }.addOnSuccessListener { taskSnapshot ->
+        Log.d(TAG, "Upload is successful")
+        // Handle successful uploads on complete
+        // ...
+    }
+
+    return storageRef.downloadUrl.toString()
+}
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JobDatePickerDialog(
     onDateSelected: (Long) -> Unit,
     onDismiss: () -> Unit,
-    today: Long,
-    startDate : Long
+    minDate: Long,
+    pickedDate : Long
 ) {
     val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = startDate,
+        initialSelectedDateMillis = pickedDate,
         selectableDates = object : SelectableDates {
             override fun isSelectableDate(utcTimeMillis: Long): Boolean {
-                return utcTimeMillis >= today
+                return utcTimeMillis >= minDate
             }
         }
     )

@@ -19,16 +19,19 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.projet.petkeeper.data.ChatMessage
 import com.projet.petkeeper.data.JobData
 import com.projet.petkeeper.data.UserData
 import com.projet.petkeeper.utils.Constants
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class PetKeeperUIViewModel(val userData: UserData) : ViewModel() {
+class PetKeeperUIViewModel(val userData: UserData, private val coroutineScope: CoroutineScope) : ViewModel() {
 
     var searchQuery = { mutableStateOf("") }
     val databaseReference: DatabaseReference =
@@ -74,11 +77,28 @@ class PetKeeperUIViewModel(val userData: UserData) : ViewModel() {
     }
 
     private fun initializeUIState() {
-
-        _uiState.value = PetKeeperUIState(
-            //currentJobList = JobDataExample.jobDataExampleList
-        )
+        _uiState.value = PetKeeperUIState()
+        dashboardInit()
     }
+    fun searchInit() {
+        val mutableJobList: MutableList<JobData> = mutableListOf()
+
+        coroutineScope.launch {
+            firestoreDB.collection("jobs")
+                .whereNotEqualTo("posterId", userData.userId)
+                .get()
+                .addOnSuccessListener {documents ->
+                    for (document in documents){
+                        mutableJobList.add(document.toObject())
+                    }
+                }
+        }
+
+        _uiState.update {
+            it.copy(
+                currentJobList = mutableJobList.toList()
+            )
+        }
     // Chat-related methods
 
     // Update the message value as the user types
@@ -186,7 +206,61 @@ class PetKeeperUIViewModel(val userData: UserData) : ViewModel() {
         firestoreDB.collection("")
     }
 
-    fun changeNavBarCurentIndex(index: Int) {
+    fun chatInit() {
+        val mutableChatList: MutableList<Int> = mutableListOf()
+
+        coroutineScope.launch {
+            firestoreDB.collection("messages")
+                .whereEqualTo("posterId", userData.userId)
+                .get()
+                .addOnSuccessListener {documents ->
+                    for (document in documents){
+                        mutableChatList.add(document.toObject())
+                    }
+                }
+        }
+
+        _uiState.update {
+            it.copy(
+                chatList = mutableChatList.toList()
+            )
+        }
+    }
+
+    fun dashboardInit() {
+        val mutableJobList: MutableList<JobData> = mutableListOf()
+
+        coroutineScope.launch {
+            firestoreDB.collection("jobs")
+                .whereEqualTo("posterId", userData.userId)
+                .get()
+                .addOnSuccessListener {documents ->
+                    for (document in documents){
+                        mutableJobList.add(document.toObject())
+                    }
+                }
+        }
+
+        _uiState.update {
+            it.copy(
+                currentJobList = mutableJobList.toList()
+            )
+        }
+    }
+
+    fun profileInit(){
+        _uiState.update {
+            it.copy(
+                currentJobList = emptyList(),
+                currentSelectedJob = null,
+                currentChat = null,
+            )
+        }
+    }
+
+
+
+    fun changeNavBarCurrentIndex(index: Int){
         _uiState.update {
             it.copy(
                 currentNavBarItemIndex = index
