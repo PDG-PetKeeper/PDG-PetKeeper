@@ -1,7 +1,7 @@
 package com.projet.petkeeper.data
 
 
-data class  UserModel (
+data class  UserData (
     val userId: String? = null,
     val userName: String? = null,
     //val lastName: String? = null,
@@ -11,27 +11,31 @@ data class  UserModel (
 
 
 val userSamples = listOf(
-    UserModel(
+    UserData(
+        userId = "poster 1",
+        userName = "Poster 1",
+    ),
+    UserData(
         userId = "1",
         userName = "John",
         profileImageUrl = " ",
     ),
-    UserModel(
+    UserData(
         userId = "2",
         userName = "Jane",
         profileImageUrl = " ",
     ),
-    UserModel(
+    UserData(
         userId = "3",
         userName = "Bob",
         profileImageUrl = " ",
     ),
-    UserModel(
+    UserData(
         userId = "4",
         userName = "Alice",
         profileImageUrl = " ",
     ),
-    UserModel(
+    UserData(
         userId = "5",
         userName = "Tom",
         profileImageUrl = " ",

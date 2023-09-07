@@ -13,7 +13,7 @@ import com.projet.petkeeper.dashboard.CreateJob
 import com.projet.petkeeper.dashboard.DashboardRootScreen
 import com.projet.petkeeper.dashboard.LookupJob
 import com.projet.petkeeper.data.JobData
-import com.projet.petkeeper.data.UserModel
+import com.projet.petkeeper.data.UserData
 import com.projet.petkeeper.navigation.NavBarItem
 import com.projet.petkeeper.profile.ProfileScreen
 import com.projet.petkeeper.search.SearchRootScreen
@@ -27,7 +27,7 @@ import com.projet.petkeeper.ui.PetKeeperUIViewModel
 fun HomeNavGraph(
     navController: NavHostController,
     viewModel: PetKeeperUIViewModel,
-    userModel: UserModel?,
+    userData: UserData,
     onSignOut: () -> Unit
 ) {
     val uiState = viewModel.uiState.collectAsState().value
@@ -38,10 +38,10 @@ fun HomeNavGraph(
         startDestination = NavBarItem.DashboardRoot.route
     ) {
         //assigne les controlleurs de nav pour chaque graph
-        searchNavGraph(navController, viewModel, uiState)
-        chatNavGraph(navController, viewModel, uiState)
-        dashboardNavGraph(navController, viewModel, uiState, userModel)
-        profileNavGraph(navController, viewModel, uiState, userModel, onSignOut)
+        searchNavGraph(navController, viewModel, uiState, userData)
+        chatNavGraph(navController, viewModel, uiState, userData)
+        dashboardNavGraph(navController, viewModel, uiState, userData)
+        profileNavGraph(navController, viewModel, uiState, userData, onSignOut)
     }
 }
 
@@ -49,13 +49,14 @@ fun HomeNavGraph(
 fun NavGraphBuilder.searchNavGraph(
     navController: NavHostController,
     viewModel: PetKeeperUIViewModel,
-    uiState: PetKeeperUIState
+    uiState: PetKeeperUIState,
+    userData: UserData
 ) {
     navigation(
         route = NavBarItem.SearchRoot.route,
-        startDestination = SearchScreenRoutes.Information.route
+        startDestination = SearchScreenRoutes.Root.route
     ) {
-        composable(route = SearchScreenRoutes.Information.route) {
+        composable(route = SearchScreenRoutes.Root.route) {
             viewModel.showNavBar()
             SearchRootScreen(
                 //name = SearchScreen.Information.route
@@ -76,19 +77,25 @@ fun NavGraphBuilder.searchNavGraph(
 fun NavGraphBuilder.chatNavGraph(
     navController: NavHostController,
     viewModel: PetKeeperUIViewModel,
-    uiState: PetKeeperUIState
+    uiState: PetKeeperUIState,
+    userData: UserData
 ) {
     navigation(
         route = NavBarItem.ChatRoot.route,
-        startDestination = ChatScreenRoutes.Information.route
+        startDestination = ChatScreenRoutes.Root.route
     ) {
-        composable(route = ChatScreenRoutes.Information.route) {
+        composable(route = ChatScreenRoutes.Root.route) {
             viewModel.showNavBar()
             ChatRootScreen(
-//                name = ChatScreen.Information.route
-//                onClick = {
-//                    navController.navigate(ChatScreen.SelectedChat.route)
-//                }
+                uiState = uiState,
+                userData = userData,
+                onSearch = {
+                    viewModel.searchChats(it)
+                },
+                onChatClick = {
+                    viewModel.updateSelectedJob(it)
+                    navController.navigate(route = ChatScreenRoutes.SelectedChat.route)
+                }
             )
         }
 //        composable(route = ChatScreen.SelectedChat.route) {
@@ -106,7 +113,7 @@ fun NavGraphBuilder.dashboardNavGraph(
     navController: NavHostController,
     viewModel: PetKeeperUIViewModel,
     uiState: PetKeeperUIState,
-    userData: UserModel?
+    userData: UserData
 ) {
 
     navigation(
@@ -117,6 +124,7 @@ fun NavGraphBuilder.dashboardNavGraph(
             viewModel.showNavBar()
             DashboardRootScreen(
                 uiState = uiState,
+                userData = userData,
                 onJobClick = { jobData: JobData ->
                     viewModel.updateSelectedJob(jobData)
                     navController.navigate(route = DashboardScreenRoutes.JobLook.route)
@@ -170,7 +178,7 @@ fun NavGraphBuilder.profileNavGraph(
     navController: NavHostController,
     viewModel: PetKeeperUIViewModel,
     uiState: PetKeeperUIState,
-    userModel: UserModel?,
+    userData: UserData,
     onSignOut: () -> Unit
 ) {
     navigation(
@@ -180,7 +188,7 @@ fun NavGraphBuilder.profileNavGraph(
         composable(route = ProfileScreenRoutes.Root.route) {
             viewModel.showNavBar()
             // edit page
-            ProfileScreen(userModel, onSignOut)
+            ProfileScreen(userData, onSignOut)
 
         }
     }
@@ -188,12 +196,12 @@ fun NavGraphBuilder.profileNavGraph(
 
 
 sealed class SearchScreenRoutes(val route: String) {
-    data object Information : SearchScreenRoutes(route = "SEARCH_MAIN")
-    data object SelectedRoutsSearch : SearchScreenRoutes(route = "SELECTED_SEARCH")
+    data object Root : SearchScreenRoutes(route = "SEARCH_MAIN")
+    data object SelectedJob : SearchScreenRoutes(route = "SELECTED_SEARCH")
 }
 
 sealed class ChatScreenRoutes(val route: String) {
-    data object Information : ChatScreenRoutes(route = "CHAT_MAIN")
+    data object Root : ChatScreenRoutes(route = "CHAT_MAIN")
     data object SelectedChat : ChatScreenRoutes(route = "SELECTED_CHAT")
 }
 
@@ -201,7 +209,6 @@ sealed class DashboardScreenRoutes(val route: String) {
     data object Root : DashboardScreenRoutes(route = "DASHBOARD_ROOT")
     data object JobLook : DashboardScreenRoutes(route = "JOB_LOOK")
     data object JobCreation : DashboardScreenRoutes(route = "JOB_CREATION")
-    data object JobEdit : DashboardScreenRoutes(route = "JOB_EDIT")
 }
 
 sealed class ProfileScreenRoutes(val route: String) {

@@ -1,6 +1,6 @@
 package com.projet.petkeeper.dashboard
 
-import androidx.compose.foundation.Image
+//import com.projet.petkeeper.data.JobDataExample
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,12 +26,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.projet.petkeeper.data.JobData
-//import com.projet.petkeeper.data.JobDataExample
+import com.projet.petkeeper.data.JobDataExample
+import com.projet.petkeeper.data.UserData
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
@@ -39,6 +39,7 @@ import com.projet.petkeeper.ui.theme.PetkeeperTheme
 @Composable
 fun DashboardRootScreen(
     uiState: PetKeeperUIState,
+    userData: UserData,
     onJobClick: (JobData) -> Unit,
     onAddClick: () -> Unit
 ){
@@ -69,7 +70,7 @@ fun DashboardRootScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 val jobs = uiState.currentJobList
-                items(jobs, key = {job -> job.id}) { job ->
+                items(jobs, key = {job -> job.id!! }) { job ->
                     DashboardJobCard(
                         jobData = job,
                         onJobClick = {
@@ -97,10 +98,10 @@ fun DashboardJobCard(
     ListItem(
         modifier = Modifier.clickable {onJobClick()},
         headlineContent = { Text(jobData.title) },
-        supportingContent = { Text(text = "$startDate to $endDate") },
+        supportingContent = { Text(text = "From $startDate to $endDate") },
         leadingContent = {
             AsyncImage(
-                model = null,
+                model = jobData.image,
                 contentDescription = "First image of the job",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -109,10 +110,9 @@ fun DashboardJobCard(
                     .border(.5.dp, MaterialTheme.colorScheme.secondary, CircleShape)
             )
         },
-        trailingContent = { Text("meta") }
     )
 }
-/*
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -122,8 +122,12 @@ fun DashboardRootScreenPreview() {
             PetKeeperUIState(
                 currentJobList = JobDataExample.jobDataExampleList
             ),
+            UserData(
+                userId = "poster 1",
+                userName = "Poster 1",
+            ),
             {},
             {}
         )
     }
-}*/
+}

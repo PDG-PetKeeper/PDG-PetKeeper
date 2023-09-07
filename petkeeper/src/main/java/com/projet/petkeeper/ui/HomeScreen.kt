@@ -6,21 +6,20 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.projet.petkeeper.data.UserModel
+import com.projet.petkeeper.data.UserData
 import com.projet.petkeeper.navigation.NavBar
 import com.projet.petkeeper.navigation.graphs.HomeNavGraph
 
 @Composable
 fun HomeScreen(
     navController: NavHostController = rememberNavController(),
-    userModel: UserModel?,
+    userData: UserData,
     onSignOut: () -> Unit
 ) {
 
-    val viewModel: PetKeeperUIViewModel = viewModel()
+    val viewModel = PetKeeperUIViewModel(userData)
     val uiState = viewModel.uiState.collectAsState().value
 
     Scaffold(
@@ -32,7 +31,7 @@ fun HomeScreen(
         Box(
             modifier = Modifier.padding(paddingValues)
         ) {
-            HomeNavGraph(navController, viewModel, userModel, onSignOut)
+            HomeNavGraph(navController, viewModel, userData, onSignOut)
         }
     }
 }

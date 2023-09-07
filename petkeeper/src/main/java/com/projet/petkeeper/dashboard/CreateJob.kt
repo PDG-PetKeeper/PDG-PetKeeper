@@ -14,7 +14,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -41,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.projet.petkeeper.R
 import com.projet.petkeeper.data.JobData
-import com.projet.petkeeper.data.UserModel
+import com.projet.petkeeper.data.UserData
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 import com.projet.petkeeper.utils.convertMillisToDate
@@ -53,7 +52,7 @@ fun CreateJob(
     uiState: PetKeeperUIState,
     onBackClick: () -> Unit,
     onPublishClick: (JobData) -> Unit,
-    userData: UserModel?
+    userData: UserData?
 ) {
     BackHandler {
         onBackClick()
@@ -133,7 +132,7 @@ fun CreateJob(
                     .padding(8.dp)
                     .fillMaxWidth(),
                 label = { Text("Title") },
-                placeholder = { Text("Advert title") },
+                placeholder = { Text("Enter a title") },
             )
 
             var animal by remember { mutableStateOf(TextFieldValue("")) }
@@ -144,7 +143,7 @@ fun CreateJob(
                     .padding(8.dp)
                     .fillMaxWidth(),
                 label = { Text(text = "Animal") },
-                placeholder = { Text(text = "12334444") },
+                placeholder = { Text(text = "Cat or Dog") },
                 onValueChange = {
                     animal = it
                 },
@@ -289,6 +288,12 @@ fun CreateJob(
                     .align(Alignment.CenterHorizontally),
                 onClick = {
 
+                    val gregorianStartDate = GregorianCalendar()
+                    gregorianStartDate.timeInMillis = startDate
+
+                    val gregorianEndDate = GregorianCalendar()
+                    gregorianEndDate.timeInMillis = endDate
+
                     // Upload image, retrieve url, upload advert, go back to job lis
                     val jobData = JobData(
                         id = GregorianCalendar().timeInMillis,
@@ -298,8 +303,8 @@ fun CreateJob(
                         title = title.text,
                         pet = animal.text, // need PetType selection
                         description = description.text,
-                        GregorianCalendar(2023,9,21), // need DatePicker
-                        GregorianCalendar(2023,9,27), // need DatePicker
+                        gregorianStartDate,
+                        gregorianEndDate,
                         hourlyPay = price.text,
                         location = location.text
                     )
@@ -362,7 +367,7 @@ fun JobDatePickerDialog(
 fun PreviewJobCreation() {
     PetkeeperTheme {
         Column {
-            CreateJob(onBackClick = {}, onPublishClick = {}, userData = UserModel(), uiState = PetKeeperUIState())
+            CreateJob(onBackClick = {}, onPublishClick = {}, userData = UserData(), uiState = PetKeeperUIState())
         }
     }
 }

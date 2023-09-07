@@ -2,7 +2,7 @@ package com.projet.petkeeper.utils
 
 import android.icu.text.SimpleDateFormat
 import com.google.firebase.firestore.FirebaseFirestore
-import com.projet.petkeeper.data.UserModel
+import com.projet.petkeeper.data.UserData
 import java.util.Date
 
 
@@ -12,7 +12,7 @@ fun convertMillisToDate(millis: Long): String {
 }
 
 // Fetch user data from Firestore based on the user's id
-fun fetchUserData(userId: String, onUserModelFetched: (UserModel) -> Unit) {
+fun fetchUserData(userId: String, onUserModelFetched: (UserData) -> Unit) {
     val db = FirebaseFirestore.getInstance()
     val usersCollection = db.collection("users")
 
@@ -20,10 +20,10 @@ fun fetchUserData(userId: String, onUserModelFetched: (UserModel) -> Unit) {
         .get()
         .addOnSuccessListener { documentSnapshot ->
             if (documentSnapshot.exists()) {
-                val userModel = documentSnapshot.toObject(UserModel::class.java)
-                if (userModel != null) {
+                val userData = documentSnapshot.toObject(UserData::class.java)
+                if (userData != null) {
                     // User data retrieved successfully
-                    onUserModelFetched(userModel)
+                    onUserModelFetched(userData)
                 } else {
                     // TODO Handle the case where userModel is null
 
