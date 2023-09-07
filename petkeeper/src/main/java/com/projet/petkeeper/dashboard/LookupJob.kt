@@ -70,7 +70,7 @@ fun LookupJob(
                 .padding(paddingValues)
         ) {
             item{
-                uiState.currentSelectedJob?.let { Text(text = it.title) }
+                uiState.currentSelectedJob?.let { it.title?.let { it1 -> Text(text = it1) } }
             }
         }
     }
