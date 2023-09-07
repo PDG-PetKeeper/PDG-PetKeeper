@@ -20,20 +20,48 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
+import com.projet.petkeeper.chat.chatScreens.chatPage.ChatPageViewModel
 import com.projet.petkeeper.data.ChatMessage
-import com.projet.petkeeper.data.UserModel
-import com.projet.petkeeper.ui.theme.PetkeeperTheme
+import com.projet.petkeeper.data.UserData
 import com.projet.petkeeper.utils.ChatMessageItem
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatSearchScreen(
-    chatMessages: List<ChatMessage>,
-    users: List<UserModel>
+fun ChatSearchScreen(chatPageViewModel: ChatPageViewModel
 ) {
     var searchQuery by remember { mutableStateOf("") }
+    val databaseReference: DatabaseReference =
+        FirebaseDatabase.getInstance().reference.child("messages")
+
+    val chatMessages = mutableListOf<ChatMessage>()
+
+    val users = mutableListOf<UserData>()
+    val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+    val usersCollection: CollectionReference = firestore.collection("users")
+
+    usersCollection.get()
+        .addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val querySnapshot: QuerySnapshot? = task.result
+                querySnapshot?.documents?.forEach { document: DocumentSnapshot ->
+                    val user = document.toObject(UserData::class.java)
+                    user?.let { users.add(it) }
+                }
+
+            }
+        }
 
     Scaffold(
         topBar = {
@@ -44,10 +72,33 @@ fun ChatSearchScreen(
                 },
                 onSearch = {// Filter chat messages based on the search query
 
+                    // Fetch chat messages from Firebase
+
+                    databaseReference.addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            chatMessages.clear()
+                            for (data in snapshot.children) {
+                                val chatMessage = data.getValue(ChatMessage::class.java)
+                                chatMessage?.let { chatMessages.add(it) }
+                            }
+
+                            // Update the UI with the new chatMessages list
+                            // You may want to call your filtering logic here as well
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            // Handle database error
+                        }
+                    })
+
                     val filteredChatMessages = mutableListOf<ChatMessage>()
                     for (chatMessage in chatMessages) {
                         val user = users.find { it.userId == chatMessage.senderId }
-                        if (user != null && user.userName?.contains(searchQuery, ignoreCase = true) == true) {
+                        if (user != null && user.userName?.contains(
+                                searchQuery,
+                                ignoreCase = true
+                            ) == true
+                        ) {
                             filteredChatMessages.add(chatMessage)
                         }
                     }
@@ -79,11 +130,18 @@ fun ChatSearchScreen(
         ) {
             items(chatMessages) { chatMessage ->
                 // Display each chat message item
-                ChatMessageItem(chatMessage, userModel = users.find { it.userId == chatMessage.senderId }!!)
+                ChatMessageItem(
+                    chatMessage,
+                    userData = users.find { it.userId == chatMessage.senderId }!!,
+                    onChatMessageClick = {
+                        chatPageViewModel.getMessages()
+                    }
+                )
             }
         }
     }
 }
+
 
 private fun <E> List<E>.addAll(filteredChatMessages: MutableList<E>) {
     this.toMutableList().addAll(filteredChatMessages)
@@ -92,29 +150,4 @@ private fun <E> List<E>.addAll(filteredChatMessages: MutableList<E>) {
 
 private fun <E> List<E>.clear() {
     this.toMutableList().clear()
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun ChatSearchScreenPreview() {
-    val chatMessages = listOf(
-        ChatMessage(senderId = "1", receiverId = "2", message = "Hello"),
-        ChatMessage(senderId = "2", receiverId = "1", message = "Hi there"),
-        ChatMessage(senderId = "1", receiverId = "2", message = "How are you?"),
-        // Add more chat messages here as needed
-    )
-
-    val users = listOf(
-        UserModel(userId = "1", userName = "User1"),
-        UserModel(userId = "2", userName = "User2"),
-        // Add more users here as needed
-    )
-    PetkeeperTheme {
-        ChatSearchScreen(
-            chatMessages = chatMessages,
-            users = users
-        )
-    }
-
 }

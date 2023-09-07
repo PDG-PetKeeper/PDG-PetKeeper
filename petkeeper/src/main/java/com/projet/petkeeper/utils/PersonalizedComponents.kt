@@ -2,6 +2,7 @@ package com.projet.petkeeper.utils
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -210,7 +211,7 @@ fun rememberUserModel(currentUserId: String): UserData? {
 
     LaunchedEffect(Unit) {
         fetchUserData(currentUserId) { userData ->
-            userData = userData
+           // userData = userData
         }
     }
 
@@ -221,16 +222,22 @@ fun rememberUserModel(currentUserId: String): UserData? {
  * Used to represent users chat search result
  */
 @Composable
-fun ChatMessageItem(chatMessage: ChatMessage, userModel: UserModel) {
+fun ChatMessageItem(
+    chatMessage: ChatMessage,
+    userData: UserData,
+    onChatMessageClick: () -> Unit
+) {
     Row(
-        modifier = Modifier.padding(8.dp),
+        modifier = Modifier
+            .padding(8.dp)
+            .clickable(onClick = onChatMessageClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Display the user profile image
-        UserProfileImageIcon(userModel)
+        UserProfileImageIcon(userData)
 
         // Display the sender's name
-        userModel.userName?.let {
+        userData.userName?.let {
             Text(
                 text = it, // Replace with the actual property for the user's name
                 modifier = Modifier.padding(start = 8.dp),

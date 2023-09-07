@@ -63,7 +63,7 @@ class ChatPageViewModel(private val currentUserId: String,private val receiverUs
 
     //Get the messages
 
-    private fun getMessages() {
+     fun getMessages() {
         Firebase.firestore.collection(Constants.CHAT_MESSAGES)
             .orderBy(Constants.SENT_ON)
             .addSnapshotListener { value, e ->
