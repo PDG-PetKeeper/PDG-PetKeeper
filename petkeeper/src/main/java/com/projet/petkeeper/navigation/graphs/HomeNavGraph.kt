@@ -58,6 +58,7 @@ fun NavGraphBuilder.searchNavGraph(
     ) {
         composable(route = SearchScreenRoutes.Root.route) {
             viewModel.showNavBar()
+            viewModel.searchInit()
             SearchRootScreen(
                 //name = SearchScreen.Information.route
                 //navController.navigate(SearchScreen.SelectedSearch.route)
@@ -85,7 +86,8 @@ fun NavGraphBuilder.chatNavGraph(
     ) {
         composable(route = ChatScreenRoutes.Root.route) {
             viewModel.showNavBar()
-           ChatRootScreen(
+            viewModel.chatInit()
+            ChatRootScreen(
                uiState = uiState,
                userData = userData,
                onSearch = {
@@ -95,7 +97,7 @@ fun NavGraphBuilder.chatNavGraph(
                    viewModel.updateCurrentMessages(it)
                    //navController.navigate(route = ChatScreenRoutes.SelectedChat.route)
                }
-           )
+            )
         }
 
         composable(route = ChatScreenRoutes.SelectedChat.route) {
@@ -119,6 +121,7 @@ fun NavGraphBuilder.dashboardNavGraph(
     ) {
         composable(route = DashboardScreenRoutes.Root.route) {
             viewModel.showNavBar()
+            viewModel.dashboardInit()
             DashboardRootScreen(
                 uiState = uiState,
                 userData = userData,
@@ -184,6 +187,7 @@ fun NavGraphBuilder.profileNavGraph(
     ) {
         composable(route = ProfileScreenRoutes.Root.route) {
             viewModel.showNavBar()
+            viewModel.profileInit()
             // edit page
             ProfileScreen(userData, onSignOut)
 

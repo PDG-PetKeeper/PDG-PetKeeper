@@ -6,10 +6,10 @@ import java.util.Date
 import java.util.GregorianCalendar
 
 data class JobData (
-    val id: Long? = null,
+    val id: String? = null,
     val poster: String? = null,
-    val worker: String? = null,
-    val image: String? = null,
+    var worker: String? = null,
+    var image: String? = null,
     var title: String? = null,
     var pet: String? = null,
     var description: String? = null,
@@ -38,7 +38,7 @@ data class JobData (
 object JobDataExample {
     val jobDataExampleList = listOf(
         JobData(
-            1L,
+            "1L",
             "poster 1",
             null,
             null,
@@ -51,7 +51,7 @@ object JobDataExample {
         ),
 
         JobData(
-            2L,
+            "2L",
             "poster 2",
             null,
             null,
@@ -64,7 +64,7 @@ object JobDataExample {
         ),
 
         JobData(
-            3L,
+            "3L",
             "poster 2",
             null,
             null,
@@ -77,7 +77,7 @@ object JobDataExample {
         ),
 
         JobData(
-            4L,
+            "4L",
             "poster 1",
             null,
             null,
@@ -89,7 +89,7 @@ object JobDataExample {
             "2.55"
         ),
         JobData(
-            5L,
+            "5L",
             "poster 1",
             null,
             null,
@@ -102,7 +102,7 @@ object JobDataExample {
         ),
 
         JobData(
-            6L,
+            "6L",
             "poster 1",
             null,
             null,
@@ -115,7 +115,7 @@ object JobDataExample {
         ),
 
         JobData(
-            7L,
+            "7L",
             "poster 3",
             null,
             null,
@@ -128,7 +128,7 @@ object JobDataExample {
         ),
 
         JobData(
-            8L,
+            "8L",
             "poster 4",
             null,
             null,
@@ -140,7 +140,7 @@ object JobDataExample {
             "2.55"
         ),
         JobData(
-            9L,
+            "9L",
             "poster 1",
             null,
             null,
@@ -153,7 +153,7 @@ object JobDataExample {
         ),
 
         JobData(
-            10L,
+            "10L",
             "poster 5",
             null,
             null,
@@ -166,7 +166,7 @@ object JobDataExample {
         ),
 
         JobData(
-            11L,
+            "11L",
             "poster 5",
             null,
             null,
@@ -179,7 +179,7 @@ object JobDataExample {
         ),
 
         JobData(
-            12L,
+            "12L",
             "poster 3",
             null,
             null,

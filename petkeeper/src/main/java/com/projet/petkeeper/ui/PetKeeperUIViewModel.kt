@@ -35,7 +35,6 @@ class PetKeeperUIViewModel(val userData: UserData, private val coroutineScope: C
     }
     private fun initializeUIState() {
         _uiState.value = PetKeeperUIState()
-        dashboardInit()
     }
     fun searchInit() {
         val mutableJobList: MutableList<JobData> = mutableListOf()
@@ -49,6 +48,12 @@ class PetKeeperUIViewModel(val userData: UserData, private val coroutineScope: C
                         mutableJobList.add(document.toObject())
                     }
                 }
+        }
+
+        _uiState.update {
+            it.copy(
+                currentJobList = mutableJobList.toList()
+            )
         }
     }
 
@@ -81,20 +86,29 @@ class PetKeeperUIViewModel(val userData: UserData, private val coroutineScope: C
         val mutableJobList: MutableList<JobData> = mutableListOf()
 
         coroutineScope.launch {
-            firestoreDB.collection("jobs")
-                .whereEqualTo("poster", userData.userId)
-                .get()
-                .addOnSuccessListener {documents ->
-                    for (document in documents){
-                        mutableJobList.add(document.toObject())
-                    }
-                }
-        }
+            try {
+                firestoreDB.collection("jobs")
+                    .whereEqualTo("poster", userData.userId)
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        for (document in documents) {
+                            try {
+                                mutableJobList.add(document.toObject())
+                                Log.e("jobAdd", "Successfull joblist add")
+                            } catch (e: Exception) {
+                                Log.e("JobAdd", "Exception: $e")
+                            }
+                        }
 
-        _uiState.update {
-            it.copy(
-                currentJobList = mutableJobList.toList()
-            )
+                        _uiState.update {
+                            it.copy(
+                                currentJobList = mutableJobList.toList()
+                            )
+                        }
+                    }
+            } catch (e: Exception) {
+                Log.e("Firestore", "Exception: $e")
+            }
         }
     }
 

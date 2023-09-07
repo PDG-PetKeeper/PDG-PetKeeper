@@ -151,8 +151,7 @@ fun CreateJob(
                 placeholder = { Text(text = "Cat or Dog") },
                 onValueChange = {
                     animal = it
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+                }
             )
 
             var location by remember { mutableStateOf(TextFieldValue("")) }
@@ -166,8 +165,7 @@ fun CreateJob(
                 placeholder = { Text(text = "Lausanne") },
                 onValueChange = {
                     location = it
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+                }
             )
 
             val today = Date().time
@@ -295,7 +293,7 @@ fun CreateJob(
 
                     // Upload image, retrieve url, upload advert, go back to job lis
                     val jobData = JobData(
-                        id = GregorianCalendar().timeInMillis,
+                        id = GregorianCalendar().timeInMillis.toString(),
                         poster = userData?.userId, // need userData
                         worker = null,
                         image = "", // need images
@@ -336,24 +334,16 @@ fun uploadAll(image: Uri?, data: JobData){
             if (task.isSuccessful) {
                 // once completed, upload the map to firestore with the download url and data
                 storageRef.downloadUrl.addOnSuccessListener { uri ->
-
-                    val map = HashMap<String, Any>()
-                    map["id"] = data.id.toString()
-                    map["poster"] = data.poster.toString()
-                    map["worker"] = data.worker.toString()
-                    map["downloadString"] = uri.toString()
-                    map["title"] = data.title.toString()
-                    map["pet"] = data.pet.toString()
-                    map["description"] = data.description.toString()
-                    map["startDate"] = data.getDateString(true)
-                    map["endDate"] = data.getDateString(false)
-                    map["hourlyPay"] = data.pay.toString()
-                    map["location"] = data.location.toString()
+                    data.image = uri.toString()
 
                     // ref to storage
                     val firebaseFirestore = FirebaseFirestore.getInstance()
                     // uploading the map to firestore with its content
-                    firebaseFirestore.collection("jobs").add(map).addOnCompleteListener { firestoreTask ->
+                    firebaseFirestore
+                        .collection("jobs")
+                        .document(data.id!!)
+                        .set(data)
+                        .addOnCompleteListener { firestoreTask ->
 
                         if (firestoreTask.isSuccessful) {
                             Log.d(TAG, "advert post added")
