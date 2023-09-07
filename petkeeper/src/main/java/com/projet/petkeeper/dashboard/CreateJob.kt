@@ -41,9 +41,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.projet.petkeeper.R
 import com.projet.petkeeper.data.JobData
-import com.projet.petkeeper.data.PetType
-import coil.compose.rememberAsyncImagePainter
-import com.google.firebase.ktx.Firebase
 import com.projet.petkeeper.data.UserModel
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
