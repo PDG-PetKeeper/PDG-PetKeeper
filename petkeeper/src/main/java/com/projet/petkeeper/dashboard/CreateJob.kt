@@ -1,6 +1,7 @@
 package com.projet.petkeeper.dashboard
 
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -41,10 +42,14 @@ import coil.compose.rememberAsyncImagePainter
 import com.projet.petkeeper.data.JobData
 import com.projet.petkeeper.data.UserData
 import com.google.firebase.storage.FirebaseStorage
+import com.projet.petkeeper.R
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 import com.projet.petkeeper.utils.convertMillisToDate
 import java.util.*
+import com.google.firebase.storage.ktx.component1
+import com.google.firebase.storage.ktx.component2
+import com.projet.petkeeper.utils.Constants.TAG
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -309,8 +314,12 @@ fun CreateJob(
                         location = location.text
                     )
 
+
+                    val uploadString = uploadImage(selectImage)
+                    jobData.downloadString = uploadString
+
                     
-                    onPublishClick(jobData)
+
                     onBackClick()
                 }
             ) {
@@ -319,6 +328,32 @@ fun CreateJob(
         }
     }
 }
+
+
+fun uploadImage(image: Uri?): String{
+
+    var storageRef = FirebaseStorage.getInstance().reference.child("image")
+
+    storageRef = storageRef.child(UUID.randomUUID().toString())
+
+    val uploadTask = storageRef.putFile(image!!)
+
+    uploadTask.addOnProgressListener { (bytesTransferred, totalByteCount) ->
+        val progress = (100.0 * bytesTransferred) / totalByteCount
+        Log.d(TAG, "Upload is $progress% done")
+    }.addOnPausedListener {
+        Log.d(TAG, "Upload is paused")
+    }.addOnFailureListener {
+        // Handle unsuccessful uploads
+    }.addOnSuccessListener { taskSnapshot ->
+        Log.d(TAG, "Upload is successful")
+        // Handle successful uploads on complete
+        // ...
+    }
+
+    return storageRef.downloadUrl.toString()
+}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
