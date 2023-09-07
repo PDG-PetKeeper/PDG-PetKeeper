@@ -38,9 +38,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.projet.petkeeper.R
 import com.projet.petkeeper.data.JobData
 import com.projet.petkeeper.data.UserData
+import com.google.firebase.storage.FirebaseStorage
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 import com.projet.petkeeper.utils.convertMillisToDate
@@ -308,7 +308,10 @@ fun CreateJob(
                         hourlyPay = price.text,
                         location = location.text
                     )
+
+                    
                     onPublishClick(jobData)
+                    onBackClick()
                 }
             ) {
                 Text(" Publish ")

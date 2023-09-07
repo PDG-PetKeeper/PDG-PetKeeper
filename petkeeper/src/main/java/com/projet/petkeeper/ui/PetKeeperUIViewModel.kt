@@ -1,6 +1,8 @@
 package com.projet.petkeeper.ui
 
 import android.net.Uri
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -9,6 +11,12 @@ import com.projet.petkeeper.data.UserData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import com.google.firebase.storage.ktx.component1
+import com.google.firebase.storage.ktx.component2
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.projet.petkeeper.utils.Constants.TAG
 
 class PetKeeperUIViewModel (val userData: UserData) : ViewModel() {
 
@@ -73,24 +81,7 @@ class PetKeeperUIViewModel (val userData: UserData) : ViewModel() {
 
     }
 
-    fun addJob(jobData: JobData){
 
-        uploadImage(jobData.image)
-    }
-
-    private fun uploadImage(image: Uri?){
-        try{
-            // creating a storage reference
-            // var
-
-
-
-        }catch (e: Exception){
-            println("Error uploading image")
-        }
-
-
-    }
 
 
 
