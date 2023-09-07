@@ -1,33 +1,32 @@
 package com.projet.petkeeper.data
 
-import android.net.Uri
 import com.google.firebase.Timestamp
 import java.util.Calendar
+import java.util.Date
 import java.util.GregorianCalendar
 
 data class JobData (
-    val id: Long?,
-    val poster: String?,  //change to data class for user profiles
-    val worker: String?, //change to data class for user profiles
-    val image: Uri?,
-    var title: String,
-    var pet: String,
-    var description: String,
-    var startDate: Timestamp,
-    var endDate: Timestamp,
-    var hourlyPay: String,
-    var location: String = "unknown",
-    var downloadString: String = "unknown"
+    val id: Long? = null,
+    val posterId: String? = null,
+    val workerId: String? = null,
+    val image: String? = null,
+    var title: String? = null,
+    var pet: String? = null,
+    var description: String? = null,
+    var startDate: Timestamp? = null,
+    var endDate: Timestamp? = null,
+    var pay: String? = null,
+    var location: String? = null,
 ){
     fun getDateString(fromStartDate: Boolean): String{
         val temp = GregorianCalendar()
         if (fromStartDate){
-            temp.time = startDate.toDate()
+            temp.time = startDate?.toDate() ?: Date(0L)
             return temp.get(Calendar.YEAR).toString() +
                     "-" + temp.get(Calendar.MONTH).toString() +
                     "-" + temp.get(Calendar.DATE).toString()
         } else {
-            temp.time = endDate.toDate()
+            temp.time = endDate?.toDate() ?: Date(0L)
             return temp.get(Calendar.YEAR).toString() +
                     "-" + temp.get(Calendar.MONTH).toString() +
                     "-" + temp.get(Calendar.DATE).toString()

@@ -32,7 +32,16 @@ fun NavBar(
             NavigationBarItem(
                 selected = uiState.currentNavBarItemIndex == index,
                 onClick = {
-                    viewModel.changeNavBarCurentIndex(index)
+                    if (navBarItem.equals(NavBarItem.SearchRoot)){
+                        viewModel.searchInit()
+                    } else if (navBarItem.equals(NavBarItem.ChatRoot)) {
+                        viewModel.chatInit()
+                    } else if (navBarItem.equals(NavBarItem.DashboardRoot)) {
+                        viewModel.dashboardInit()
+                    } else {
+                        viewModel.profileInit()
+                    }
+                    viewModel.changeNavBarCurrentIndex(index)
                     navController.navigate(navBarItem.route)
                 },
                 icon = {
