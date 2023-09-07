@@ -100,7 +100,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx:24.7.1")
-    implementation("com.google.firebase:firebase-storage-ktx")
+    implementation("com.google.firebase:firebase-storage-ktx:20.2.1")
 
 
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0-alpha01")

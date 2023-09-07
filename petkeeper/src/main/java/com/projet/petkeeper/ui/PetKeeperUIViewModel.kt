@@ -1,24 +1,17 @@
 package com.projet.petkeeper.ui
 
-import android.net.Uri
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.projet.petkeeper.data.JobData
 import com.projet.petkeeper.data.UserData
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import com.google.firebase.storage.ktx.component1
-import com.google.firebase.storage.ktx.component2
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
-import com.projet.petkeeper.utils.Constants.TAG
+import kotlinx.coroutines.launch
 
-class PetKeeperUIViewModel (val userData: UserData) : ViewModel() {
+class PetKeeperUIViewModel (val userData: UserData, private val coroutineScope: CoroutineScope) : ViewModel() {
 
     private val firestoreDB = Firebase.firestore
 
@@ -38,7 +31,10 @@ class PetKeeperUIViewModel (val userData: UserData) : ViewModel() {
 
     fun searchInit(){
         var mutableJobList: MutableList<JobData>
-        firestoreDB.collection("")
+        coroutineScope.launch {
+            firestoreDB.collection("")
+        }
+
     }
 
     fun changeNavBarCurentIndex(index: Int){
