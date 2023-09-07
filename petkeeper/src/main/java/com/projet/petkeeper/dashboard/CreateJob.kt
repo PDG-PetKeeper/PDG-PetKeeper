@@ -40,11 +40,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FirebaseFirestore
 import com.projet.petkeeper.R
 import com.projet.petkeeper.data.JobData
 import com.projet.petkeeper.data.UserData
 import com.google.firebase.storage.FirebaseStorage
-import com.projet.petkeeper.R
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 import com.projet.petkeeper.utils.convertMillisToDate
@@ -298,9 +298,9 @@ fun CreateJob(
                     // Upload image, retrieve url, upload advert, go back to job lis
                     val jobData = JobData(
                         id = GregorianCalendar().timeInMillis,
-                        poster = userData?.userId, // need userData
-                        worker = null,
-                        image = selectImage, // need images
+                        posterId = userData?.userId, // need userData
+                        workerId = null,
+                        image = "", // need images
                         title = title.text,
                         pet = animal.text, // need PetType selection
                         description = description.text,
@@ -311,10 +311,7 @@ fun CreateJob(
                     )
 
 
-                    val uploadString = uploadImage(selectImage)
-                    jobData.downloadString = uploadString
-
-                    
+                    uploadAll(selectImage, jobData)
 
                     onBackClick()
                 }
@@ -326,28 +323,55 @@ fun CreateJob(
 }
 
 
-fun uploadImage(image: Uri?): String{
+fun uploadAll(image: Uri?, data: JobData){
 
+    //function is using listeners
     var storageRef = FirebaseStorage.getInstance().reference.child("image")
 
+    // Create a reference to 'images/random' on firebase storage
     storageRef = storageRef.child(UUID.randomUUID().toString())
 
-    val uploadTask = storageRef.putFile(image!!)
+    image?.let {
+        // upload the image to firebase storage
+        storageRef.putFile(it).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                // once completed, upload the map to firestore with the download url and data
+                storageRef.downloadUrl.addOnSuccessListener { uri ->
 
-    uploadTask.addOnProgressListener { (bytesTransferred, totalByteCount) ->
-        val progress = (100.0 * bytesTransferred) / totalByteCount
-        Log.d(TAG, "Upload is $progress% done")
-    }.addOnPausedListener {
-        Log.d(TAG, "Upload is paused")
-    }.addOnFailureListener {
-        // Handle unsuccessful uploads
-    }.addOnSuccessListener { taskSnapshot ->
-        Log.d(TAG, "Upload is successful")
-        // Handle successful uploads on complete
-        // ...
+                    val map = HashMap<String, Any>()
+                    map["id"] = data.id.toString()
+                    map["poster"] = data.posterId.toString()
+                    map["worker"] = data.workerId.toString()
+                    map["image"] = data.image.toString()
+                    map["title"] = data.title.toString()
+                    map["pet"] = data.pet.toString()
+                    map["description"] = data.description.toString()
+                    map["startDate"] = data.getDateString(true)
+                    map["endDate"] = data.getDateString(false)
+                    map["hourlyPay"] = data.pay.toString()
+                    map["location"] = data.location.toString()
+                    map["downloadString"] = uri.toString()
+
+                    // ref to storage
+                    val firebaseFirestore = FirebaseFirestore.getInstance()
+                    // uploading the map to firestore with its content
+                    firebaseFirestore.collection("jobs").add(map).addOnCompleteListener { firestoreTask ->
+
+                        if (firestoreTask.isSuccessful) {
+                            Log.d(TAG, "advert post added")
+
+                        } else {
+                            Log.d(TAG, "advert post failed")
+
+                        }
+
+                    }
+                }
+            } else {
+                Log.d(TAG, "image upload failed")
+            }
+        }
     }
-
-    return storageRef.downloadUrl.toString()
 }
 
 

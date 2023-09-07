@@ -97,7 +97,7 @@ fun DashboardJobCard(
     HorizontalDivider()
     ListItem(
         modifier = Modifier.clickable {onJobClick()},
-        headlineContent = { Text(jobData.title) },
+        headlineContent = { jobData.title?.let { Text(it) } },
         supportingContent = { Text(text = "From $startDate to $endDate") },
         leadingContent = {
             AsyncImage(
