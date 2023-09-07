@@ -2,6 +2,7 @@ package com.projet.petkeeper.utils
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -35,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
@@ -42,6 +44,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
+import com.projet.petkeeper.data.ChatMessage
 import com.projet.petkeeper.data.UserData
 
 /**
@@ -208,9 +211,45 @@ fun rememberUserModel(currentUserId: String): UserData? {
 
     LaunchedEffect(Unit) {
         fetchUserData(currentUserId) { userData ->
-            userData = userData
+           // userData = userData
         }
     }
 
     return userData
+}
+
+/**
+ * Used to represent users chat search result
+ */
+@Composable
+fun ChatMessageItem(
+    chatMessage: ChatMessage,
+    userData: UserData,
+    onChatMessageClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .padding(8.dp)
+            .clickable(onClick = onChatMessageClick),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // Display the user profile image
+        UserProfileImageIcon(userData)
+
+        // Display the sender's name
+        userData.userName?.let {
+            Text(
+                text = it, // Replace with the actual property for the user's name
+                modifier = Modifier.padding(start = 8.dp),
+                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)
+            )
+        }
+
+        // Display the message content
+        Text(
+            text = chatMessage.message,
+            modifier = Modifier.padding(start = 8.dp),
+            style = TextStyle(fontSize = 16.sp)
+        )
+    }
 }

@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.projet.petkeeper.chat.ChatRootScreen
+import com.projet.petkeeper.chat.chatScreens.chatSearchs.ChatRootScreen
 import com.projet.petkeeper.dashboard.CreateJob
 import com.projet.petkeeper.dashboard.DashboardRootScreen
 import com.projet.petkeeper.dashboard.LookupJob
@@ -164,7 +164,7 @@ fun NavGraphBuilder.dashboardNavGraph(
                     )
                 },
                 onPublishClick = { jobData: JobData ->
-                    viewModel.addJob(jobData)
+                    //viewModel.addJob(jobData)
                     viewModel.updateSelectedJob(jobData)
                     navController.navigate(route = DashboardScreenRoutes.JobLook.route)
                 },

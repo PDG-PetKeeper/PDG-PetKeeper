@@ -15,8 +15,9 @@ data class JobData (
     var description: String,
     var startDate: Timestamp,
     var endDate: Timestamp,
-    var pay: String,
-    var location: String = "unknown"
+    var hourlyPay: String,
+    var location: String = "unknown",
+    var downloadString: String = "unknown"
 ){
     fun getDateString(fromStartDate: Boolean): String{
         val temp = GregorianCalendar()
