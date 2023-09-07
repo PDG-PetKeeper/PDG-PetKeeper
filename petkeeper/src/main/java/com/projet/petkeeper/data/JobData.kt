@@ -1,6 +1,7 @@
 package com.projet.petkeeper.data
 
 import android.net.Uri
+import com.google.firebase.Timestamp
 import java.util.Calendar
 import java.util.GregorianCalendar
 
@@ -12,20 +13,23 @@ data class JobData (
     var title: String,
     var pet: String,
     var description: String,
-    var startDate: GregorianCalendar,
-    var endDate: GregorianCalendar,
-    var hourlyPay: String,
+    var startDate: Timestamp,
+    var endDate: Timestamp,
+    var pay: String,
     var location: String = "unknown"
 ){
     fun getDateString(fromStartDate: Boolean): String{
+        val temp = GregorianCalendar()
         if (fromStartDate){
-            return startDate.get(Calendar.YEAR).toString() +
-                    "-" + startDate.get(Calendar.MONTH).toString() +
-                    "-" + startDate.get(Calendar.DATE).toString()
+            temp.time = startDate.toDate()
+            return temp.get(Calendar.YEAR).toString() +
+                    "-" + temp.get(Calendar.MONTH).toString() +
+                    "-" + temp.get(Calendar.DATE).toString()
         } else {
-            return endDate.get(Calendar.YEAR).toString() +
-                    "-" + endDate.get(Calendar.MONTH).toString() +
-                    "-" + endDate.get(Calendar.DATE).toString()
+            temp.time = endDate.toDate()
+            return temp.get(Calendar.YEAR).toString() +
+                    "-" + temp.get(Calendar.MONTH).toString() +
+                    "-" + temp.get(Calendar.DATE).toString()
         }
     }
 }
@@ -41,8 +45,8 @@ object JobDataExample {
             "test 1",
             "cat",
             "This is a description, it is long and therefore heavy. but we store it like this",
-            GregorianCalendar(2023,9,12),
-            GregorianCalendar(2023,9,15),
+            Timestamp(GregorianCalendar(2023,9,12).time),
+            Timestamp(GregorianCalendar(2023,9,15).time),
             "2.55"
         ),
 
@@ -54,8 +58,8 @@ object JobDataExample {
             "test 2",
             "cat",
             "This is a description, it is long and therefore heavy. but we store it like this 1",
-            GregorianCalendar(2023,9,15),
-            GregorianCalendar(2023,9,16),
+            Timestamp(GregorianCalendar(2023,9,15).time),
+            Timestamp(GregorianCalendar(2023,9,16).time),
             "2.55"
         ),
 
@@ -67,8 +71,8 @@ object JobDataExample {
             "test 3",
             "cat",
             "This is a description, it is long and therefore heavy. but we store it like this 1",
-            GregorianCalendar(2023,9,14),
-            GregorianCalendar(2023,9,17),
+            Timestamp(GregorianCalendar(2023,9,14).time),
+            Timestamp(GregorianCalendar(2023,9,17).time),
             "2.55"
         ),
 
@@ -80,8 +84,8 @@ object JobDataExample {
             "test 4",
             "cat",
             "This is a description, it is long and therefore heavy. but we store it like this 1",
-            GregorianCalendar(2023,9,5),
-            GregorianCalendar(2023,9,7),
+            Timestamp(GregorianCalendar(2023,9,5).time),
+            Timestamp(GregorianCalendar(2023,9,7).time),
             "2.55"
         ),
         JobData(
@@ -92,8 +96,8 @@ object JobDataExample {
             "test 5",
             "cat",
             "This is a description, it is long and therefore heavy. but we store it like this 1",
-            GregorianCalendar(2023,9,6),
-            GregorianCalendar(2023,9,16),
+            Timestamp(GregorianCalendar(2023,9,6).time),
+            Timestamp(GregorianCalendar(2023,9,16).time),
             "2.55"
         ),
 
@@ -105,8 +109,8 @@ object JobDataExample {
             "test 6",
             "cat",
             "This is a description, it is long and therefore heavy. but we store it like this 1",
-            GregorianCalendar(2023,9,12),
-            GregorianCalendar(2023,9,17),
+            Timestamp(GregorianCalendar(2023,9,12).time),
+            Timestamp(GregorianCalendar(2023,9,17).time),
             "2.55"
         ),
 
@@ -118,8 +122,8 @@ object JobDataExample {
             "test 7",
             "cat",
             "This is a description, it is long and therefore heavy. but we store it like this 1",
-            GregorianCalendar(2023,12,25),
-            GregorianCalendar(2023,12,25),
+            Timestamp( GregorianCalendar(2023,12,25).time),
+            Timestamp(GregorianCalendar(2023,12,25).time),
             "2.55"
         ),
 
@@ -131,8 +135,8 @@ object JobDataExample {
             "test 8",
             "cat",
             "This is a description, it is long and therefore heavy. but we store it like this 1",
-            GregorianCalendar(2023,9,10),
-            GregorianCalendar(2023,9,11),
+            Timestamp(GregorianCalendar(2023,9,10).time),
+            Timestamp(GregorianCalendar(2023,9,11).time),
             "2.55"
         ),
         JobData(
@@ -143,8 +147,8 @@ object JobDataExample {
             "test 9",
             "cat",
             "This is a description, it is long and therefore heavy. but we store it like this 1",
-            GregorianCalendar(2023,9,7),
-            GregorianCalendar(2023,9,14),
+            Timestamp(GregorianCalendar(2023,9,7).time),
+            Timestamp(GregorianCalendar(2023,9,14).time),
             "2.55"
         ),
 
@@ -156,8 +160,8 @@ object JobDataExample {
             "test 10",
             "cat",
             "This is a description, it is long and therefore heavy. but we store it like this 1",
-            GregorianCalendar(2023,9,12),
-            GregorianCalendar(2023,9,13),
+            Timestamp(GregorianCalendar(2023,9,12).time),
+            Timestamp(GregorianCalendar(2023,9,13).time),
             "2.55"
         ),
 
@@ -169,8 +173,8 @@ object JobDataExample {
             "test 11",
             "cat",
             "This is a description, it is long and therefore heavy. but we store it like this 1",
-            GregorianCalendar(2023,9,21),
-            GregorianCalendar(2023,9,25),
+            Timestamp(GregorianCalendar(2023,9,21).time),
+            Timestamp(GregorianCalendar(2023,9,25).time),
             "2.55"
         ),
 
@@ -182,8 +186,8 @@ object JobDataExample {
             "test 12",
             "cat",
             "This is a description, it is long and therefore heavy. but we store it like this 1",
-            GregorianCalendar(2023,10,30),
-            GregorianCalendar(2023,11,5),
+            Timestamp(GregorianCalendar(2023,10,30).time),
+            Timestamp(GregorianCalendar(2023,11,5).time),
             "2.55"
         ),
     )
