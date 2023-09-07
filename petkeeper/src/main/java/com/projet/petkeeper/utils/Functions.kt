@@ -12,18 +12,19 @@ fun convertMillisToDate(millis: Long): String {
 }
 
 // Fetch user data from Firestore based on the user's id
-fun fetchUserData(userId: String, onUserModelFetched: (UserData) -> Unit) {
+fun fetchUserData(userId: String, onUserModelFetched: (UserData) -> Unit) : UserData?  {
     val db = FirebaseFirestore.getInstance()
     val usersCollection = db.collection("users")
+    var userData: UserData? = null
 
     usersCollection.document(userId)
         .get()
         .addOnSuccessListener { documentSnapshot ->
             if (documentSnapshot.exists()) {
-                val userData = documentSnapshot.toObject(UserData::class.java)
+                userData = documentSnapshot.toObject(UserData::class.java)
                 if (userData != null) {
                     // User data retrieved successfully
-                    onUserModelFetched(userData)
+                    onUserModelFetched(userData!!)
                 } else {
                     // TODO Handle the case where userModel is null
 
@@ -35,6 +36,7 @@ fun fetchUserData(userId: String, onUserModelFetched: (UserData) -> Unit) {
         .addOnFailureListener { exception ->
             // TODO Handle the error
         }
+    return userData
 }
 /*fun fetchChatFromFirestore(){
     lateinit var auth: FirebaseAuth
