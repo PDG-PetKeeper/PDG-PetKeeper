@@ -3,7 +3,7 @@ package com.projet.petkeeper.utils
 object Constants {
     const val TAG = "petkeeper-app"
 
-    const val MESSAGES = "messages"
+    const val CHAT_MESSAGES = "chat_messages"
     const val MESSAGE = "message"
     const val SENT_BY = "sent_by"
     const val SENT_ON = "sent_on"

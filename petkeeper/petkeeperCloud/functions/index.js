@@ -29,9 +29,9 @@ exports.addUserToFirestore = functions.auth.user().onCreate((user) =>{
 // Code that runs every time anew user is created
   const usersRef = admin.firestore().collection("users");
   return usersRef.doc(user.uid).set({
-    userId: user.uid,
-    displayName: user.displayName,
-    photoURL: user.photoURL,
+    userId: user.userId,
+    userName: user.userName,
+    profileImageUrl: user.profileImageUrl,
   });
 });
 
