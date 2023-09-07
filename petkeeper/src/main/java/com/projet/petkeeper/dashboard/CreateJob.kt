@@ -310,7 +310,8 @@ fun CreateJob(
                         location = location.text
                     )
 
-
+                    // this function can't be called from the viewmodel
+                    // causes to crash the app
                     uploadAll(selectImage, jobData)
 
                     onBackClick()
@@ -342,7 +343,7 @@ fun uploadAll(image: Uri?, data: JobData){
                     map["id"] = data.id.toString()
                     map["poster"] = data.posterId.toString()
                     map["worker"] = data.workerId.toString()
-                    map["image"] = data.image.toString()
+                    map["downloadString"] = uri.toString()
                     map["title"] = data.title.toString()
                     map["pet"] = data.pet.toString()
                     map["description"] = data.description.toString()
@@ -350,7 +351,6 @@ fun uploadAll(image: Uri?, data: JobData){
                     map["endDate"] = data.getDateString(false)
                     map["hourlyPay"] = data.pay.toString()
                     map["location"] = data.location.toString()
-                    map["downloadString"] = uri.toString()
 
                     // ref to storage
                     val firebaseFirestore = FirebaseFirestore.getInstance()
