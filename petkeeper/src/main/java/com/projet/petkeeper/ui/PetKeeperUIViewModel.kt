@@ -173,6 +173,8 @@ class PetKeeperUIViewModel(val userData: UserData, private val coroutineScope: C
 
     fun searchChats(queryString: String) {
 
+        chatInit()
+
         val mutableUserPairList: MutableList<UserPair> = mutableListOf()
         val currentUserPairList = _uiState.value.userPairList
 
