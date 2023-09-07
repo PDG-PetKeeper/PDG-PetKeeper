@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.projet.petkeeper.chat.chatScreens.chatSearchs.ChatRootScreen
+import com.projet.petkeeper.chat.chatScreens.chatSearchs.ChatSearchScreen
 import com.projet.petkeeper.dashboard.CreateJob
 import com.projet.petkeeper.dashboard.DashboardRootScreen
 import com.projet.petkeeper.dashboard.LookupJob
@@ -73,7 +73,6 @@ fun NavGraphBuilder.searchNavGraph(
 //        }
     }
 }
-
 fun NavGraphBuilder.chatNavGraph(
     navController: NavHostController,
     viewModel: PetKeeperUIViewModel,
@@ -84,20 +83,24 @@ fun NavGraphBuilder.chatNavGraph(
         route = NavBarItem.ChatRoot.route,
         startDestination = ChatScreenRoutes.Root.route
     ) {
+
+        // Inside your NavGraphBuilder.chatNavGraph
         composable(route = ChatScreenRoutes.Root.route) {
-            viewModel.showNavBar()
-            ChatRootScreen(
-                uiState = uiState,
+            ChatSearchScreen(
+                uiState = uiState, // Pass the required parameters here
                 userData = userData,
-                onSearch = {
-                    viewModel.searchChats(it)
+                onSearch = { searchQuery ->
+                    uiState.searchQuery?.let { it1 -> viewModel.searchChats(it1) }
+                    // Handle search query
                 },
-                onChatClick = {
-                    viewModel.updateSelectedJob(it)
-                    navController.navigate(route = ChatScreenRoutes.SelectedChat.route)
+                onChatClick = { clickedUserData ->
+                    // Handle click on a chat item
                 }
             )
         }
+
+        }
+
 //        composable(route = ChatScreen.SelectedChat.route) {
 //            ScreenContent(name = ChatScreen.SelectedChat.route) {
 //                navController.popBackStack(
@@ -107,7 +110,7 @@ fun NavGraphBuilder.chatNavGraph(
 //            }
 //        }
     }
-}
+
 
 fun NavGraphBuilder.dashboardNavGraph(
     navController: NavHostController,

@@ -8,7 +8,12 @@ data class ChatMessage(
     var receiverId: String,
     var message: String,
     var timestamp: Timestamp = Timestamp.now()
-)
+) {
+    operator fun get(message: String): Any {
+        return message
+
+    }
+}
 
 
 

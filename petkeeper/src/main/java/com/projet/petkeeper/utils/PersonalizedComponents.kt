@@ -2,7 +2,6 @@ package com.projet.petkeeper.utils
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -46,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.projet.petkeeper.data.ChatMessage
 import com.projet.petkeeper.data.UserData
+import com.projet.petkeeper.ui.PetKeeperUIState
 
 /**
  * Set different icons/views which will be used throughout the application.
@@ -223,14 +223,16 @@ fun rememberUserModel(currentUserId: String): UserData? {
  */
 @Composable
 fun ChatMessageItem(
-    chatMessage: ChatMessage,
+    uiState: PetKeeperUIState,
     userData: UserData,
-    onChatMessageClick: () -> Unit
-) {
+    chatMessage: ChatMessage,
+    onChatMessageClick: (ChatMessage)->Unit,
+
+    ) {
     Row(
         modifier = Modifier
-            .padding(8.dp)
-            .clickable(onClick = onChatMessageClick),
+            .padding(8.dp),
+           // .clickable(onClick = onChatMessageClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Display the user profile image
