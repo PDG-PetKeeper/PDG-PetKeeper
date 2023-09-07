@@ -15,7 +15,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.projet.petkeeper.ui.PetKeeperUIViewModel
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
@@ -70,7 +69,7 @@ fun NavBarPreview() {
     PetkeeperTheme {
         Scaffold(
             bottomBar = {
-                NavBar(rememberNavController(), PetKeeperUIViewModel())
+               // NavBar(rememberNavController(), PetKeeperUIViewModel())
             }
         ) {
                 paddingValues ->
