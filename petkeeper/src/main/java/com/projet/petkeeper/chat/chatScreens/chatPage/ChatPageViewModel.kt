@@ -38,12 +38,12 @@ class ChatPageViewModel(private val currentUserId: String,private val receiverUs
         if (message.isNotEmpty()) {
             val currentUser = Firebase.auth.currentUser
             if (currentUser != null) {
-            val chatMessage = ChatMessage(
-                senderId = currentUser.uid,
-                receiverId = receiverUserId, // Replace with the recipient's user ID
-                message = message,
-                timestamp = Timestamp.now()
-            )
+                val chatMessage = ChatMessage(
+                    senderId = currentUser.uid,
+                    receiverId = receiverUserId, // Replace with the recipient's user ID
+                    message = message,
+                    timestamp = Timestamp.now()
+                )
                 Firebase.firestore.collection(Constants.CHAT_MESSAGES)
                     .add(chatMessage)
                     .addOnSuccessListener { documentReference ->

@@ -9,4 +9,6 @@ object Constants {
     const val SENT_ON = "sent_on"
     const val IS_CURRENT_USER = "is_current_user"
 
+    const val
+
 }
