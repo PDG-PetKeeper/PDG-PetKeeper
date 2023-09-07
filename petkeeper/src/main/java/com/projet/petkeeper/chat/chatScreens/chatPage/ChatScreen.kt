@@ -20,7 +20,7 @@ fun ChatScreen() {
 
     if (userModel != null) {
         // Create the Appbar with the user information
-        Appbar(userModel = userModel!!, action = {
+        Appbar(userData = userModel!!, action = {
             // TODO: Add navigation
         })
 

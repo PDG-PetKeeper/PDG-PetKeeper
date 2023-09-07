@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.projet.petkeeper.data.ChatMessage
-import com.projet.petkeeper.data.UserModel
+import com.projet.petkeeper.data.UserData
 
 /**
  * Set different icons/views which will be used throughout the application.
@@ -89,10 +89,10 @@ fun SendButton(onClick: () -> Unit) {
 }
 
 @Composable
-fun Appbar(action: () -> Unit, userModel: UserModel) {
+fun Appbar(action: () -> Unit, userData: UserData) {
     TopAppBar(
         title = {
-            AppbarContent(action = action, userModel = userModel)
+            AppbarContent(action = action, userData = userData)
         },
         modifier = Modifier
             .padding(8.dp)
@@ -105,7 +105,7 @@ fun Appbar(action: () -> Unit, userModel: UserModel) {
 }
 
 @Composable
-fun AppbarContent(action: () -> Unit, userModel: UserModel) {
+fun AppbarContent(action: () -> Unit, userData: UserData) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -120,15 +120,15 @@ fun AppbarContent(action: () -> Unit, userModel: UserModel) {
             )
         }
         Text(
-            text = userModel.userName ?: "",
+            text = userData.userName ?: "",
             textAlign = TextAlign.Center
         )
-        UserProfileImageIcon(userModel = userModel)
+        UserProfileImageIcon(userData = userData)
     }
 }
 
 @Composable
-fun UserProfileImageIcon(userModel: UserModel) {
+fun UserProfileImageIcon(userData: UserData) {
     Surface(
         modifier = Modifier.size(40.dp),
         shape = CircleShape,
@@ -138,7 +138,7 @@ fun UserProfileImageIcon(userModel: UserModel) {
             MaterialTheme.colorScheme.secondary
         )
     ) {
-        val profileImageUrl = userModel.profileImageUrl // Get the profile image URL
+        val profileImageUrl = userData.profileImageUrl // Get the profile image URL
         val painter = rememberImagePainter(data = profileImageUrl)
         Image(
             painter = painter,
@@ -205,16 +205,16 @@ fun SingleMessage(message: String, isCurrentUser: Boolean) {
 
 
 @Composable
-fun rememberUserModel(currentUserId: String): UserModel? {
-    var userModel by remember { mutableStateOf<UserModel?>(null) }
+fun rememberUserModel(currentUserId: String): UserData? {
+    var userData by remember { mutableStateOf<UserData?>(null) }
 
     LaunchedEffect(Unit) {
         fetchUserData(currentUserId) { userData ->
-            userModel = userData
+            userData = userData
         }
     }
 
-    return userModel
+    return userData
 }
 
 /**

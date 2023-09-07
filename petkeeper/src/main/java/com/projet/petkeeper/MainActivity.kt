@@ -100,7 +100,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("HomeScreen") {
                             HomeScreen(
-                                userModel = googleAuthUiClient.getSignedInUser(),
+                                userData = googleAuthUiClient.getSignedInUser()!!,
                                 onSignOut = {
                                     lifecycleScope.launch {
                                         googleAuthUiClient.signOut()

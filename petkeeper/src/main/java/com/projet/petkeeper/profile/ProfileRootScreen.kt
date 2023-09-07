@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.projet.petkeeper.data.UserModel
+import com.projet.petkeeper.data.UserData
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,7 +45,7 @@ fun ProfileRootScreen(
 
 @Composable
 fun ProfileScreen(
-    userModel: UserModel?,
+    userData: UserData?,
     onSignOut: () -> Unit
 ) {
     Column(
@@ -53,9 +53,9 @@ fun ProfileScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if(userModel?.profileImageUrl != null) {
+        if(userData?.profileImageUrl != null) {
             AsyncImage(
-                model = userModel.profileImageUrl,
+                model = userData.profileImageUrl,
                 contentDescription = "Profile picture",
                 modifier = Modifier
                     .size(150.dp)
@@ -64,9 +64,9 @@ fun ProfileScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
-        if(userModel?.userName != null) {
+        if(userData?.userName != null) {
             Text(
-                text = userModel.userName,
+                text = userData.userName,
                 textAlign = TextAlign.Center,
                 fontSize = 36.sp,
                 fontWeight = FontWeight.SemiBold
