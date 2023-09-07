@@ -15,7 +15,8 @@ data class JobData (
     var startDate: GregorianCalendar,
     var endDate: GregorianCalendar,
     var hourlyPay: String,
-    var location: String = "unknown"
+    var location: String = "unknown",
+    var downloadString: String = "unknown"
 ){
     fun getDateString(fromStartDate: Boolean): String{
         if (fromStartDate){

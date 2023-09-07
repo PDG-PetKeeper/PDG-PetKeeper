@@ -164,7 +164,7 @@ fun NavGraphBuilder.dashboardNavGraph(
                     )
                 },
                 onPublishClick = { jobData: JobData ->
-                    viewModel.addJob(jobData)
+                    //viewModel.addJob(jobData)
                     viewModel.updateSelectedJob(jobData)
                     navController.navigate(route = DashboardScreenRoutes.JobLook.route)
                 },
