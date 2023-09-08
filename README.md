@@ -54,8 +54,7 @@
     - profile: contient l' affichage de la page de profil et le logout
     - search: contient l'affichage de la page de recherche
     - sign_in: contient les composants pour se login/logout avec son compte google
-    - utils: contient les classes utilitaires pour l'application
-    
+    - ui: contient le theme ainsi que le viewModel, le state et l'entrée de l'app une fois autentifié
 
 (Durant la dernière semaine de projet, on a surtout push sur dev et pas vraiment utilisé les feature branches)
 
