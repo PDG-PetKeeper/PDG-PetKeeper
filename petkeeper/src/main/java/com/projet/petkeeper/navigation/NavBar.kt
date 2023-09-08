@@ -18,6 +18,13 @@ import androidx.navigation.NavHostController
 import com.projet.petkeeper.ui.PetKeeperUIViewModel
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
+
+/**
+ * Composable function for rendering the navigation bar.
+ *
+ * @param navController The navigation controller for handling navigation within the app.
+ * @param viewModel The ViewModel for managing UI state.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavBar(
@@ -73,6 +80,10 @@ fun NavBar(
     }
 }
 
+/**
+ * Preview function for the NavBar composable.
+ * Used for design and layout testing.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
