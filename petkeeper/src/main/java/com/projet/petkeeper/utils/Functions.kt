@@ -6,7 +6,9 @@ import com.projet.petkeeper.data.JobData
 import com.projet.petkeeper.data.UserData
 import java.util.Date
 
-
+/**
+ * convertMillisToDate
+ */
 fun convertMillisToDate(millis: Long): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy")
     return formatter.format(Date(millis))

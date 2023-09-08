@@ -39,6 +39,13 @@ import com.projet.petkeeper.data.JobDataExample
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
+
+/**
+ * The root screen of the search feature.
+ * @param uiState: the state of the search screen
+ * @param onSearch: the action to perform when the search bar is used
+ * @param onJobClick: the action to perform when a job is clicked
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchRootScreen(
@@ -135,6 +142,11 @@ fun SearchRootScreen(
     }
 }
 
+/**
+ * A card that displays a job.
+ * @param jobData: the job to display
+ * @param onJobClick: the action to perform when the card is clicked
+ */
 @Composable
 fun SearchJobCard(
     jobData: JobData,
@@ -149,8 +161,9 @@ fun SearchJobCard(
         supportingContent = { Text(text = "From $startDate to $endDate") },
         leadingContent = {
             AsyncImage(
+                //retrieves the images stored in the cloud storage
                 model = jobData.image,
-                contentDescription = "First image of the job",
+                contentDescription = "image of the job",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(50.dp)
