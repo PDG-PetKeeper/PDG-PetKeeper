@@ -5,6 +5,21 @@ import java.util.Calendar
 import java.util.Date
 import java.util.GregorianCalendar
 
+/**
+ * Data class representing job data.
+ *
+ * @property id Unique identifier for the job.
+ * @property poster The person or entity posting the job.
+ * @property worker The worker assigned to the job.
+ * @property image Image associated with the job.
+ * @property title Title of the job.
+ * @property pet Pet type associated with the job.
+ * @property description Description of the job.
+ * @property startDate The starting date and time of the job.
+ * @property endDate The ending date and time of the job.
+ * @property pay The payment amount for the job.
+ * @property location The location of the job.
+ */
 data class JobData (
     val id: String? = null,
     val poster: String? = null,
@@ -18,6 +33,12 @@ data class JobData (
     var pay: String? = null,
     var location: String? = null,
 ){
+    /**
+     * Get a formatted date string based on the specified date (start date or end date).
+     *
+     * @param fromStartDate If true, the date string will be generated from the start date; otherwise, from the end date.
+     * @return A formatted date string in the "YYYY-MM-DD" format.
+     */
     fun getDateString(fromStartDate: Boolean): String{
         val temp = GregorianCalendar()
         if (fromStartDate){
@@ -34,7 +55,9 @@ data class JobData (
     }
 }
 
-
+/**
+ * Object containing a list of example JobData instances for testing or demonstration purposes.
+ */
 object JobDataExample {
     val jobDataExampleList = listOf(
         JobData(
