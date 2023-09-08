@@ -132,7 +132,7 @@ fun SingleMessage(
 ) {
     val fromUser = message.sentByUser1 == userIsUser1
 
-    val maxWidth = LocalConfiguration.current.screenWidthDp
+    val maxWidth: Int = LocalConfiguration.current.screenWidthDp
 
         Row(
             modifier = Modifier
@@ -172,7 +172,7 @@ fun SingleMessage(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun PervewChatScreen(){
+fun PreviewChatScreen(){
     PetkeeperTheme {
         ChatSelectedScreen(
             uiState = PetKeeperUIState(
@@ -198,7 +198,7 @@ fun PervewChatScreen(){
                         timestamp = Timestamp(Date(3))
                     ),
                     MessageData(
-                        messageData = "This is a realy long message" +
+                        messageData = "This is a really long message" +
                                 "so much so I had to write it on multiple" +
                                 "lines, wow wow wow ...",
                         sentByUser1 = false,
