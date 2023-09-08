@@ -23,7 +23,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.util.Date
 
-open class PetKeeperUIViewModel() : ViewModel() {
+open class PetKeeperUIViewModel : ViewModel() {
 
     object ViewModel: PetKeeperUIViewModel()
 
@@ -117,7 +117,7 @@ open class PetKeeperUIViewModel() : ViewModel() {
                     val userPair = document.toObject<UserPair>()
                     if (userPair != null) {
                         mutableUserPairsList.add(userPair)
-                        Log.d("modelPairAdd", "Added user pair : ${userPair.toString()}")
+                        Log.d("modelPairAdd", "Added user pair : $userPair")
                     }
                 } catch (e: Exception) {
                     Log.w("modelException", "Exception: $e")
@@ -204,7 +204,7 @@ open class PetKeeperUIViewModel() : ViewModel() {
             userPair.userId1!!
         }
 
-        Log.e("user", "${otherUserData}")
+        Log.e("user", "$otherUserData")
 
 
         firestoreDB.collection("userPairs")
