@@ -28,6 +28,9 @@ import com.projet.petkeeper.ui.HomeScreen
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 import kotlinx.coroutines.launch
 
+/**
+ * The main activity of the PetKeeper app.
+ */
 class MainActivity : ComponentActivity() {
 
     // This is the only place where the GoogleAuthUiClient is instantiated
