@@ -1,6 +1,7 @@
 package com.projet.petkeeper.utils
+
 /**
- * Utility object containing constants used throughout the PetKeeper application.
+ * Constants used for the messaging/chat feature
  */
 object Constants {
     const val TAG = "petkeeper-app"
