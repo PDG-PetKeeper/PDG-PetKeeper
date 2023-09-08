@@ -1,4 +1,4 @@
-package com.projet.petkeeper.ui
+package com.projet.petkeeper.data
 
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
