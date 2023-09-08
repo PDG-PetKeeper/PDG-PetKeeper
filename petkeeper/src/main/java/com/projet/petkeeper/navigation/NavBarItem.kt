@@ -8,7 +8,7 @@ import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.List
 import androidx.compose.material.icons.outlined.Search
 import com.projet.petkeeper.R
-import com.projet.petkeeper.ui.IconResource
+import com.projet.petkeeper.data.IconResource
 
 /**
  * Enumeration representing items in the navigation bar.
