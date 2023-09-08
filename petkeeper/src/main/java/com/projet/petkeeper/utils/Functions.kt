@@ -5,15 +5,25 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.projet.petkeeper.data.UserData
 import java.util.Date
 
-
+/**
+ * Converts a given millisecond timestamp to a formatted date string.
+ *
+ * @param millis The millisecond timestamp to convert.
+ * @return A formatted date string in "dd/MM/yyyy" format.
+ */
 fun convertMillisToDate(millis: Long): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy")
     return formatter.format(Date(millis))
 }
 
 
-
-// Fetch user data from Firestore based on the user's id
+/**
+ * Fetches user data from Firebase Firestore based on the user's ID and invokes the specified
+ * [onUserModelFetched] function when the data is successfully retrieved.
+ *
+ * @param userId The ID of the user to fetch data for.
+ * @param onUserModelFetched The function to handle the fetched user data.
+ */
 fun fetchUserData(userId: String, onUserModelFetched: (UserData) -> Unit)  {
     val db = FirebaseFirestore.getInstance()
     val usersCollection = db.collection("users")
@@ -39,6 +49,7 @@ fun fetchUserData(userId: String, onUserModelFetched: (UserData) -> Unit)  {
             // TODO Handle the error
         }
 }
+
 /*fun fetchChatFromFirestore(){
     lateinit var auth: FirebaseAuth
     // Access a cloud firestore instance

@@ -17,6 +17,11 @@ import coil.compose.AsyncImage
 import com.projet.petkeeper.data.UserData
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
+/**
+ * Composable function representing the root screen of the user's profile.
+ * This screen typically serves as the entry point to the user's profile and contain
+ * various sections for displaying user information and actions.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileRootScreen(
@@ -43,6 +48,13 @@ fun ProfileRootScreen(
     }
 }
 
+/**
+ * Composable function representing the root screen of the user's profile.
+ * This screen typically displays user information and options related to their profile.
+ *
+ * @param userData The user's data, including their profile picture and display name.
+ * @param onSignOut Callback function to sign the user out when the "Sign out" button is pressed.
+ */
 @Composable
 fun ProfileScreen(
     userData: UserData?,
@@ -82,6 +94,10 @@ fun ProfileScreen(
         }
     }
 }
+/**
+ * Composable function for rendering a preview of the [ProfileRootScreen].
+ * This is used for previewing the UI layout during development.
+ */
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ProfileRootScreenPreview() {

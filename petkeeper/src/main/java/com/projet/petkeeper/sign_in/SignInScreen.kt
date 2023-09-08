@@ -23,7 +23,11 @@ import androidx.compose.ui.unit.sp
 import com.projet.petkeeper.R
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
-
+/**
+ * The sign in screen of the PetKeeper app.
+ * @param state: the state of the sign in screen
+ * @param onSignInClick: the action to perform when the sign in button is clicked
+ */
 @Composable
 fun SignInScreen(
     state: SignInState,
@@ -78,7 +82,9 @@ fun SignInScreen(
                 onSignInClick()
             }
         ) {
-            /*Icon(
+            /*
+            //TODO add the google logo
+            Icon(
                     painter = painterResource(id = R.drawable.google_logo),
                     contentDescription = "google logo"
             )*/

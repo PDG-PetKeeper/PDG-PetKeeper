@@ -10,6 +10,16 @@ import androidx.compose.material.icons.outlined.Search
 import com.projet.petkeeper.R
 import com.projet.petkeeper.ui.IconResource
 
+/**
+ * Enumeration representing items in the navigation bar.
+ *
+ * @param route The route associated with the navigation item.
+ * @param title The title or label of the navigation item.
+ * @param selectedIcon The icon resource when the item is selected.
+ * @param unselectedIcon The icon resource when the item is not selected.
+ * @param hasNews Flag indicating whether the item has new updates or notifications.
+ * @param badgeCount The count of badges or notifications for the item.
+ */
 sealed class NavBarItem(
     val route: String,
     val title: String,
@@ -18,6 +28,9 @@ sealed class NavBarItem(
     var hasNews: Boolean,
     var badgeCount: Int = 0
 ){
+    /**
+     * Navigation item for the SearchRoot.
+     */
     data object SearchRoot: NavBarItem(
         route = "SEARCH",
         title = "SearchRoot",
@@ -26,6 +39,9 @@ sealed class NavBarItem(
         hasNews = false
     )
 
+    /**
+     * Navigation item for the ChatRoot.
+     */
     data object ChatRoot : NavBarItem(
         route = "CHAT",
         title = "ChatRoot",
@@ -34,6 +50,9 @@ sealed class NavBarItem(
         hasNews = false
     )
 
+    /**
+     * Navigation item for the DashboardRoot.
+     */
     data object DashboardRoot : NavBarItem(
         route = "DASHBOARD",
         title = "DashboardRoot",
@@ -42,6 +61,9 @@ sealed class NavBarItem(
         hasNews = false
     )
 
+    /**
+     * Navigation item for the ProfileRoot.
+     */
     data object ProfileRoot : NavBarItem(
         route = "PROFILE",
         title = "ProfileRoot",
@@ -50,6 +72,11 @@ sealed class NavBarItem(
         hasNews = false
     )
     companion object ItemList{
+        /**
+         * Get a list of all navigation bar items.
+         *
+         * @return A list of navigation bar items.
+         */
         fun getNavBarItemList(): List<NavBarItem> {
             return listOf(
                 SearchRoot,

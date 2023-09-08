@@ -52,11 +52,20 @@ import com.projet.petkeeper.utils.Constants.TAG
 import com.projet.petkeeper.utils.convertMillisToDate
 import java.util.*
 
+/**
+ * The screen to create a job advert.
+ * @ param uiState: the state of the application
+ * @ param onBackClick: the action to perform when the back button is clicked
+ *                      -> goes back to the dashboard
+ * @ param onPublishClick: the action to perform when the publish button is clicked
+ *                      -> for now goes back to the dashboard
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateJob(
     uiState: PetKeeperUIState,
     onBackClick: () -> Unit,
+    //crashes when called from viewmodel on upload fonction
     onPublishClick: (JobData) -> Unit,
     userData: UserData?
 ) {
@@ -86,9 +95,9 @@ fun CreateJob(
                                 imageVector = Icons.Default.ArrowBack,
                                 contentDescription = "Go back",
                             )
-                        }
                     }
-                )
+                }
+            )
 
             }
 
@@ -321,7 +330,7 @@ fun CreateJob(
 
                         onPublishClick(jobData)
                         // this function can't be called from the viewmodel
-                        // causes to crash the app
+                        // causes to crash the app. So it's here for now
                         uploadAll(selectImage, jobData)
                     }
                 ) {
@@ -332,7 +341,11 @@ fun CreateJob(
     }
 }
 
-
+/**
+ * Uploads the image to firebase storage, then uploads the data to firestore
+ * @param image: the image to upload
+ * @param data: the data to upload
+ */
 fun uploadAll(image: Uri?, data: JobData){
 
     //function is using listeners
@@ -375,7 +388,13 @@ fun uploadAll(image: Uri?, data: JobData){
     }
 }
 
-
+/**
+ * A composable function to display a date picker dialog.
+ * @param onDateSelected A callback function to handle a date selection.
+ * @param onDismiss A callback function to handle a date picker dismiss.
+ * @param minDate The minimum selectable date.
+ * @param pickedDate The date to be selected by default.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JobDatePickerDialog(

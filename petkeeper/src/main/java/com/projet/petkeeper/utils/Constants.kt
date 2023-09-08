@@ -1,5 +1,8 @@
 package com.projet.petkeeper.utils
 
+/**
+ * Constants used for the messaging/chat feature
+ */
 object Constants {
     const val TAG = "petkeeper-app"
 

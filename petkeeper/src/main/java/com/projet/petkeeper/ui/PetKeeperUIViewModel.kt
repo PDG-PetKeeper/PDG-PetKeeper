@@ -23,24 +23,49 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.util.Date
 
+/**
+ * ViewModel class responsible for managing the state and logic of the PetKeeper user interface.
+ * This ViewModel handles various data retrieval and manipulation operations related to the app's UI.
+ */
 open class PetKeeperUIViewModel : ViewModel() {
 
+    /**
+     * Singleton object representing the ViewModel instance. Use this object for accessing ViewModel
+     * methods and properties.
+     */
     object ViewModel: PetKeeperUIViewModel()
 
+    // Firebase Firestore database instance
     private val firestoreDB = Firebase.firestore
 
+    // Mutable state flow for UI state management
     private val _uiState = MutableStateFlow(PetKeeperUIState())
     val uiState: StateFlow<PetKeeperUIState> = _uiState
 
+    // User data associated with the current session
     lateinit var userData: UserData
 
+
+    /**
+     * Initializes the UI state and triggers the dashboard initialization.
+     */
     init {
         initializeUIState()
     }
+    /**
+     * Initializes the UI state to its default values and triggers the dashboard initialization.
+     */
     private fun initializeUIState(){
         _uiState.value = PetKeeperUIState()
         dashboardInit()
     }
+    /**
+     * Fetches user data from Firebase Firestore based on the given user ID and provides the
+     * retrieved data to the specified fetcher function.
+     *
+     * @param userId The ID of the user to fetch data for.
+     * @param fetcher The function to handle the fetched user data.
+     */
     fun fetchUserDataFromUserId(userId: String, fetcher: (UserData) -> Unit) =  CoroutineScope(Dispatchers.IO).launch {
 
             try {
@@ -64,7 +89,10 @@ open class PetKeeperUIViewModel : ViewModel() {
             }
     }
 
-    //search doesn't work
+    /**
+     * Initializes the UI state for searching functionality, including retrieving a list of
+     * available jobs based on user criteria.
+     */
     fun searchInit() = CoroutineScope(Dispatchers.IO).launch {
         val mutableJobList: MutableList<JobData> = mutableListOf()
 
@@ -99,6 +127,10 @@ open class PetKeeperUIViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Initializes the UI state for chat functionality, including retrieving a list of user pairs
+     * for chat conversations.
+     */
     fun chatInit() = CoroutineScope(Dispatchers.IO).launch {
         val mutableUserPairsList: MutableList<UserPair> = mutableListOf()
 
@@ -134,6 +166,9 @@ open class PetKeeperUIViewModel : ViewModel() {
             Log.e("Firestore", "Exception: $e")
         }
     }
+    /**
+     * Initializes the UI state for the dashboard, including retrieving a list of user's posted jobs.
+     */
     fun dashboardInit() = CoroutineScope(Dispatchers.IO).launch {
         val mutableJobList: MutableList<JobData> = mutableListOf()
 
@@ -166,6 +201,9 @@ open class PetKeeperUIViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Initializes the UI state for the user profile view.
+     */
     fun profileInit(){
         _uiState.update {
             it.copy(
@@ -177,7 +215,11 @@ open class PetKeeperUIViewModel : ViewModel() {
         }
     }
 
-    // Send a chat message
+    /**
+     * Sends a chat message to the current chat conversation.
+     *
+     * @param messageString The message content to send.
+     */
     fun addMessage(
         messageString: String
     )  = CoroutineScope(Dispatchers.IO).launch {
@@ -196,8 +238,13 @@ open class PetKeeperUIViewModel : ViewModel() {
             .add(messageDate)
     }
 
-    // Get chat messages
-    fun updateCurrentMessages(userPair: UserPair, otherUserData: UserData) = CoroutineScope(Dispatchers.IO).launch {
+    /**
+     * Retrieves and updates the list of chat messages in the current chat conversation.
+     *
+     * @param userPair The user pair associated with the chat.
+     * @param otherUserData The user data of the chat conversation partner.
+     */
+    fun updateCurrentMessages(userPair: UserPair, otherUserData: UserData)  = CoroutineScope(Dispatchers.IO).launch {
         val mutableMessageList: MutableList<MessageData> = mutableListOf()
 
         try {
@@ -231,9 +278,14 @@ open class PetKeeperUIViewModel : ViewModel() {
         } catch (e: Exception) {
             Log.e("Firestore", "Exception: $e")
         }
-
     }
 
+    /**
+     * Searches for jobs based on a search query [searchString] and updates the UI state with
+     * the filtered job list.
+     *
+     * @param searchString The search query to filter job listings.
+     */
     fun searchJobs(searchString: String) = CoroutineScope(Dispatchers.IO).launch {
 
         runBlocking {
@@ -261,6 +313,12 @@ open class PetKeeperUIViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Changes the current index of the navigation bar item in the UI state.
+     *
+     * @param index The new index to set for the current navigation bar item.
+     */
+
     fun changeNavBarCurrentIndex(index: Int){
         _uiState.update {
             it.copy(
@@ -269,6 +327,9 @@ open class PetKeeperUIViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Shows the navigation bar in the UI by updating the UI state.
+     */
     fun showNavBar() {
         _uiState.update {
             it.copy(
@@ -277,6 +338,9 @@ open class PetKeeperUIViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Hides the navigation bar in the UI by updating the UI state.
+     */
     fun hideNavBar() {
         _uiState.update {
             it.copy(
@@ -292,4 +356,32 @@ open class PetKeeperUIViewModel : ViewModel() {
             )
         }
     }
+
+    fun searchJobs(searchString: String) {
+        searchInit()
+
+        val filteredJobList = _uiState.value.currentJobList.filter { jobData ->
+            // Define your condition here, for example, checking if searchString appears in any of the strings
+            val containsSearchString = listOf(
+                jobData.title,
+                jobData.pet,
+                jobData.description,
+                jobData.pay,
+                jobData.location
+            ).any { it?.contains(searchString, ignoreCase = true) == true }
+
+            // Include the jobData in the filtered list if it meets the condition
+            containsSearchString
+        }
+
+        _uiState.update {
+            it.copy(
+                currentJobList = filteredJobList
+            )
+        }
+
+    }
+
+
+
 }

@@ -14,12 +14,23 @@ import com.projet.petkeeper.data.UserData
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.tasks.await
 
+/**
+ * This class handles the Google sign-in process.
+ * @param context The context of the app.
+ * @param oneTapClient The Google sign-in client.
+ * @property auth The Firebase authentication instance.
+ *
+ */
 class GoogleAuthUiClient(
     private val context: Context,
     private val oneTapClient: SignInClient
 ) {
     private val auth = Firebase.auth
 
+    /**
+     * This function starts the Google sign-in process.
+     * @return The intent sender for the sign-in process.
+     */
     suspend fun signIn(): IntentSender? {
         val result = try {
             oneTapClient.beginSignIn(
@@ -33,6 +44,11 @@ class GoogleAuthUiClient(
         return result?.pendingIntent?.intentSender
     }
 
+    /**
+     * This function handles the result of the Google sign-in process.
+     * @param intent The intent from the sign-in process.
+     * @return The result of the sign-in process.
+     */
     suspend fun signInWithIntent(intent: Intent): SignInResult {
         val credential = oneTapClient.getSignInCredentialFromIntent(intent)
         val googleIdToken = credential.googleIdToken
@@ -59,6 +75,9 @@ class GoogleAuthUiClient(
         }
     }
 
+    /**
+     * This function signs out the user.
+     */
     suspend fun signOut() {
         try {
             oneTapClient.signOut().await()
@@ -69,6 +88,10 @@ class GoogleAuthUiClient(
         }
     }
 
+    /**
+     * This function gets the signed-in user informations of its google account
+     * @return The signed-in user.
+     */
     fun getSignedInUser(): UserData? = auth.currentUser?.run {
         UserData(
             userId = uid,
@@ -77,6 +100,9 @@ class GoogleAuthUiClient(
         )
     }
 
+    /**
+     * This function builds the sign-in request.
+     */
     private fun buildSignInRequest(): BeginSignInRequest {
         return BeginSignInRequest.Builder()
             .setGoogleIdTokenRequestOptions(

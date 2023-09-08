@@ -18,16 +18,22 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
-//import com.projet.petkeeper.data.JobDataExample
 import com.projet.petkeeper.ui.PetKeeperUIState
-import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
+
+/**
+ * The screen that shows an add job advert form the dashboard.
+ * @param uiState: the state of the application
+ * @param onBackClick: the action to perform when the back button is clicked
+ *                     -> goes back to the dashboard
+ * @param onEditClick: the action to perform when the edit button is clicked
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LookupJob(
     uiState: PetKeeperUIState,
     onBackClick: () -> Unit,
+    // only when it is the user's job advert
     onEditClick: () -> Unit,
 ) {
     BackHandler {
@@ -77,7 +83,7 @@ fun LookupJob(
 }
 
 /*
-
+the preview function for the LookupJob screen
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LookupJobScreenPreview() {

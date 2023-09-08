@@ -5,6 +5,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 
+/**
+ * Navigation graph for the root level of the application.
+ *
+ * @param navController The navigation controller for handling navigation within this graph.
+ */
 @Composable
 fun RootNavGraph(navController: NavHostController) {
     NavHost(
@@ -19,6 +24,9 @@ fun RootNavGraph(navController: NavHostController) {
     }
 }
 
+/**
+ * Object containing route constants for navigation graphs.
+ */
 object Graph {
     const val ROOT = "root_graph"
     const val AUTHENTICATION = "auth_graph"
