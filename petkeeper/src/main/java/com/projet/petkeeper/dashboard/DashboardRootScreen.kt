@@ -1,6 +1,5 @@
 package com.projet.petkeeper.dashboard
 
-//import com.projet.petkeeper.data.JobDataExample
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,6 +33,15 @@ import com.projet.petkeeper.data.JobDataExample
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
+
+/**
+ * The root screen of the dashboard.
+ * @ param uiState: the state of the application
+ * @ param onJobClick: the action to perform when a job advert is clicked
+ *                      -> goes to the job advert screen
+ * @ param onAddClick: the action to perform when the add button is clicked
+ *                      -> goes to the add job screen
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardRootScreen(
@@ -84,6 +92,11 @@ fun DashboardRootScreen(
     }
 }
 
+/**
+ * A card that displays a job advert.
+ * @ param jobData: the job advert to display
+ * @ param onJobClick: the action to perform when the card is clicked
+ */
 @Composable
 fun DashboardJobCard(
     jobData: JobData,
@@ -100,7 +113,7 @@ fun DashboardJobCard(
         leadingContent = {
             AsyncImage(
                 model = jobData.image,
-                contentDescription = "First image of the job",
+                contentDescription = "image of the job",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(50.dp)

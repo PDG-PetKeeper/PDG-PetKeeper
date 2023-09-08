@@ -2,6 +2,7 @@ package com.projet.petkeeper.utils
 
 import android.icu.text.SimpleDateFormat
 import com.google.firebase.firestore.FirebaseFirestore
+import com.projet.petkeeper.data.JobData
 import com.projet.petkeeper.data.UserData
 import java.util.Date
 
@@ -39,6 +40,7 @@ fun fetchUserData(userId: String, onUserModelFetched: (UserData) -> Unit)  {
             // TODO Handle the error
         }
 }
+
 /*fun fetchChatFromFirestore(){
     lateinit var auth: FirebaseAuth
     // Access a cloud firestore instance

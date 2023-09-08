@@ -30,6 +30,7 @@ import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
+    // This is the only place where the GoogleAuthUiClient is instantiated
      val googleAuthUiClient by lazy {
         GoogleAuthUiClient(
             context = applicationContext,
@@ -37,6 +38,12 @@ class MainActivity : ComponentActivity() {
         )
     }
 
+    /**
+     * This function is called when the activity is created.
+     * It sets the content of the activity to the PetKeeper theme.
+     * It also sets the navigation graph of the login screen.
+     * @param savedInstanceState The saved instance state.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -87,6 +94,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
 
+                            // This is the only place where the SignInScreen is called
                             SignInScreen(
                                 state = state,
                                 onSignInClick = {
@@ -101,7 +109,8 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
-
+                        // route = "HomeScreen" is the route of the HomeScreen
+                        // on signOut, the user is redirected to the sign_in screen
                         composable("HomeScreen") {
                             HomeScreen(
                                 userData = googleAuthUiClient.getSignedInUser(),
