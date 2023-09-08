@@ -34,6 +34,16 @@ fun NavBar(
                 onClick = {
                     viewModel.changeNavBarCurrentIndex(index)
 
+                    if (index == 0){
+                        viewModel.searchInit()
+                    } else if (index == 1) {
+                        viewModel.chatInit()
+                    } else if (index == 2) {
+                        viewModel.dashboardInit()
+                    } else {
+                        viewModel.profileInit()
+                    }
+
                     navController.navigate(navBarItem.route)
                 },
                 icon = {

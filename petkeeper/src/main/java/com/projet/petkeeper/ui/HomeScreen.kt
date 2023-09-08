@@ -1,11 +1,11 @@
 package com.projet.petkeeper.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -20,7 +20,11 @@ fun HomeScreen(
     onSignOut: () -> Unit
 ) {
 
-    val viewModel = PetKeeperUIViewModel(userData, rememberCoroutineScope())
+    Log.e("init", "HomeScreen was called")
+
+    val viewModel = PetKeeperUIViewModel.ViewModel
+    viewModel.userData = userData
+
     val uiState = viewModel.uiState.collectAsState().value
 
     Scaffold(

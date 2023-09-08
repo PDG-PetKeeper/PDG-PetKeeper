@@ -16,39 +16,45 @@ import com.projet.petkeeper.data.UserPair
 import com.projet.petkeeper.utils.Constants
 import com.projet.petkeeper.utils.fetchUserData
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import java.util.Date
 
-class PetKeeperUIViewModel(val userData: UserData, private val coroutineScope: CoroutineScope) : ViewModel() {
+open class PetKeeperUIViewModel() : ViewModel() {
+
+    object ViewModel: PetKeeperUIViewModel()
 
     private val firestoreDB = Firebase.firestore
 
     private val _uiState = MutableStateFlow(PetKeeperUIState())
     val uiState: StateFlow<PetKeeperUIState> = _uiState
 
+    lateinit var userData: UserData
 
     init {
         initializeUIState()
+        dashboardInit()
+        Log.e("Init", "viewModel was initializedg")
     }
-    private fun initializeUIState() {
+    private fun initializeUIState()  = CoroutineScope(Dispatchers.IO).launch {
         _uiState.value = PetKeeperUIState()
     }
     fun searchInit() {
         val mutableJobList: MutableList<JobData> = mutableListOf()
 
-        coroutineScope.launch {
-            firestoreDB.collection("jobs")
-                .whereNotEqualTo("posterId", userData.userId)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        mutableJobList.add(document.toObject())
-                    }
+        firestoreDB.collection("jobs")
+            .whereNotEqualTo("posterId", userData.userId)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    mutableJobList.add(document.toObject())
                 }
-        }
+            }
 
         _uiState.update {
             it.copy(
@@ -57,24 +63,22 @@ class PetKeeperUIViewModel(val userData: UserData, private val coroutineScope: C
         }
     }
 
-    fun chatInit() {
+    fun chatInit()  = CoroutineScope(Dispatchers.IO).launch {
         val mutableUserPairsList: MutableList<UserPair> = mutableListOf()
 
-        coroutineScope.launch {
-            firestoreDB.collection("userPairs")
-                .where(
-                    Filter.or(
-                        equalTo("userId1", userData.userId),
-                        equalTo("userId2", userData.userId)
-                    )
+        firestoreDB.collection("userPairs")
+            .where(
+                Filter.or(
+                    equalTo("userId1", userData.userId),
+                    equalTo("userId2", userData.userId)
                 )
-                .get()
-                .addOnSuccessListener {documents ->
-                    for (document in documents){
-                        mutableUserPairsList.add(document.toObject())
-                    }
+            )
+            .get()
+            .addOnSuccessListener {documents ->
+                for (document in documents){
+                    mutableUserPairsList.add(document.toObject())
                 }
-        }
+            }
 
         _uiState.update {
             it.copy(
@@ -82,34 +86,47 @@ class PetKeeperUIViewModel(val userData: UserData, private val coroutineScope: C
             )
         }
     }
-    fun dashboardInit() {
+    fun dashboardInit() = CoroutineScope(Dispatchers.IO).launch {
         val mutableJobList: MutableList<JobData> = mutableListOf()
 
-        coroutineScope.launch {
-            try {
-                firestoreDB.collection("jobs")
-                    .whereEqualTo("poster", userData.userId)
-                    .get()
-                    .addOnSuccessListener { documents ->
-                        for (document in documents) {
-                            try {
-                                mutableJobList.add(document.toObject())
-                                Log.e("jobAdd", "Successfull joblist add")
-                            } catch (e: Exception) {
-                                Log.e("JobAdd", "Exception: $e")
-                            }
-                        }
 
-                        _uiState.update {
-                            it.copy(
-                                currentJobList = mutableJobList.toList()
-                            )
-                        }
+        Log.d(
+            "StateJobList",
+            "State List not empty : ${_uiState.value.currentJobList.isNotEmpty()}"
+        )
+
+        try {
+            Log.i("JobUserId", "${userData.userId}")
+            val querySnapshot = firestoreDB.collection("jobs")
+                .whereEqualTo("poster", userData.userId)
+                .get()
+                .await()
+
+            for (document in querySnapshot.documents) {
+                try {
+                    val jobData = document.toObject<JobData>()
+                    if (jobData != null) {
+                        mutableJobList.add(jobData)
                     }
-            } catch (e: Exception) {
-                Log.e("Firestore", "Exception: $e")
+                } catch (e: Exception) {
+                    Log.w("JobAdd", "Exception: $e")
+                }
             }
+            withContext(Dispatchers.Main){
+                _uiState.update {
+                    it.copy(
+                        currentJobList = mutableJobList.toList()
+                    )
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("Firestore", "Exception: $e")
         }
+
+        Log.d(
+                "StateJobList",
+        "State List not empty : ${_uiState.value.currentJobList.isNotEmpty()}"
+        )
     }
 
     fun profileInit(){
@@ -126,7 +143,7 @@ class PetKeeperUIViewModel(val userData: UserData, private val coroutineScope: C
     // Send a chat message
     fun addMessage(
         messageString: String
-    ) {
+    )  = CoroutineScope(Dispatchers.IO).launch {
         val isUser1 = _uiState.value.currentUserPair!!.userId1 == userData.userId
         val timestamp = Timestamp(Date())
 
@@ -136,17 +153,14 @@ class PetKeeperUIViewModel(val userData: UserData, private val coroutineScope: C
             timestamp = timestamp
         )
 
-        coroutineScope.launch {
-            firestoreDB.collection("userPairs")
-                .document(_uiState.value.currentUserPair!!.id!!)
-                .collection("messages")
-                .add(messageDate)
-        }
-
+        firestoreDB.collection("userPairs")
+            .document(_uiState.value.currentUserPair!!.id!!)
+            .collection("messages")
+            .add(messageDate)
     }
 
     // Get chat messages
-    fun updateCurrentMessages(userPair: UserPair) {
+    fun updateCurrentMessages(userPair: UserPair)  = CoroutineScope(Dispatchers.IO).launch {
         val mutableMessageList: MutableList<MessageData> = mutableListOf()
         val otherUserId = if (userPair.userId1.equals(userData.userId)) {
             userPair.userId2!!
@@ -155,27 +169,23 @@ class PetKeeperUIViewModel(val userData: UserData, private val coroutineScope: C
         }
         val otherUserData: UserData? = fetchUserData(otherUserId){}
 
+        firestoreDB.collection("userPairs")
+            .document(userPair.id!!)
+            .collection("messages")
+            .orderBy("timestamp")
+            .addSnapshotListener { value, e ->
+                if (e != null) {
+                    Log.w(Constants.TAG, "Listen failed.", e)
+                    return@addSnapshotListener
+                }
 
 
-        coroutineScope.launch {
-            firestoreDB.collection("userPairs")
-                .document(userPair.id!!)
-                .collection("messages")
-                .orderBy("timestamp")
-                .addSnapshotListener { value, e ->
-                    if (e != null) {
-                        Log.w(Constants.TAG, "Listen failed.", e)
-                        return@addSnapshotListener
-                    }
-
-
-                    if (value != null) {
-                        for (doc in value) {
-                            mutableMessageList.add(doc.toObject())
-                        }
+                if (value != null) {
+                    for (doc in value) {
+                        mutableMessageList.add(doc.toObject())
                     }
                 }
-        }
+            }
 
         _uiState.update {
             it.copy(

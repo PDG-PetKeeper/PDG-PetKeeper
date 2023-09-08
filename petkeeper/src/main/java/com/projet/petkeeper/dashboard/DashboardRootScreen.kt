@@ -127,7 +127,7 @@ fun DashboardRootScreenPreview() {
                 userName = "Poster 1",
             ),
             {},
-            {}
+            {},
         )
     }
 }

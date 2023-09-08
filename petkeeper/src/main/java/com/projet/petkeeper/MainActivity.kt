@@ -47,7 +47,10 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = "sign_in") {
+                    NavHost(
+                        navController = navController,
+                        startDestination = "sign_in"
+                    ) {
                         composable("sign_in") {
                             val viewModel = viewModel<SignInViewModel>()
                             val state by viewModel.state.collectAsStateWithLifecycle()
@@ -98,6 +101,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
+
                         composable("HomeScreen") {
                             HomeScreen(
                                 userData = googleAuthUiClient.getSignedInUser()!!,
