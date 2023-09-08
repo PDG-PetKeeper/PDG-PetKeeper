@@ -10,7 +10,7 @@
 
     - Installer soit Android Studio, soit IntelliJ IDEA avec le plugin Android SDK ainsi que gradle
     - Télécharger le SDK Android 13 (API 33) ou le SDK Android 14 (API 34) (moins de problèmes en mode debug)
-    - Télécharger OpendJDK 19 comme JVM
+    - Télécharger OpendJDK 17 comme JVM
     - (Optionnel) avoir un telephone android pour tester l'application. 
     - Pour pouvoir developper sur l'app et s'authentifier il faut créer une signature sha1 avec gradle.
     - Contacter un des membres du projet sur teams pour être ajouté à la base de signatures
