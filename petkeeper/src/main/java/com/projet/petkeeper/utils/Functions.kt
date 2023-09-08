@@ -14,7 +14,7 @@ fun convertMillisToDate(millis: Long): String {
 
 
 // Fetch user data from Firestore based on the user's id
-fun fetchUserData(userId: String, onUserModelFetched: (UserData) -> Unit) : UserData?  {
+fun fetchUserData(userId: String, onUserModelFetched: (UserData) -> Unit)  {
     val db = FirebaseFirestore.getInstance()
     val usersCollection = db.collection("users")
     var userData: UserData? = null
@@ -38,7 +38,6 @@ fun fetchUserData(userId: String, onUserModelFetched: (UserData) -> Unit) : User
         .addOnFailureListener { exception ->
             // TODO Handle the error
         }
-    return userData
 }
 /*fun fetchChatFromFirestore(){
     lateinit var auth: FirebaseAuth

@@ -42,7 +42,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.projet.petkeeper.data.ChatMessage
 import com.projet.petkeeper.data.UserData
 import com.projet.petkeeper.ui.PetKeeperUIState
@@ -121,7 +121,7 @@ fun AppbarContent(action: () -> Unit, userData: UserData) {
             )
         }
         Text(
-            text = userData.userName ?: "",
+            text = userData.displayName ?: "",
             textAlign = TextAlign.Center
         )
         UserProfileImageIcon(userData = userData)
@@ -139,8 +139,8 @@ fun UserProfileImageIcon(userData: UserData?) {
             MaterialTheme.colorScheme.secondary
         )
     ) {
-        val profileImageUrl = userData?.profileImageUrl // Get the profile image URL
-        val painter = rememberImagePainter(data = profileImageUrl)
+        val profileImageUrl = userData?.photoURL // Get the profile image URL
+        val painter = rememberAsyncImagePainter(model = profileImageUrl)
         Image(
             painter = painter,
             contentDescription = "User Profile",
@@ -207,15 +207,15 @@ fun SingleMessage(message: String, isCurrentUser: Boolean) {
 
 @Composable
 fun rememberUserModel(currentUserId: String): UserData? {
-    var userData by remember { mutableStateOf<UserData?>(null) }
+    var otherUserData by remember { mutableStateOf<UserData?>(null) }
 
     LaunchedEffect(Unit) {
         fetchUserData(currentUserId) { userData ->
-           // userData = userData
+            otherUserData = userData
         }
     }
 
-    return userData
+    return otherUserData
 }
 
 /**
@@ -239,7 +239,7 @@ fun ChatMessageItem(
         UserProfileImageIcon(userData)
 
         // Display the sender's name
-        userData.userName?.let {
+        userData.displayName?.let {
             Text(
                 text = it, // Replace with the actual property for the user's name
                 modifier = Modifier.padding(start = 8.dp),

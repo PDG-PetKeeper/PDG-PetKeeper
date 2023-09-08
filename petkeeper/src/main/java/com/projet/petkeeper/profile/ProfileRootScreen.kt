@@ -53,9 +53,9 @@ fun ProfileScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if(userData?.profileImageUrl != null) {
+        if(userData?.photoURL != null) {
             AsyncImage(
-                model = userData.profileImageUrl,
+                model = userData.photoURL,
                 contentDescription = "Profile picture",
                 modifier = Modifier
                     .size(150.dp)
@@ -64,9 +64,9 @@ fun ProfileScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
-        if(userData?.userName != null) {
+        if(userData?.displayName != null) {
             Text(
-                text = userData.userName,
+                text = userData.displayName,
                 textAlign = TextAlign.Center,
                 fontSize = 36.sp,
                 fontWeight = FontWeight.SemiBold

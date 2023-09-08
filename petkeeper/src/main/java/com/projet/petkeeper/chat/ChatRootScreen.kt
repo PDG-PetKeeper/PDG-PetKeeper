@@ -38,6 +38,7 @@ import com.projet.petkeeper.data.userSamples
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 import com.projet.petkeeper.utils.UserProfileImageIcon
+import kotlinx.coroutines.runBlocking
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,7 +46,7 @@ fun ChatRootScreen(
     uiState: PetKeeperUIState,
     userData: UserData,
     onSearch: (String) -> Unit,
-    onChatClick: (UserPair) -> Unit,
+    onChatClick: (UserPair, UserData) -> Unit,
     fetchUserData: (String, (UserData) ->Unit) -> Unit
 ){
     var searchChatText by remember {
@@ -135,8 +136,8 @@ fun ChatRootScreen(
                 ChatCard(
                     userData = userData,
                     userPair = userPair,
-                    onChatClick = {
-                        onChatClick(userPair)
+                    onChatClick = { otherUserData ->
+                        onChatClick(userPair, otherUserData)
                     },
                     fetchUserData = {userId, fetch ->
                         fetchUserData(userId, fetch)
@@ -152,7 +153,7 @@ fun ChatRootScreen(
 fun ChatCard(
     userData: UserData,
     userPair: UserPair,
-    onChatClick: () -> Unit,
+    onChatClick: (UserData) -> Unit,
     fetchUserData: (String, (UserData) ->Unit) -> Unit
 ) {
     val otherUserId: String? = if (userPair.userId1.equals(userData.userId)) {
@@ -161,25 +162,28 @@ fun ChatCard(
         userPair.userId1
     }
 
-    var otherUserData: UserData? = null
+    var otherUserData by remember { mutableStateOf<UserData?>(null) }
 
-    fetchUserData(otherUserId!!){newUserData ->
-        otherUserData = newUserData
-        Log.v("userData", "other user : $otherUserData")
+
+    runBlocking{
+        fetchUserData(otherUserId!!) { newUserData ->
+            otherUserData = newUserData
+            Log.v("userData", "other user : $otherUserData")
+        }
     }
 
-
+    Log.i("user", "$otherUserData")
 
     Row(
         modifier = Modifier
             .padding(8.dp)
-            .clickable { onChatClick() },
+            .clickable { otherUserData?.let { onChatClick(it) } },
         verticalAlignment = Alignment.CenterVertically
     ) {
         UserProfileImageIcon(userData = otherUserData)
 
         Text(
-            text = otherUserData?.userName?: "User name not found",
+            text = otherUserData?.displayName?: "User name not found",
             modifier = Modifier.padding(start = 8.dp),
             style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)
         )
@@ -195,7 +199,7 @@ fun ChatRootScreenPreview() {
             uiState = PetKeeperUIState(),
             userData = userSamples[0],
             {  },
-            {  },
+            { _,_ -> },
             { _, _ -> }
         )
     }

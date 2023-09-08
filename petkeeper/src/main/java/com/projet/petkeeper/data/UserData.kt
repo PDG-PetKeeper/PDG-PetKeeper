@@ -3,9 +3,9 @@ package com.projet.petkeeper.data
 
 data class  UserData (
     val userId: String? = null,
-    val userName: String? = null,
+    val displayName: String? = null,
     //val lastName: String? = null,
-    val profileImageUrl: String? = null,
+    val photoURL: String? = null,
    // val email: String? = null,
 )
 
@@ -13,31 +13,26 @@ data class  UserData (
 val userSamples = listOf(
     UserData(
         userId = "poster 1",
-        userName = "Poster 1",
+        displayName = "Poster 1",
     ),
     UserData(
         userId = "1",
-        userName = "John",
-        profileImageUrl = " ",
+        displayName = "John",
     ),
     UserData(
         userId = "2",
-        userName = "Jane",
-        profileImageUrl = " ",
+        displayName = "Jane",
     ),
     UserData(
         userId = "3",
-        userName = "Bob",
-        profileImageUrl = " ",
+        displayName = "Bob",
     ),
     UserData(
         userId = "4",
-        userName = "Alice",
-        profileImageUrl = " ",
+        displayName = "Alice",
     ),
     UserData(
         userId = "5",
-        userName = "Tom",
-        profileImageUrl = " ",
+        displayName = "Tom",
     ),
 )

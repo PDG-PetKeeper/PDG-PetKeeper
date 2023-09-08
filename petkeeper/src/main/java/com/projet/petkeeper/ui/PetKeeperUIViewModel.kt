@@ -13,7 +13,6 @@ import com.projet.petkeeper.data.MessageData
 import com.projet.petkeeper.data.UserData
 import com.projet.petkeeper.data.UserPair
 import com.projet.petkeeper.utils.Constants
-import com.projet.petkeeper.utils.fetchUserData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,12 +45,12 @@ open class PetKeeperUIViewModel() : ViewModel() {
 
             try {
                 val querySnapshot = firestoreDB.collection("users")
-                    .whereEqualTo("userId", userId)
-                    .limit(1)
+                    .document(userId)
                     .get()
                     .await()
 
-                val userData = querySnapshot.documents[0].toObject<UserData>()
+                val userData = querySnapshot.toObject<UserData>()
+
                 if (userData != null) {
                     withContext(Dispatchers.Main) {
                         fetcher(userData)
@@ -197,14 +196,16 @@ open class PetKeeperUIViewModel() : ViewModel() {
     }
 
     // Get chat messages
-    fun updateCurrentMessages(userPair: UserPair)  = CoroutineScope(Dispatchers.IO).launch {
+    fun updateCurrentMessages(userPair: UserPair, otherUserData: UserData)  = CoroutineScope(Dispatchers.IO).launch {
         val mutableMessageList: MutableList<MessageData> = mutableListOf()
         val otherUserId = if (userPair.userId1.equals(userData.userId)) {
             userPair.userId2!!
         } else {
             userPair.userId1!!
         }
-        val otherUserData: UserData? = fetchUserData(otherUserId){}
+
+        Log.e("user", "${otherUserData}")
+
 
         firestoreDB.collection("userPairs")
             .document(userPair.id!!)

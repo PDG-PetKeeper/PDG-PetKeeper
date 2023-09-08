@@ -94,8 +94,8 @@ fun NavGraphBuilder.chatNavGraph(
                onSearch = {
                    viewModel.searchChats(it)
                },
-               onChatClick = {
-                   viewModel.updateCurrentMessages(it)
+               onChatClick = {userPair, otherUserData ->
+                   viewModel.updateCurrentMessages(userPair, otherUserData)
                    navController.navigate(route = ChatScreenRoutes.SelectedChat.route)
                    viewModel.hideNavBar()
                },
