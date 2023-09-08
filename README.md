@@ -21,7 +21,7 @@
 
 ### 3. Architecture:
     - Le projet est découpé en 3 modules:
-        - petkeeperCloud: contient les modules googles pour le chat
+        - petkeeperCloud: contient les modules googles pour ajouter les utilisateurs de FirebaseAuth à la base de données Firestore
         - src: le code de l'application android
         - landing_page: le code source de la landing page
         
@@ -45,8 +45,17 @@
     - Une fois la pull request validée et le build test passé, la branche `main` est mergée dans la branche `dev` et une nouvelle version est taggée
 
 
-### 5. Packages:
-    - 
+### 5. Packages de l'app:
+
+    - chat: contient les affichages la liste de chats et un chat selectionné
+    - dashboard: contient les affichages de la page de poste d'annonces, de création d'annonce, d'upload d'annonce et la page d'affichage de la section d'une annonce
+    - data: contient les classes de données utilisées dans l'application: chatMessage, JobData, UserData et UserPair
+    - navigation: contient les graphes de navigation et les composants de navigation de l'application
+    - profile: contient l' affichage de la page de profil et le logout
+    - search: contient l'affichage de la page de recherche
+    - sign_in: contient les composants pour se login/logout avec son compte google
+    - utils: contient les classes utilitaires pour l'application
+    
 
 (Durant la dernière semaine de projet, on a surtout push sur dev et pas vraiment utilisé les feature branches)
 
