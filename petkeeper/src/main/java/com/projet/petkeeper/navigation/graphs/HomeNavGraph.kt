@@ -60,7 +60,8 @@ fun NavGraphBuilder.searchNavGraph(
             SearchRootScreen(
                 uiState = uiState,
                 onSearch = {
-
+                    viewModel.searchJobs(it)
+                    navController.navigate(SearchScreenRoutes.Root.route)
                 },
                 onJobClick = {
 
@@ -91,9 +92,6 @@ fun NavGraphBuilder.chatNavGraph(
             ChatRootScreen(
                uiState = uiState,
                userData = userData,
-               onSearch = {
-                   viewModel.searchChats(it)
-               },
                onChatClick = {userPair, otherUserData ->
                    viewModel.updateCurrentMessages(userPair, otherUserData)
                    navController.navigate(route = ChatScreenRoutes.SelectedChat.route)

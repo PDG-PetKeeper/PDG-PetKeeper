@@ -12,13 +12,13 @@ import com.projet.petkeeper.data.JobData
 import com.projet.petkeeper.data.MessageData
 import com.projet.petkeeper.data.UserData
 import com.projet.petkeeper.data.UserPair
-import com.projet.petkeeper.utils.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.util.Date
@@ -64,6 +64,7 @@ open class PetKeeperUIViewModel : ViewModel() {
             }
     }
 
+    //search doesn't work
     fun searchInit() = CoroutineScope(Dispatchers.IO).launch {
         val mutableJobList: MutableList<JobData> = mutableListOf()
 
@@ -196,66 +197,68 @@ open class PetKeeperUIViewModel : ViewModel() {
     }
 
     // Get chat messages
-    fun updateCurrentMessages(userPair: UserPair, otherUserData: UserData)  = CoroutineScope(Dispatchers.IO).launch {
+    fun updateCurrentMessages(userPair: UserPair, otherUserData: UserData) = CoroutineScope(Dispatchers.IO).launch {
         val mutableMessageList: MutableList<MessageData> = mutableListOf()
-        val otherUserId = if (userPair.userId1.equals(userData.userId)) {
-            userPair.userId2!!
-        } else {
-            userPair.userId1!!
-        }
 
-        Log.e("user", "$otherUserData")
+        try {
+            val querySnapshot = firestoreDB.collection("userPairs")
+                .document(userPair.id!!)
+                .collection("messages")
+                .orderBy("timestamp")
+                .get()
+                .await()
 
+            for (document in querySnapshot.documents) {
+                try {
+                    val messageData = document.toObject<MessageData>()
+                    if (messageData != null){
+                        mutableMessageList.add(messageData)
+                    }
 
-        firestoreDB.collection("userPairs")
-            .document(userPair.id!!)
-            .collection("messages")
-            .orderBy("timestamp")
-            .addSnapshotListener { value, e ->
-                if (e != null) {
-                    Log.w(Constants.TAG, "Listen failed.", e)
-                    return@addSnapshotListener
+                } catch (e: Exception) {
+                    Log.w("JobAdd", "Exception: $e")
                 }
 
-
-                if (value != null) {
-                    for (doc in value) {
-                        mutableMessageList.add(doc.toObject())
-                    }
+            }
+            withContext(Dispatchers.Main){
+                _uiState.update {
+                    it.copy(
+                        currentMessageList = mutableMessageList.toList().reversed(),
+                        currentChatter = otherUserData
+                    )
                 }
             }
-
-        _uiState.update {
-            it.copy(
-                currentMessageList = mutableMessageList.toList().asReversed(),
-                currentChatter = otherUserData
-            )
+        } catch (e: Exception) {
+            Log.e("Firestore", "Exception: $e")
         }
+
     }
 
-    fun searchChats(queryString: String) {
+    fun searchJobs(searchString: String) = CoroutineScope(Dispatchers.IO).launch {
 
-        chatInit()
+        runBlocking {
+            searchInit()
+        }
 
-        val mutableUserPairList: MutableList<UserPair> = mutableListOf()
-        val currentUserPairList = _uiState.value.userPairList
+        val filteredJobList = _uiState.value.currentJobList.filter { jobData ->
+            // Define your condition here, for example, checking if searchString appears in any of the strings
+            val containsSearchString = listOf(
+                jobData.title,
+                jobData.pet,
+                jobData.description,
+                jobData.pay,
+                jobData.location
+            ).any { it?.contains(searchString, ignoreCase = true) == true }
 
-        currentUserPairList.forEach { userPair ->
-            if (userPair.userId1.equals(userData.userId)
-                && userPair.userId2.equals(queryString)){
-                mutableUserPairList.add(userPair)
-            } else if (userPair.userId2.equals(userData.userId)
-                && userPair.userId1.equals(queryString)) {
-                mutableUserPairList.add(userPair)
-            }
+            // Include the jobData in the filtered list if it meets the condition
+            containsSearchString
         }
 
         _uiState.update {
             it.copy(
-                userPairList = mutableUserPairList.toList()
+                currentJobList = filteredJobList
             )
         }
-
     }
 
     fun changeNavBarCurrentIndex(index: Int){
@@ -289,32 +292,4 @@ open class PetKeeperUIViewModel : ViewModel() {
             )
         }
     }
-
-    fun searchJobs(searchString: String) {
-        searchInit()
-
-        val filteredJobList = _uiState.value.currentJobList.filter { jobData ->
-            // Define your condition here, for example, checking if searchString appears in any of the strings
-            val containsSearchString = listOf(
-                jobData.title,
-                jobData.pet,
-                jobData.description,
-                jobData.pay,
-                jobData.location
-            ).any { it?.contains(searchString, ignoreCase = true) == true }
-
-            // Include the jobData in the filtered list if it meets the condition
-            containsSearchString
-        }
-
-        _uiState.update {
-            it.copy(
-                currentJobList = filteredJobList
-            )
-        }
-
-    }
-
-
-
 }

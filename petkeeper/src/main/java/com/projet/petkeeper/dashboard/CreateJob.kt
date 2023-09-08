@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,9 +25,9 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -64,255 +65,268 @@ fun CreateJob(
     }
 
     PetkeeperTheme {
-        Column(
+        Scaffold(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+                .padding(16.dp),
 
-            TopAppBar(
-                title = {
-                    Text(text = "Create an advert")
-                },
-                navigationIcon = {
-                    // go back
-                    IconButton(
-                        onClick = {
-                            onBackClick()
-                        }
-                    ) {
-                        Icon(
+            topBar = {
+                CenterAlignedTopAppBar(
+                    title = {
+                        Text(text = "Create an advert")
+                    },
+                    navigationIcon = {
+                        // go back
+                        IconButton(
+                            onClick = {
+                                onBackClick()
+                            }
+                        ) {
+                            Icon(
                                 imageVector = Icons.Default.ArrowBack,
                                 contentDescription = "Go back",
                             )
+                        }
+                    }
+                )
+
+            }
+
+        ) { paddingValue ->
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(paddingValue)
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.height(8.dp))
+
+                var selectImage by remember { mutableStateOf<Uri?>(null) }
+
+                val galleryLauncher =
+                    rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
+                        selectImage = it
+                    }
+
+
+                Box {
+                    selectImage?.let { imageUri ->
+                        Image(
+                            painter = rememberAsyncImagePainter(imageUri),
+                            contentScale = ContentScale.FillWidth,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(16.dp, 8.dp)
+                                .size(100.dp)
+                                .clickable { galleryLauncher.launch("image/*") }
+                        )
                     }
                 }
-            )
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-
-            var selectImage by remember { mutableStateOf<Uri?>(null) }
-
-            val galleryLauncher =
-                rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
-                    selectImage = it
+                Button(
+                    onClick = { galleryLauncher.launch("image/*") },
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .padding(10.dp)
+                ) {
+                    Text(text = "Add a pet !")
                 }
 
+                var title by remember { mutableStateOf(TextFieldValue("")) }
+                // for preview add same text to all the fields
 
-            Box {
-                selectImage?.let { imageUri ->
-                    Image(
-                        painter = rememberAsyncImagePainter(imageUri),
-                        contentScale = ContentScale.FillWidth,
-                        contentDescription = null,
+                // Normal Text Input field with floating label
+                // placeholder is same as hint in xml of edit text
+                OutlinedTextField(
+                    value = title,
+                    onValueChange = { newValue -> title = newValue },
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(),
+                    label = { Text("Title") },
+                    placeholder = { Text("Enter a title") },
+                )
+
+                var animal by remember { mutableStateOf(TextFieldValue("")) }
+                // Outlined Text Input Field
+                OutlinedTextField(
+                    value = animal,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(),
+                    label = { Text(text = "Animal") },
+                    placeholder = { Text(text = "Cat or Dog") },
+                    onValueChange = {
+                        animal = it
+                    }
+                )
+
+                var location by remember { mutableStateOf(TextFieldValue("")) }
+                // Outlined Text Input Field
+                OutlinedTextField(
+                    value = location,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(),
+                    label = { Text(text = "Location") },
+                    placeholder = { Text(text = "Lausanne") },
+                    onValueChange = {
+                        location = it
+                    }
+                )
+
+                val today = Date().time
+
+                var startDate by remember {
+                    mutableLongStateOf(today)
+                }
+
+                var showStartDatePicker by remember {
+                    mutableStateOf(false)
+                }
+
+                ExposedDropdownMenuBox(
+                    expanded = showStartDatePicker,
+                    onExpandedChange = { showStartDatePicker = !showStartDatePicker }
+                ) {
+                    OutlinedTextField(
+                        value = convertMillisToDate(startDate),
+                        trailingIcon = {
+                            Icon(imageVector = Icons.Default.DateRange, contentDescription = null)
+                        },
+                        readOnly = true,
                         modifier = Modifier
-                            .padding(16.dp, 8.dp)
-                            .size(100.dp)
-                            .clickable { galleryLauncher.launch("image/*") }
+                            .padding(8.dp)
+                            .fillMaxWidth()
+                            .menuAnchor(),
+                        label = { Text(text = "Begin date") },
+                        onValueChange = {},
+                        colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
                     )
+
+                    if (showStartDatePicker) {
+                        JobDatePickerDialog(
+                            onDateSelected = { startDate = it },
+                            onDismiss = { showStartDatePicker = false },
+                            minDate = today,
+                            pickedDate = startDate
+                        )
+                    }
                 }
-            }
 
-            Button(
-                onClick = { galleryLauncher.launch("image/*") },
-                modifier = Modifier
-                    .wrapContentSize()
-                    .padding(10.dp)
-            ) {
-                Text(text = "Add a pet !")
-            }
-
-            var title by remember { mutableStateOf(TextFieldValue("")) }
-            // for preview add same text to all the fields
-
-            // Normal Text Input field with floating label
-            // placeholder is same as hint in xml of edit text
-            OutlinedTextField(
-                value = title,
-                onValueChange = { newValue -> title = newValue },
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(),
-                label = { Text("Title") },
-                placeholder = { Text("Enter a title") },
-            )
-
-            var animal by remember { mutableStateOf(TextFieldValue("")) }
-            // Outlined Text Input Field
-            OutlinedTextField(
-                value = animal,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(),
-                label = { Text(text = "Animal") },
-                placeholder = { Text(text = "Cat or Dog") },
-                onValueChange = {
-                    animal = it
+                var endDate by remember {
+                    mutableLongStateOf(startDate)
                 }
-            )
 
-            var location by remember { mutableStateOf(TextFieldValue("")) }
-            // Outlined Text Input Field
-            OutlinedTextField(
-                value = location,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(),
-                label = { Text(text = "Location") },
-                placeholder = { Text(text = "Lausanne") },
-                onValueChange = {
-                    location = it
+                var showEndDatePicker by remember {
+                    mutableStateOf(false)
                 }
-            )
 
-            val today = Date().time
+                ExposedDropdownMenuBox(
+                    expanded = showEndDatePicker,
+                    onExpandedChange = { showEndDatePicker = !showEndDatePicker }
+                ) {
+                    OutlinedTextField(
+                        value = convertMillisToDate(endDate),
+                        trailingIcon = {
+                            Icon(imageVector = Icons.Default.DateRange, contentDescription = null)
+                        },
+                        readOnly = true,
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth()
+                            .menuAnchor(),
+                        label = { Text(text = "Begin date") },
+                        onValueChange = {},
+                        colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                    )
 
-            var startDate by remember {
-                mutableStateOf(today)
-            }
+                    if (showEndDatePicker) {
+                        JobDatePickerDialog(
+                            onDateSelected = { endDate = it },
+                            onDismiss = { showEndDatePicker = false },
+                            minDate = startDate,
+                            pickedDate = endDate
+                        )
+                    }
+                }
 
-            var showStartDatePicker by remember {
-                mutableStateOf(false)
-            }
-
-            ExposedDropdownMenuBox(
-                expanded = showStartDatePicker,
-                onExpandedChange = {showStartDatePicker = !showStartDatePicker}
-            ) {
+                var price by remember { mutableStateOf(TextFieldValue("")) }
+                // Outlined Input text with icon on the left
+                // inside leadingIcon property add the icon
                 OutlinedTextField(
-                    value = convertMillisToDate(startDate),
-                    trailingIcon = {
-                        Icon(imageVector = Icons.Default.DateRange, contentDescription = null)
+                    value = price,
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.baseline_attach_money_24),
+                            contentDescription = null
+                        )
                     },
-                    readOnly = true,
                     modifier = Modifier
                         .padding(8.dp)
-                        .fillMaxWidth()
-                        .menuAnchor(),
-                    label = { Text(text = "Begin date") },
-                    onValueChange = {},
-                    colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                        .fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    label = { Text(text = "CHF") },
+                    placeholder = { Text(text = "20./H") },
+                    onValueChange = {
+                        price = it
+                    }
                 )
 
-                if (showStartDatePicker) {
-                    JobDatePickerDialog(
-                        onDateSelected = { startDate = it },
-                        onDismiss = { showStartDatePicker = false },
-                        minDate = today,
-                        pickedDate = startDate
-                    )
-                }
-            }
 
-            var endDate by remember {
-                mutableStateOf(startDate)
-            }
-
-            var showEndDatePicker by remember {
-                mutableStateOf(false)
-            }
-
-            ExposedDropdownMenuBox(
-                expanded = showEndDatePicker,
-                onExpandedChange = {showEndDatePicker = !showEndDatePicker}
-            ) {
+                var description by remember { mutableStateOf(TextFieldValue("")) }
+                // Outlined Input text with icon on the left
+                // inside leadingIcon property add the icon
                 OutlinedTextField(
-                    value = convertMillisToDate(endDate),
-                    trailingIcon = {
-                        Icon(imageVector = Icons.Default.DateRange, contentDescription = null)
+                    value = description,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Create,
+                            contentDescription = null
+                        )
                     },
-                    readOnly = true,
                     modifier = Modifier
                         .padding(8.dp)
-                        .fillMaxWidth()
-                        .menuAnchor(),
-                    label = { Text(text = "Begin date") },
-                    onValueChange = {},
-                    colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                        .fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    label = { Text(text = "Description") },
+                    placeholder = { Text(text = "I have an ....") },
+                    onValueChange = {
+                        description = it
+                    }
                 )
 
-                if (showEndDatePicker) {
-                    JobDatePickerDialog(
-                        onDateSelected = { endDate = it },
-                        onDismiss = { showEndDatePicker = false },
-                        minDate = startDate,
-                        pickedDate = endDate
-                    )
+
+                Button(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .align(Alignment.CenterHorizontally),
+                    onClick = {
+
+                        // Upload image, retrieve url, upload advert, go back to job lis
+                        val jobData = JobData(
+                            id = GregorianCalendar().timeInMillis.toString(),
+                            poster = userData?.userId, // need userData
+                            worker = null,
+                            image = "", // need images
+                            title = title.text,
+                            pet = animal.text, // need PetType selection
+                            description = description.text,
+                            startDate = Timestamp(Date(startDate)),
+                            endDate = Timestamp(Date(endDate)),
+                            pay = price.text,
+                            location = location.text
+                        )
+
+                        onPublishClick(jobData)
+                        // this function can't be called from the viewmodel
+                        // causes to crash the app
+                        uploadAll(selectImage, jobData)
+                    }
+                ) {
+                    Text(" Publish ")
                 }
-            }
-
-            var price by remember { mutableStateOf(TextFieldValue("")) }
-            // Outlined Input text with icon on the left
-            // inside leadingIcon property add the icon
-            OutlinedTextField(
-                value = price,
-                leadingIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_attach_money_24),
-                        contentDescription = null
-                    )
-                },
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                label = { Text(text = "CHF") },
-                placeholder = { Text(text = "20./H") },
-                onValueChange = {
-                    price = it
-                }
-            )
-
-
-            var description by remember { mutableStateOf(TextFieldValue("")) }
-            // Outlined Input text with icon on the left
-            // inside leadingIcon property add the icon
-            OutlinedTextField(
-                value = description,
-                leadingIcon = { Icon(imageVector = Icons.Default.Create, contentDescription = null) },
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                label = { Text(text = "Description") },
-                placeholder = { Text(text = "I have an ....") },
-                onValueChange = {
-                    description = it
-                }
-            )
-
-
-            Button(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .align(Alignment.CenterHorizontally),
-                onClick = {
-
-                    // Upload image, retrieve url, upload advert, go back to job lis
-                    val jobData = JobData(
-                        id = GregorianCalendar().timeInMillis.toString(),
-                        poster = userData?.userId, // need userData
-                        worker = null,
-                        image = "", // need images
-                        title = title.text,
-                        pet = animal.text, // need PetType selection
-                        description = description.text,
-                        startDate = Timestamp(Date(startDate)),
-                        endDate = Timestamp(Date(endDate)),
-                        pay = price.text,
-                        location = location.text
-                    )
-
-                    onPublishClick(jobData)
-                    // this function can't be called from the viewmodel
-                    // causes to crash the app
-                    uploadAll(selectImage, jobData)
-                }
-            ) {
-                Text(" Publish ")
             }
         }
     }
