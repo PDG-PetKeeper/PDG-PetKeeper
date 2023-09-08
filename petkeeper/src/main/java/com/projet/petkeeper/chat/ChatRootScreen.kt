@@ -39,6 +39,15 @@ import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 import com.projet.petkeeper.utils.UserProfileImageIcon
 
+
+/**
+ * This is the root screen for the chat feature of the PetKeeper app
+ * @param uiState The current UI state of the app.
+ * @param userData The user data for the logged-in user.
+ * @param onSearch A callback function to perform a chat search based on the provided query.
+ * @param onChatClick A callback function to handle a chat item click.
+ * @param fetchUserData A function to fetch user data for a given user ID.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatRootScreen(
@@ -46,8 +55,8 @@ fun ChatRootScreen(
     userData: UserData,
     onSearch: (String) -> Unit,
     onChatClick: (UserPair) -> Unit,
-    fetchUserData: (String, (UserData) ->Unit) -> Unit
-){
+    fetchUserData: (String, (UserData) -> Unit) -> Unit
+) {
     var searchChatText by remember {
         mutableStateOf("")
     }
@@ -87,10 +96,10 @@ fun ChatRootScreen(
                     Icon(Icons.Filled.Search, "Search icon")
                 },
                 trailingIcon = {
-                    if(searchChatText.isNotEmpty()) {
+                    if (searchChatText.isNotEmpty()) {
                         Icon(
                             modifier = Modifier.clickable {
-                                if(searchChatText.isNotEmpty()) {
+                                if (searchChatText.isNotEmpty()) {
                                     searchChatText = ""
                                 } else {
                                     searchChatActive = false
@@ -120,7 +129,7 @@ fun ChatRootScreen(
                 }
             }
         },
-    ){  paddingValues ->
+    ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
                 .padding(paddingValues)
@@ -128,9 +137,9 @@ fun ChatRootScreen(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(uiState.userPairList) {userPair ->
+            items(uiState.userPairList) { userPair ->
 
-                Log.i("chat","this user pair: $userPair")
+                Log.i("chat", "this user pair: $userPair")
 
                 ChatCard(
                     userData = userData,
@@ -138,7 +147,7 @@ fun ChatRootScreen(
                     onChatClick = {
                         onChatClick(userPair)
                     },
-                    fetchUserData = {userId, fetch ->
+                    fetchUserData = { userId, fetch ->
                         fetchUserData(userId, fetch)
                     }
                 )
@@ -147,13 +156,20 @@ fun ChatRootScreen(
         }
     }
 }
-
+/**
+ * A composable function to display a chat card with user information.
+ *
+ * @param userData The user data for the logged-in user.
+ * @param userPair The user pair associated with the chat.
+ * @param onChatClick A callback function to handle a chat card click.
+ * @param fetchUserData A function to fetch user data for a given user ID.
+ */
 @Composable
 fun ChatCard(
     userData: UserData,
     userPair: UserPair,
     onChatClick: () -> Unit,
-    fetchUserData: (String, (UserData) ->Unit) -> Unit
+    fetchUserData: (String, (UserData) -> Unit) -> Unit
 ) {
     val otherUserId: String? = if (userPair.userId1.equals(userData.userId)) {
         userPair.userId2
@@ -163,7 +179,7 @@ fun ChatCard(
 
     var otherUserData: UserData? = null
 
-    fetchUserData(otherUserId!!){newUserData ->
+    fetchUserData(otherUserId!!) { newUserData ->
         otherUserData = newUserData
         Log.v("userData", "other user : $otherUserData")
     }
@@ -179,14 +195,16 @@ fun ChatCard(
         UserProfileImageIcon(userData = otherUserData)
 
         Text(
-            text = otherUserData?.userName?: "User name not found",
+            text = otherUserData?.userName ?: "User name not found",
             modifier = Modifier.padding(start = 8.dp),
             style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)
         )
     }
 
 }
-
+/**
+ * Preview function to display a preview of the ChatRootScreen composable.
+ */
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ChatRootScreenPreview() {
@@ -194,8 +212,8 @@ fun ChatRootScreenPreview() {
         ChatRootScreen(
             uiState = PetKeeperUIState(),
             userData = userSamples[0],
-            {  },
-            {  },
+            { },
+            { },
             { _, _ -> }
         )
     }
