@@ -20,8 +20,14 @@ import com.projet.petkeeper.search.SearchRootScreen
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.PetKeeperUIViewModel
 
-
-// nav graph depuis home.
+/**
+ * Navigation graph for the home screen.
+ *
+ * @param navController The navigation controller for handling navigation within this graph.
+ * @param viewModel The ViewModel for managing UI state.
+ * @param userData The user data associated with the current user.
+ * @param onSignOut Callback function to sign out the user.
+ */
 @SuppressLint("NewApi")
 @Composable
 fun HomeNavGraph(
@@ -45,7 +51,14 @@ fun HomeNavGraph(
     }
 }
 
-
+/**
+ * Navigation graph for the search functionality.
+ *
+ * @param navController The navigation controller for handling navigation within this graph.
+ * @param viewModel The ViewModel for managing UI state.
+ * @param uiState The current UI state.
+ * @param userData The user data associated with the current user.
+ */
 fun NavGraphBuilder.searchNavGraph(
     navController: NavHostController,
     viewModel: PetKeeperUIViewModel,
@@ -77,6 +90,14 @@ fun NavGraphBuilder.searchNavGraph(
 //        }
     }
 }
+/**
+* Navigation graph for the chat functionality.
+*
+* @param navController The navigation controller for handling navigation within this graph.
+* @param viewModel The ViewModel for managing UI state.
+* @param uiState The current UI state.
+* @param userData The user data associated with the current user.
+*/
 fun NavGraphBuilder.chatNavGraph(
     navController: NavHostController,
     viewModel: PetKeeperUIViewModel,
@@ -112,7 +133,14 @@ fun NavGraphBuilder.chatNavGraph(
 
 }
 
-
+/**
+ * Navigation graph for the dashboard functionality.
+ *
+ * @param navController The navigation controller for handling navigation within this graph.
+ * @param viewModel The ViewModel for managing UI state.
+ * @param uiState The current UI state.
+ * @param userData The user data associated with the current user.
+ */
 fun NavGraphBuilder.dashboardNavGraph(
     navController: NavHostController,
     viewModel: PetKeeperUIViewModel,
@@ -177,6 +205,15 @@ fun NavGraphBuilder.dashboardNavGraph(
     }
 }
 
+/**
+ * Navigation graph for the user profile functionality.
+ *
+ * @param navController The navigation controller for handling navigation within this graph.
+ * @param viewModel The ViewModel for managing UI state.
+ * @param uiState The current UI state.
+ * @param userData The user data associated with the current user.
+ * @param onSignOut Callback function to sign out the user.
+ */
 fun NavGraphBuilder.profileNavGraph(
     navController: NavHostController,
     viewModel: PetKeeperUIViewModel,
@@ -202,23 +239,34 @@ fun NavGraphBuilder.profileNavGraph(
     }
 }
 
-
+/**
+ * Sealed class defining routes for the search functionality.
+ */
 sealed class SearchScreenRoutes(val route: String) {
     data object Root : SearchScreenRoutes(route = "SEARCH_MAIN")
     data object SelectedJob : SearchScreenRoutes(route = "SELECTED_SEARCH")
 }
 
+/**
+ * Sealed class defining routes for the chat functionality.
+ */
 sealed class ChatScreenRoutes(val route: String) {
     data object Root : ChatScreenRoutes(route = "CHAT_MAIN")
     data object SelectedChat : ChatScreenRoutes(route = "SELECTED_CHAT")
 }
 
+/**
+ * Sealed class defining routes for the dashboard functionality.
+ */
 sealed class DashboardScreenRoutes(val route: String) {
     data object Root : DashboardScreenRoutes(route = "DASHBOARD_ROOT")
     data object JobLook : DashboardScreenRoutes(route = "JOB_LOOK")
     data object JobCreation : DashboardScreenRoutes(route = "JOB_CREATION")
 }
 
+/**
+ * Sealed class defining routes for the dashboard functionality.
+ */
 sealed class ProfileScreenRoutes(val route: String) {
     data object Root : ProfileScreenRoutes(route = "PROFILE_ROOT")
 }
