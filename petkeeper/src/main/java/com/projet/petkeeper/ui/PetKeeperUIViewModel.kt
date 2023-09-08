@@ -356,4 +356,14 @@ open class PetKeeperUIViewModel : ViewModel() {
             )
         }
     }
+
+    fun resetToChatRoot(){
+        _uiState.update {
+            it.copy(
+                currentUserPair = null,
+                currentChatter = null,
+                currentMessageList = emptyList(),
+            )
+        }
+    }
 }

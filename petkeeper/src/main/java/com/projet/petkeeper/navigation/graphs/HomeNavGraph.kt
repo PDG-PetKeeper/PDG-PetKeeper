@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.projet.petkeeper.chat.ChatRootScreen
+import com.projet.petkeeper.chat.ChatSelectedScreen
 import com.projet.petkeeper.dashboard.CreateJob
 import com.projet.petkeeper.dashboard.DashboardRootScreen
 import com.projet.petkeeper.dashboard.LookupJob
@@ -125,7 +126,22 @@ fun NavGraphBuilder.chatNavGraph(
         }
 
         composable(route = ChatScreenRoutes.SelectedChat.route) {
-            // TODO
+            ChatSelectedScreen(
+                uiState = uiState,
+                userData = userData,
+                onMessageSend = {//TODO implement in chat screen
+                    viewModel.addMessage(it)
+                },
+                onBackClick = {
+                    viewModel.showNavBar()
+                    viewModel.resetToChatRoot()
+                    navController.popBackStack(
+                        route = ChatScreenRoutes.Root.route,
+                        inclusive = false
+                    )
+
+                }
+            )
         }
     }
 

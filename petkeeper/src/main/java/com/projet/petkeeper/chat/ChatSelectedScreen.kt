@@ -103,6 +103,24 @@ fun ChatSelectedScreen (
                     )
                 }
             }
+            /* TODO send message
+
+        uiState.chatMessage?.let {
+            TextFormField(
+                value = it.message,
+                onValueChange = {
+                    petKeeperUIViewModel.updateMessage(it)
+                },
+                label = "Type Your Message",
+                keyboardType = KeyboardType.Text,
+                visualTransformation = VisualTransformation.None
+            ) {
+                SendButton {
+                    petKeeperUIViewModel.addMessage()
+                }
+            }
+        }
+             */
         }
     }
 }
@@ -149,7 +167,6 @@ fun SingleMessage(
                     }
                 )
             }
-
         }
 }
 
