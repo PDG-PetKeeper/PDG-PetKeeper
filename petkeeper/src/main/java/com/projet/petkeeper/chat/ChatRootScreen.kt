@@ -169,7 +169,7 @@ fun ChatRootScreen(
 fun ChatCard(
     userData: UserData,
     userPair: UserPair,
-    onChatClick: () -> Unit,
+    onChatClick: (UserData) -> Unit,
     fetchUserData: (String, (UserData) -> Unit) -> Unit
 ) {
     val otherUserId: String? = if (userPair.userId1.equals(userData.userId)) {
