@@ -2,6 +2,7 @@ package com.projet.petkeeper.ui
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -14,9 +15,8 @@ import com.projet.petkeeper.navigation.NavBar
 import com.projet.petkeeper.navigation.graphs.HomeNavGraph
 
 /**
- * Composable function representing the home screen of the PetKeeper app. This screen typically
- * serves as the main entry point for the user after authentication and contains navigation
- * components and other content.
+ * Composable function representing the entry point of the PetKeeper app once logged in.
+ * This function contains navigation components, viewModel declaration and  the "base screen" 8navBar).
  *
  * @param navController The [NavHostController] responsible for navigating between different screens.
  * @param userData The user's data
@@ -47,7 +47,7 @@ fun HomeScreen(
         }
     ) {paddingValues ->
         Box(
-            modifier = Modifier.padding(paddingValues)
+            modifier = Modifier.padding(paddingValues).fillMaxSize()
         ) {
             // Display the HomeNavGraph if user data is available, otherwise call onSignOut.
             if (userData != null) {
