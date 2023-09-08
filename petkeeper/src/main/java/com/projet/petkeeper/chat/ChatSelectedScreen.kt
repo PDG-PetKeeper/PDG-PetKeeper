@@ -134,40 +134,40 @@ fun SingleMessage(
 
     val maxWidth: Int = LocalConfiguration.current.screenWidthDp
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = if (fromUser) Arrangement.End  else  Arrangement.Start
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = if (fromUser) Arrangement.End  else  Arrangement.Start
 
-        ) {
-            Box(
-                modifier = Modifier
-                    .widthIn(0.dp, (maxWidth-100).dp)
-                    .background(
-                        color = if (fromUser) {
-                            MaterialTheme.colorScheme.primaryContainer
-                        } else {
-                            MaterialTheme.colorScheme.secondaryContainer
-                        },
-                        shape = if (fromUser) {
-                            RoundedCornerShape(topEnd = 8.dp, topStart = 8.dp, bottomStart = 8.dp)
-                        } else {
-                            RoundedCornerShape(topEnd = 8.dp, topStart = 8.dp, bottomEnd = 8.dp)
-                        }
-                    )
-                    .padding(10.dp)
-            ) {
-                Text(
-                    text = message.messageData ?: "Error, message not found",
-                    fontSize = 16.sp,
+    ) {
+        Box(
+            modifier = Modifier
+                .widthIn(0.dp, (maxWidth-100).dp)
+                .background(
                     color = if (fromUser) {
-                        MaterialTheme.colorScheme.onPrimaryContainer
+                        MaterialTheme.colorScheme.primaryContainer
                     } else {
-                        MaterialTheme.colorScheme.onSecondaryContainer
+                        MaterialTheme.colorScheme.secondaryContainer
+                    },
+                    shape = if (fromUser) {
+                        RoundedCornerShape(topEnd = 8.dp, topStart = 8.dp, bottomStart = 8.dp)
+                    } else {
+                        RoundedCornerShape(topEnd = 8.dp, topStart = 8.dp, bottomEnd = 8.dp)
                     }
                 )
-            }
+                .padding(10.dp)
+        ) {
+            Text(
+                text = message.messageData ?: "Error, message not found",
+                fontSize = 16.sp,
+                color = if (fromUser) {
+                    MaterialTheme.colorScheme.onPrimaryContainer
+                } else {
+                    MaterialTheme.colorScheme.onSecondaryContainer
+                }
+            )
         }
+    }
 }
 
 @Preview(showBackground = true, showSystemUi = true)
