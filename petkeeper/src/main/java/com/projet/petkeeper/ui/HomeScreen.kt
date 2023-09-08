@@ -16,14 +16,17 @@ import com.projet.petkeeper.navigation.graphs.HomeNavGraph
 @Composable
 fun HomeScreen(
     navController: NavHostController = rememberNavController(),
-    userData: UserData,
+    userData: UserData?,
     onSignOut: () -> Unit
 ) {
 
     Log.e("init", "HomeScreen was called")
 
     val viewModel = PetKeeperUIViewModel.ViewModel
-    viewModel.userData = userData
+
+    if (userData != null) {
+        viewModel.userData = userData
+    }
 
     val uiState = viewModel.uiState.collectAsState().value
 
@@ -36,7 +39,11 @@ fun HomeScreen(
         Box(
             modifier = Modifier.padding(paddingValues)
         ) {
-            HomeNavGraph(navController, viewModel, userData, onSignOut)
+            if (userData != null) {
+                HomeNavGraph(navController, viewModel, userData, onSignOut)
+            } else {
+                onSignOut()
+            }
         }
     }
 }

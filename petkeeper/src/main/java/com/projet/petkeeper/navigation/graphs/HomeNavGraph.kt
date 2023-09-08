@@ -58,9 +58,13 @@ fun NavGraphBuilder.searchNavGraph(
     ) {
         composable(route = SearchScreenRoutes.Root.route) {
             SearchRootScreen(
-                //name = SearchScreen.Information.route
-                //navController.navigate(SearchScreen.SelectedSearch.route)
-//                viewModel.hideNavBar()
+                uiState = uiState,
+                onSearch = {
+
+                },
+                onJobClick = {
+
+                }
             )
         }
 //        composable(route = SearchScreen.SelectedSearch.route) {
@@ -92,9 +96,12 @@ fun NavGraphBuilder.chatNavGraph(
                },
                onChatClick = {
                    viewModel.updateCurrentMessages(it)
-//                   navController.navigate(route = ChatScreenRoutes.SelectedChat.route)
-//                   viewModel.hideNavBar()
-               }
+                   navController.navigate(route = ChatScreenRoutes.SelectedChat.route)
+                   viewModel.hideNavBar()
+               },
+                fetchUserData = { userId, fetch ->
+                    viewModel.fetchUserDataFromUserId(userId, fetch)
+                }
             )
         }
 
@@ -119,7 +126,6 @@ fun NavGraphBuilder.dashboardNavGraph(
         composable(route = DashboardScreenRoutes.Root.route) {
             DashboardRootScreen(
                 uiState = uiState,
-                userData = userData,
                 onJobClick = { jobData: JobData ->
                     viewModel.updateSelectedJob(jobData)
                     viewModel.hideNavBar()
@@ -150,7 +156,6 @@ fun NavGraphBuilder.dashboardNavGraph(
         }
 
         composable(route = DashboardScreenRoutes.JobCreation.route) {
-            viewModel.hideNavBar()
             CreateJob(
                 uiState = uiState,
                 onBackClick = {
@@ -162,9 +167,9 @@ fun NavGraphBuilder.dashboardNavGraph(
                     )
                 },
                 onPublishClick = { jobData: JobData ->
-                    //viewModel.addJob(jobData)
-                    viewModel.updateSelectedJob(jobData)
-                    navController.navigate(route = DashboardScreenRoutes.JobLook.route)
+                    viewModel.showNavBar()
+                    navController.navigate(route = DashboardScreenRoutes.Root.route)
+                    viewModel.dashboardInit()
                 },
                 userData
             )
@@ -185,7 +190,13 @@ fun NavGraphBuilder.profileNavGraph(
     ) {
         composable(route = ProfileScreenRoutes.Root.route) {
             // edit page
-            ProfileScreen(userData, onSignOut)
+            ProfileScreen(
+                userData =  userData,
+                onSignOut = {
+                   onSignOut()
+                   viewModel.changeNavBarCurrentIndex(2)
+               }
+            )
 
         }
     }

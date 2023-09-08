@@ -104,7 +104,7 @@ class MainActivity : ComponentActivity() {
 
                         composable("HomeScreen") {
                             HomeScreen(
-                                userData = googleAuthUiClient.getSignedInUser()!!,
+                                userData = googleAuthUiClient.getSignedInUser(),
                                 onSignOut = {
                                     lifecycleScope.launch {
                                         googleAuthUiClient.signOut()
@@ -114,7 +114,10 @@ class MainActivity : ComponentActivity() {
                                             Toast.LENGTH_LONG
                                         ).show()
 
-                                        navController.popBackStack()
+                                        navController.popBackStack(
+                                            route = "sign_in",
+                                            inclusive = false
+                                        )
                                     }
                                 }
                             )

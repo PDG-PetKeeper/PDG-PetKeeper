@@ -1,5 +1,6 @@
 package com.projet.petkeeper.chat
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -37,7 +38,6 @@ import com.projet.petkeeper.data.userSamples
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 import com.projet.petkeeper.utils.UserProfileImageIcon
-import com.projet.petkeeper.utils.fetchUserData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,7 +45,8 @@ fun ChatRootScreen(
     uiState: PetKeeperUIState,
     userData: UserData,
     onSearch: (String) -> Unit,
-    onChatClick: (UserPair) -> Unit
+    onChatClick: (UserPair) -> Unit,
+    fetchUserData: (String, (UserData) ->Unit) -> Unit
 ){
     var searchChatText by remember {
         mutableStateOf("")
@@ -129,11 +130,16 @@ fun ChatRootScreen(
         ) {
             items(uiState.userPairList) {userPair ->
 
+                Log.i("chat","this user pair: $userPair")
+
                 ChatCard(
                     userData = userData,
                     userPair = userPair,
                     onChatClick = {
                         onChatClick(userPair)
+                    },
+                    fetchUserData = {userId, fetch ->
+                        fetchUserData(userId, fetch)
                     }
                 )
 
@@ -146,14 +152,23 @@ fun ChatRootScreen(
 fun ChatCard(
     userData: UserData,
     userPair: UserPair,
-    onChatClick: () -> Unit
+    onChatClick: () -> Unit,
+    fetchUserData: (String, (UserData) ->Unit) -> Unit
 ) {
-    val otherUserId = if (userPair.userId1.equals(userData.userId)) {
-        userPair.userId2!!
+    val otherUserId: String? = if (userPair.userId1.equals(userData.userId)) {
+        userPair.userId2
     } else {
-        userPair.userId1!!
+        userPair.userId1
     }
-    val otherUserData: UserData? = fetchUserData(otherUserId){}
+
+    var otherUserData: UserData? = null
+
+    fetchUserData(otherUserId!!){newUserData ->
+        otherUserData = newUserData
+        Log.v("userData", "other user : $otherUserData")
+    }
+
+
 
     Row(
         modifier = Modifier
@@ -179,8 +194,9 @@ fun ChatRootScreenPreview() {
         ChatRootScreen(
             uiState = PetKeeperUIState(),
             userData = userSamples[0],
-            {},
-            {},
+            {  },
+            {  },
+            { _, _ -> }
         )
     }
 }

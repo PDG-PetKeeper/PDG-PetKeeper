@@ -73,7 +73,11 @@ fun ProfileScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
-        Button(onClick = onSignOut) {
+        Button(
+            onClick = {
+                onSignOut()
+            }
+        ) {
             Text(text = "Sign out")
         }
     }

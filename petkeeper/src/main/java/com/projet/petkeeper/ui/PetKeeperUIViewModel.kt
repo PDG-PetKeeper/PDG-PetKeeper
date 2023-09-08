@@ -1,6 +1,5 @@
 package com.projet.petkeeper.ui
 
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Timestamp
@@ -38,62 +37,105 @@ open class PetKeeperUIViewModel() : ViewModel() {
 
     init {
         initializeUIState()
-        dashboardInit()
-        Log.e("Init", "viewModel was initializedg")
     }
-    private fun initializeUIState()  = CoroutineScope(Dispatchers.IO).launch {
+    private fun initializeUIState(){
         _uiState.value = PetKeeperUIState()
+        dashboardInit()
     }
-    fun searchInit() {
+    fun fetchUserDataFromUserId(userId: String, fetcher: (UserData) -> Unit) =  CoroutineScope(Dispatchers.IO).launch {
+
+            try {
+                val querySnapshot = firestoreDB.collection("users")
+                    .whereEqualTo("userId", userId)
+                    .limit(1)
+                    .get()
+                    .await()
+
+                val userData = querySnapshot.documents[0].toObject<UserData>()
+                if (userData != null) {
+                    withContext(Dispatchers.Main) {
+                        fetcher(userData)
+                    }
+                } else {
+                    Log.e("UserData fetch","something went wrong")
+                }
+
+            } catch (e: Exception) {
+                Log.e("Firestore", "Exception: $e")
+            }
+    }
+
+    fun searchInit() = CoroutineScope(Dispatchers.IO).launch {
         val mutableJobList: MutableList<JobData> = mutableListOf()
 
-        firestoreDB.collection("jobs")
-            .whereNotEqualTo("posterId", userData.userId)
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    mutableJobList.add(document.toObject())
+        try {
+            Log.i("JobUserId", "${userData.userId}")
+            val querySnapshot = firestoreDB.collection("jobs")
+                .whereNotEqualTo("poster", userData.userId)
+                .get()
+                .await()
+
+            for (document in querySnapshot.documents) {
+                try {
+                    val jobData = document.toObject<JobData>()
+                    if (jobData != null) {
+                        mutableJobList.add(jobData)
+                    } else {
+                        Log.e("searchInit fetch","something went wrong")
+                    }
+                } catch (e: Exception) {
+                    Log.w("JobAdd", "Exception: $e")
                 }
             }
-
-        _uiState.update {
-            it.copy(
-                currentJobList = mutableJobList.toList()
-            )
+            withContext(Dispatchers.Main){
+                _uiState.update {
+                    it.copy(
+                        currentJobList = mutableJobList.toList()
+                    )
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("Firestore", "Exception: $e")
         }
     }
 
-    fun chatInit()  = CoroutineScope(Dispatchers.IO).launch {
+    fun chatInit() = CoroutineScope(Dispatchers.IO).launch {
         val mutableUserPairsList: MutableList<UserPair> = mutableListOf()
 
-        firestoreDB.collection("userPairs")
-            .where(
-                Filter.or(
-                    equalTo("userId1", userData.userId),
-                    equalTo("userId2", userData.userId)
+        try {
+            val querySnapshot = firestoreDB.collection("userPairs")
+                .where(
+                    Filter.or(
+                        equalTo("userId1", userData.userId),
+                        equalTo("userId2", userData.userId)
+                    )
                 )
-            )
-            .get()
-            .addOnSuccessListener {documents ->
-                for (document in documents){
-                    mutableUserPairsList.add(document.toObject())
+                .get()
+                .await()
+
+            for (document in querySnapshot.documents) {
+                try {
+                    val userPair = document.toObject<UserPair>()
+                    if (userPair != null) {
+                        mutableUserPairsList.add(userPair)
+                        Log.d("modelPairAdd", "Added user pair : ${userPair.toString()}")
+                    }
+                } catch (e: Exception) {
+                    Log.w("modelException", "Exception: $e")
                 }
             }
 
-        _uiState.update {
-            it.copy(
-                userPairList = mutableUserPairsList.toList()
-            )
+            _uiState.update {
+                it.copy(
+                    userPairList = mutableUserPairsList.toList()
+                )
+            }
+        } catch (e: Exception) {
+            Log.e("Firestore", "Exception: $e")
         }
     }
     fun dashboardInit() = CoroutineScope(Dispatchers.IO).launch {
         val mutableJobList: MutableList<JobData> = mutableListOf()
-
-
-        Log.d(
-            "StateJobList",
-            "State List not empty : ${_uiState.value.currentJobList.isNotEmpty()}"
-        )
 
         try {
             Log.i("JobUserId", "${userData.userId}")
@@ -122,11 +164,6 @@ open class PetKeeperUIViewModel() : ViewModel() {
         } catch (e: Exception) {
             Log.e("Firestore", "Exception: $e")
         }
-
-        Log.d(
-                "StateJobList",
-        "State List not empty : ${_uiState.value.currentJobList.isNotEmpty()}"
-        )
     }
 
     fun profileInit(){
@@ -220,11 +257,6 @@ open class PetKeeperUIViewModel() : ViewModel() {
 
     }
 
-
-
-
-
-
     fun changeNavBarCurrentIndex(index: Int){
         _uiState.update {
             it.copy(
@@ -258,27 +290,30 @@ open class PetKeeperUIViewModel() : ViewModel() {
     }
 
     fun searchJobs(searchString: String) {
+        searchInit()
 
-    }
+        val filteredJobList = _uiState.value.currentJobList.filter { jobData ->
+            // Define your condition here, for example, checking if searchString appears in any of the strings
+            val containsSearchString = listOf(
+                jobData.title,
+                jobData.pet,
+                jobData.description,
+                jobData.pay,
+                jobData.location
+            ).any { it?.contains(searchString, ignoreCase = true) == true }
 
-
-    fun addJob(jobData: JobData) {
-
-        //uploadImage(jobData.image)
-    }
-
-    private fun uploadImage(image: Uri?) {
-        try {
-            // creating a storage reference
-            // var
-
-
-        } catch (e: Exception) {
-            println("Error uploading image")
+            // Include the jobData in the filtered list if it meets the condition
+            containsSearchString
         }
 
+        _uiState.update {
+            it.copy(
+                currentJobList = filteredJobList
+            )
+        }
 
     }
+
 
 
 }

@@ -306,11 +306,10 @@ fun CreateJob(
                         location = location.text
                     )
 
+                    onPublishClick(jobData)
                     // this function can't be called from the viewmodel
                     // causes to crash the app
                     uploadAll(selectImage, jobData)
-
-                    onBackClick()
                 }
             ) {
                 Text(" Publish ")

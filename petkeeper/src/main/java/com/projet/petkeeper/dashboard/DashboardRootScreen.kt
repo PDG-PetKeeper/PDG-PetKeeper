@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.projet.petkeeper.data.JobData
 import com.projet.petkeeper.data.JobDataExample
-import com.projet.petkeeper.data.UserData
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 
@@ -39,7 +38,6 @@ import com.projet.petkeeper.ui.theme.PetkeeperTheme
 @Composable
 fun DashboardRootScreen(
     uiState: PetKeeperUIState,
-    userData: UserData,
     onJobClick: (JobData) -> Unit,
     onAddClick: () -> Unit
 ){
@@ -121,10 +119,6 @@ fun DashboardRootScreenPreview() {
         DashboardRootScreen(
             PetKeeperUIState(
                 currentJobList = JobDataExample.jobDataExampleList
-            ),
-            UserData(
-                userId = "poster 1",
-                userName = "Poster 1",
             ),
             {},
             {},
