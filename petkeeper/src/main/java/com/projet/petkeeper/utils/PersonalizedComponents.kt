@@ -2,50 +2,21 @@ package com.projet.petkeeper.utils
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.projet.petkeeper.data.ChatMessage
 import com.projet.petkeeper.data.UserData
-import com.projet.petkeeper.ui.PetKeeperUIState
 
 /**
  * Set different icons/views which will be used throughout the application.
@@ -61,7 +32,7 @@ fun Title(title: String) {
         modifier = Modifier.fillMaxHeight(0.5f)
     )
 }
-
+/*
 @Composable
 fun Buttons(title: String, onClick: () -> Unit, backgroundColor: Color) {
     Button(
@@ -75,9 +46,9 @@ fun Buttons(title: String, onClick: () -> Unit, backgroundColor: Color) {
     ) {
         Title(title = title)
     }
-}
+}*/
 
-@Composable
+/*@Composable
 fun SendButton(onClick: () -> Unit) {
     IconButton(
         onClick = onClick
@@ -87,8 +58,9 @@ fun SendButton(onClick: () -> Unit) {
             contentDescription = "Send Button"
         )
     }
-}
+}*/
 
+/*
 @Composable
 fun Appbar(action: () -> Unit, userData: UserData) {
     TopAppBar(
@@ -104,8 +76,9 @@ fun Appbar(action: () -> Unit, userData: UserData) {
         navigationIcon = null
     )
 }
+*/
 
-@Composable
+/*@Composable
 fun AppbarContent(action: () -> Unit, userData: UserData) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -126,7 +99,7 @@ fun AppbarContent(action: () -> Unit, userData: UserData) {
         )
         UserProfileImageIcon(userData = userData)
     }
-}
+}*/
 
 @Composable
 fun UserProfileImageIcon(userData: UserData?) {
@@ -149,7 +122,7 @@ fun UserProfileImageIcon(userData: UserData?) {
     }
 }
 
-@Composable
+/*@Composable
 fun TextFormField(
     value: String,
     onValueChange: (String) -> Unit,
@@ -180,10 +153,10 @@ fun TextFormField(
         )
         sendButton() // Include the custom send button
     }
-}
+}*/
 
 
-@Composable
+/*@Composable
 fun SingleMessage(message: String, isCurrentUser: Boolean) {
     Card(
         shape = RoundedCornerShape(16.dp),
@@ -202,10 +175,10 @@ fun SingleMessage(message: String, isCurrentUser: Boolean) {
         )
     }
 
-}
+}*/
 
 
-@Composable
+/*@Composable
 fun rememberUserModel(currentUserId: String): UserData? {
     var otherUserData by remember { mutableStateOf<UserData?>(null) }
 
@@ -216,11 +189,12 @@ fun rememberUserModel(currentUserId: String): UserData? {
     }
 
     return otherUserData
-}
+}*/
 
 /**
  * Used to represent users chat search result
  */
+/*
 @Composable
 fun ChatMessageItem(
     uiState: PetKeeperUIState,
@@ -255,3 +229,4 @@ fun ChatMessageItem(
         )
     }
 }
+*/
