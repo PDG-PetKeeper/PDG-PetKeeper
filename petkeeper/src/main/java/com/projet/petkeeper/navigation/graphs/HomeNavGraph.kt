@@ -77,7 +77,7 @@ fun NavGraphBuilder.searchNavGraph(
                     navController.navigate(SearchScreenRoutes.Root.route)
                 },
                 onJobClick = {
-
+                    //TODO
                 }
             )
         }

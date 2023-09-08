@@ -356,32 +356,4 @@ open class PetKeeperUIViewModel : ViewModel() {
             )
         }
     }
-
-    fun searchJobs(searchString: String) {
-        searchInit()
-
-        val filteredJobList = _uiState.value.currentJobList.filter { jobData ->
-            // Define your condition here, for example, checking if searchString appears in any of the strings
-            val containsSearchString = listOf(
-                jobData.title,
-                jobData.pet,
-                jobData.description,
-                jobData.pay,
-                jobData.location
-            ).any { it?.contains(searchString, ignoreCase = true) == true }
-
-            // Include the jobData in the filtered list if it meets the condition
-            containsSearchString
-        }
-
-        _uiState.update {
-            it.copy(
-                currentJobList = filteredJobList
-            )
-        }
-
-    }
-
-
-
 }
