@@ -1,5 +1,6 @@
 package com.projet.petkeeper.data
 
+import android.icu.text.SimpleDateFormat
 import com.google.firebase.Timestamp
 import java.util.Calendar
 import java.util.Date
@@ -53,6 +54,16 @@ data class JobData (
                     "-" + temp.get(Calendar.DATE).toString()
         }
     }
+}
+/**
+ * Converts a given millisecond timestamp to a formatted date string.
+ *
+ * @param millis The millisecond timestamp to convert.
+ * @return A formatted date string in "dd/MM/yyyy" format.
+ */
+fun convertMillisToDate(millis: Long): String {
+    val formatter = SimpleDateFormat("dd/MM/yyyy")
+    return formatter.format(Date(millis))
 }
 
 /**

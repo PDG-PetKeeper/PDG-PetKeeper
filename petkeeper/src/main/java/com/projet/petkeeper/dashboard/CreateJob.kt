@@ -46,10 +46,10 @@ import com.google.firebase.storage.FirebaseStorage
 import com.projet.petkeeper.R
 import com.projet.petkeeper.data.JobData
 import com.projet.petkeeper.data.UserData
+import com.projet.petkeeper.data.convertMillisToDate
 import com.projet.petkeeper.ui.PetKeeperUIState
 import com.projet.petkeeper.ui.theme.PetkeeperTheme
 import com.projet.petkeeper.utils.Constants.TAG
-import com.projet.petkeeper.utils.convertMillisToDate
 import java.util.*
 
 /**
